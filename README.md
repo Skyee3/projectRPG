@@ -1,4 +1,4 @@
-# projectRPG
+# projectRPG [Linhart]
 
 ## Použité věci, které nebyli předmětem výuky
 
