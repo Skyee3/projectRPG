@@ -1,0 +1,32 @@
+{
+    "tasks": [
+        {
+            "type": "cppbuild",
+            "label": "C/C++: cl.exe build active file",
+            "command": "cl.exe",
+            "args": [
+                "/Zi",
+                "/EHsc",
+                "/nologo",
+                "/I${workspaceFolder}/RPG/Headers/Player",
+                "/I${workspaceFolder}/RPG/Headers/Village",
+                "/Fe${workspaceFolder}/RPG/Main/main.exe",
+                "${workspaceFolder}/RPG/Main/main.cpp",
+                "${workspaceFolder}/RPG/Headers/Player/Player.cpp",
+                "${workspaceFolder}/RPG/Headers/Village/Village.cpp"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/RPG/Main"
+            },
+            "problemMatcher": [
+                "$msCompile"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Builds all source files with headers from Player and Village folders"
+        }
+    ],
+    "version": "2.0.0"
+}
