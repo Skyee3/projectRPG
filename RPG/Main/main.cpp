@@ -2,11 +2,18 @@
 #include <windows.h>
 #include "Player.hpp"
 #include "Village.hpp"
+#include "Miscellaneous.hpp"
 
 int main(){
     SetConsoleOutputCP(CP_UTF8);
     srand(time(0));
     Player player;
-    Village_choice(player); //testovací
+    player.Gold = 0;
+    player.Level = 1;
+    player.XP = 0;
+    
+    Show_start_menu();
+    Class_choose(player);
+    Show_playerstats(player);
     return 0;
 }

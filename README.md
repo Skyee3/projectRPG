@@ -1,6 +1,6 @@
-# projectRPG
+# projectRPG [Linhart]
 
-## Použité věci, které nebyli předmětem výuky
+## Použité věci, které nebyly předmětem výuky
 
 ### **Struct**
 Struct jsem využil z důvodu přehlednosti v kódu a zároveň jednodušší předávání argumentů do funkcí pomocí reference (&)

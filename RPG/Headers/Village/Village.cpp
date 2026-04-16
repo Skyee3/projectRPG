@@ -5,19 +5,23 @@
 
 void Village_choice(Player &player){
     int choice;
-    int Village_price[5] = {10, 25, 20, 50, 50};
+    int Village_price[5] = {10, 25, 20, 50, 50}; // nasledne upravit hodno
     bool Village_loop = true;
     std::cout << R"(
-    /-- SLUŽBY VE VESNICI --\
-    | [1] Doplnit HP    10g |
-    | [2] +Max HP       25g |
-    | [3] +Max Mana     20g |
-    | [4] Upgrade útok  50g |
-    | [5] Upgrade Ability 50g  |
-    | --------------------- |
-    | [0] Odejít            |
-    \-----------------------/)
-    Máte )" << player.Gold << " zlata\n"; // upravit výstup
+    /---------------------------------------------\
+    |                   VESNICE                   |
+    |---------------------------------------------|
+    |                                             |
+    |   [1] Doplnit HP ................... 10 ks  |
+    |   [2] Vylepšit maximální HP ........ 25 ks  |
+    |   [3] Vylepšit maximalní manu ...... 20 ks  |
+    |   [4] Vylepšit poškození útoku ..... 50 ks  |
+    |   [5] Vylepšit schopnost ........... 50 ks  |
+    |                                             |
+    |---------------------------------------------|
+    |   [0] Pokračovat v cestě (Odejít)           |
+    \---------------------------------------------/
+    Máte )" << player.Gold << " zlata\n"; 
     do{
         std::cout << "Vaše volba: ";
         std::cin >> choice;
@@ -55,7 +59,7 @@ void Village_choice(Player &player){
             }
             Village_loop = false;
         }
-    }while(choice < 0 || choice > 5 || Village_loop); // loop na kontrolu validnosti vstupu
+    }while(choice < 0 || choice > 5 || Village_loop); // loop na kontrolu validnosti vstupu a spousteč funkcí vesnice
     // dodělat vystup aby vědel sve nasledujici staty
 }
 
