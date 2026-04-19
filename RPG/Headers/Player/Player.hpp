@@ -17,3 +17,4 @@ void Class_warrior(Player &player);
 void Class_ranger(Player &player);
 void Class_mage(Player &player);
 void Show_playerstats(Player &player);
+void Class_preview(Player &player);
