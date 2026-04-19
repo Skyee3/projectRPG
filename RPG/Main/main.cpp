@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 #include <windows.h>
 #include "Player.hpp"
 #include "Village.hpp"
