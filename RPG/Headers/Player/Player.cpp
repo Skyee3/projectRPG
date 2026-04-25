@@ -44,9 +44,7 @@ void Class_choose(Player &player){
                 std::cout << "ERROR: Zadejte validní hodnotu (0-1)\n";
                 continue;
             }
-            else{
-                break;
-            }
+            break;
         }while(true);
         if(confirm_choice == 1){
             Class_loop = false;
@@ -59,31 +57,33 @@ void Class_choose(Player &player){
 }
 void Class_warrior(Player &player){
     player.Class = "Warrior";
-    player.Max_HP = 10;
+    player.Class_ID = 1;
+    player.Max_HP = 130;
     player.HP = player.Max_HP;
-    player.Max_Mana = 5;
+    player.Max_Mana = 40;
     player.Mana = player.Max_Mana;
-    player.Damage = 5;
+    player.Damage = 15;
     Class_preview(player);
     std::cout << "SCHOPNOSTI: \n";
     std::cout << " 1. Útok mečem\n";
     std::cout << "   V základu " << player.Damage << " poškození\n";
     std::cout << "   Šance, že vás zasáhne nepřítel\n\n";
-    std::cout << " 2. Silný úder (Mana: 2)\n";
+    std::cout << " 2. Silný úder (Mana: 20)\n";
     std::cout << "   V základu " << player.Damage - 2 << " poškození\n";
     std::cout << "   Omráčí nepřítele na 1 kolo\n\n";
-    std::cout << " 3. Dominantní jedinec (Mana: 3)\n";
+    std::cout << " 3. Dominantní jedinec (Mana: 35)\n";
     std::cout << "   V základu " << player.Damage - 1 << " poškození\n";
-    std::cout << "   Snižuje poškození nepřítele o 50% na 3 kola\n";
+    std::cout << "   Snižuje poškození nepřítele o 50% na 2 kola\n";
     std::cout << "   Zvýší poškození o 20% na 3 kola\n\n";
 }
 
 void Class_ranger(Player &player){
     player.Class = "Ranger";
-    player.Max_HP = 5;
+    player.Class_ID = 2;
+    player.Max_HP = 80;
     player.HP = player.Max_HP;
+    player.Max_Mana = 40;
     player.Mana = player.Max_Mana;
-    player.Max_Mana = 10;
     player.Damage = 3;
     Class_preview(player);
     std::cout << "SCHOPNOSTI: \n";
@@ -97,14 +97,25 @@ void Class_ranger(Player &player){
     std::cout << "   Vystřelíš salvu šípů na všechny nepřítele\n";
     std::cout << "   Zasáhne více nepřátel najednou\n";
     std::cout << "   Každý zásah dává 75% poškození\n\n";
+    std::cout << " 4. Legolas (Mana: 5)\n";
+    std::cout << "   "; //dodělat
 }
 
 void Class_mage(Player &player){ 
     player.Class = "Mage";
+    player.Class_ID = 3;
     player.Max_HP = 5;
-    player.Mana;
-    player.Max_Mana;
+    player.HP = player.Max_HP;
+    player.Max_Mana = 15;
+    player.Mana = player.Max_Mana;
     Class_preview(player);
+    std::cout << "SCHOPNOSTI: \n";
+    std::cout << " 1. Flákanec (Mana: 1)\n";
+    std::cout << "   Objeví se magicka pazoura pana Lubomíra Volného, a ten dá nepříteli flákanec, který způsobí " << player.Damage << " poškození\n\n";
+    std::cout << " 2. Gamba (Mana: 2)\n";
+    std::cout << "  Je to gamba, buď dáš vysoké nebo malé poškození (prostě gamba lol)\n\n";
+    std::cout << " 3. Karma\n";
+    std::cout << "   V příštím kole nepřítel zautočí sám na sebe (nebo taky né ?)\n\n";
 }
 
 void Show_playerstats(Player &player){
@@ -114,6 +125,9 @@ void Show_playerstats(Player &player){
     
     std::cout << "  Jméno:      " << player.name << "\n";
     std::cout << "  Class:      " << player.Class << "\n";
+    std::cout << "\n";
+    std::cout << "  Level:     " << player.Level << "\n";
+    std::cout << "  XP:        " << player.XP << "\n";
     std::cout << "\n";
     std::cout << "  HP:         " << player.HP << " / " << player.Max_HP << "\n";
     std::cout << "  MANA:       " << player.Mana << " / " << player.Max_Mana << "\n";
