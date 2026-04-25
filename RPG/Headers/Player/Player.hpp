@@ -4,12 +4,12 @@
 struct Player{
     std::string name;
     std::string Class;
+    int Class_ID;
     int HP, Max_HP;
     int Mana, Max_Mana;
     int Gold;
     int Level, XP;
     int Damage;
-    // dodělat attack a schopnosti!!!!!
 };
 
 void Class_choose(Player &player);

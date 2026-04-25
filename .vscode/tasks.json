@@ -11,13 +11,17 @@
                 "/I${workspaceFolder}\\RPG\\Headers\\Player",
                 "/I${workspaceFolder}\\RPG\\Headers\\Village",
                 "/I${workspaceFolder}\\RPG\\Headers\\Miscellaneous",
+                "/I${workspaceFolder}\\RPG\\Headers\\Enemy",
+                "/I${workspaceFolder}\\RPG\\Headers\\Battle",
                 "/Fo${workspaceFolder}\\RPG\\Main\\",
                 "/Fd${workspaceFolder}\\RPG\\Main\\${fileBasenameNoExtension}.pdb",
                 "/Fe${workspaceFolder}\\RPG\\Main\\${fileBasenameNoExtension}.exe",
                 "${file}",
                 "${workspaceFolder}\\RPG\\Headers\\Player\\Player.cpp",
                 "${workspaceFolder}\\RPG\\Headers\\Village\\Village.cpp",
-                "${workspaceFolder}\\RPG\\Headers\\Miscellaneous\\Miscellaneous.cpp"
+                "${workspaceFolder}\\RPG\\Headers\\Miscellaneous\\Miscellaneous.cpp",
+                "${workspaceFolder}\\RPG\\Headers\\Enemy\\Enemy.cpp",
+                "${workspaceFolder}\\RPG\\Headers\\Battle\\Battle.cpp",
             ],
             "options": {
                 "cwd": "${workspaceFolder}"

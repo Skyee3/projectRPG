@@ -19,9 +19,7 @@ void Show_start_menu(){
             std::cout << "ERROR: Zadejte validní hodnotu (1-3)\n";
             continue;
         }
-        else{
-            break;
-        }
+        break;
     }while(true);
     
     switch (choice){

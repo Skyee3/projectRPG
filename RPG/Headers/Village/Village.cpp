@@ -35,30 +35,30 @@ void Village_choice(Player &player){
             Village_loop = false;
         }
         else if(player.Gold < Village_price[choice - 1]){
-            std::cout << "Nemáte dostatek zlata!\n";
+            std::cout << "Nemáte dostatek zlata! Zadejte jinou volbu.\n";
+            continue;
         }
-        else {
-            player.Gold -= Village_price[choice - 1];
+        player.Gold -= Village_price[choice - 1];
 
-            switch(choice) {
-                case 1:{}
-                    Village_Regen_HP(player);
-                    break;
-                case 2:
-                    Village_upgrade_max_HP(player);
-                    break;
-                case 3:
-                    Village_upgrade_max_MANA(player);
-                    break;
-                case 4:
-                    Village_upgrade_Atack(player);
-                    break;
-                case 5:
-                    Village_upgrade_Ability(player);
-                    break;
-            }
-            Village_loop = false;
+        switch(choice) {
+            case 1:
+                Village_Regen_HP(player);
+                break;
+            case 2:
+                Village_upgrade_max_HP(player);
+                break;
+            case 3:
+                Village_upgrade_max_MANA(player);
+                break;
+            case 4:
+                Village_upgrade_Atack(player);
+                break;
+            case 5:
+                Village_upgrade_Ability(player);
+                break;
         }
+        Village_loop = false;
+
     }while(choice < 0 || choice > 5 || Village_loop); // loop na kontrolu validnosti vstupu a spousteč funkcí vesnice
     // dodělat vystup aby vědel sve nasledujici staty
 }
@@ -71,10 +71,12 @@ void Village_Regen_HP(Player &player){
 
 void Village_upgrade_max_HP(Player &player){
     player.Max_HP+=5;
+    player.HP+=5;
 }
 
 void Village_upgrade_max_MANA(Player &player){
     player.Max_Mana+=5;
+    player.Mana+=5;
 }
 
 void Village_upgrade_Atack(Player &player){
