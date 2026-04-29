@@ -2,6 +2,182 @@
 
 void Battle(Player &player, Enemy &enemy){
     while(player.HP > 0 && enemy.HP > 0){
-        
+        Player_turn(player, enemy);
     }
+}
+
+void Player_turn(Player &player, Enemy &enemy){
+    int choice_ability;
+    User_choice_ability(player, choice_ability);
+    switch(player.Class_ID){
+       case 1:
+            Warrior_atack(player, enemy, choice_ability);
+            break;
+        case 2:
+            Ranger_atack(player, enemy, choice_ability);
+            break;
+        case 3:
+            Mage_atack(player, enemy, choice_ability);
+            break;
+        default:
+            break;
+    }
+}
+
+void User_choice_ability(Player &player, int &choice_ability){
+    std::cout << "\n========================================\n";
+    std::cout << "             TVŮJ TAH              \n";
+    std::cout << "========================================\n";
+    int mana_cost[4];
+    switch(player.Class_ID){
+        case 1:
+            std::cout << "1. Útok mečem\n";
+            std::cout << "2. Silný úder (Mana: 20)\n";
+            std::cout << "3. Dominantní jedinec (Mana: 35)\n";
+            mana_cost[0] = 0;
+            mana_cost[1] = 20;
+            mana_cost[2] = 35;
+            break;
+        case 2:
+            std::cout << "1. Útok lukem\n";
+            std::cout << "2. Jedovatý šíp (Mana: 20)\n";
+            std::cout << "3. Šípová sprcha (Mana: 30)\n";
+            std::cout << "4. Legolas (Mana: 5)\n";
+            mana_cost[0] = 0;
+            mana_cost[1] = 20;
+            mana_cost[2] = 30;
+            mana_cost[3] = 5;
+            break;
+        case 3:
+            std::cout << "1. Flákanec (Mana: 10)\n";
+            std::cout << "2. Gamba (Mana: 20)\n";
+            std::cout << "3. Karma (Mana: 40)\n";
+            mana_cost[0] = 10;
+            mana_cost[1] = 20;
+            mana_cost[2] = 40;
+            break;
+        default:
+            break;
+    }
+    check_mana_cost(player, choice_ability, mana_cost);
+    player.Mana -= mana_cost[choice_ability - 1];
+}
+
+void Warrior_atack(Player &player, Enemy &enemy, int choice_ability){
+    switch(choice_ability){
+        case 1:
+            std::cout << "Zvolili jste útok mečem\n";
+            std::cout << "Zasáhli jste nepřítele a způsobili mu " << player.Damage << " poškození\n";
+            enemy.HP -= player.Damage;
+            break;
+        case 2:
+            std::cout << "Zvolili jste silný úder\n";
+            std::cout << "Zasáhli jste nepřítele a způsobili mu " << player.Damage - 2 << " poškození\n";
+            std::cout << "Nepřítel je omráčen a nemůže útočit v příštím kole\n";
+            enemy.HP -= player.Damage - 2;
+            enemy.stun_duration = 1;
+            break;
+        case 3:
+            std::cout << "Zvolili jste dominantní jedinec\n";
+            std::cout << "Zasáhli jste nepřítele a způsobili mu " << player.Damage - 1 << " poškození\n";
+            std::cout << "Snižujete poškození nepřítele o 50% na 2 kola\n";
+            std::cout << "Zvýšíte poškození o 20% na 3 kola\n";
+            enemy.HP -= player.Damage - 1;
+            enemy.damage_reduction_duration = 2;
+            enemy.damage_reduction_percentage = 50;
+            player.Damage += player.Damage * 0.2;
+            player.damage_multiplier_duration = 3;
+            break;
+        default:
+            break;
+    }
+
+}
+
+void Ranger_atack(Player &player, Enemy &enemy, int choice_ability){
+    switch(choice_ability){
+        case 1:
+            std::cout << "Zvolili jste útok lukem\n";
+            std::cout << "Zasáhli jste nepřítele a způsobili mu " << player.Damage << " poškození\n";
+            enemy.HP -= player.Damage;
+            break;
+        case 2:
+            std::cout << "Zvolili jste jedovatý šíp\n";
+            std::cout << "Zasáhli jste nepřítele a způsobili mu " << player.Damage << " poškození\n";
+            std::cout << "Nepřitel dostal jed, který způsobí 3 poškození za kolo, po dobu 3 kol\n";
+            enemy.HP -= player.Damage;
+            enemy.damage_reduction_duration = 3;
+            enemy.damage_reduction_percentage = 3;
+            break;
+        case 3:{
+            std::cout << "Zvolili jste šípovou sprchu\n";
+            std::cout << "Vystřelili jste salvu šípů na všechny nepřítele\n";
+            std::cout << "Každý zásah dává 75% poškození\n";
+            int random = rand() % 4 + 3; 
+            enemy.HP -= player.Damage * 0.75 * random;
+            break;
+        }
+        case 4:
+            std::cout << "Zvolili jste Legolase\n";
+            break;
+        default:
+            break;
+    }
+}
+
+void Mage_atack(Player &player, Enemy &enemy, int choice_ability){
+    switch(choice_ability){
+        case 1:
+            std::cout << "Zvolili jste flákanec\n";
+            std::cout << "Objevil se pan Lubimérek a plesknul mu za " << player.Damage << " poškození\n";
+            enemy.HP -= player.Damage;
+            break;
+        case 2:
+            std::cout << "GAMBAAAAAAAAAAAAA (absolutní gigachad si po dnešku za zvolení tohoto útoku :D)\n";
+            
+                enemy.HP -= gamba_mage(player);
+
+            break;
+        case 3:
+            break;
+        default:
+            break;
+    }
+}
+
+void check_mana_cost(Player &player, int &choice_ability, int mana_cost[]){
+    do{
+        Input_checker("Zadejte číslo schopnosti, kterou chcete použít: ", choice_ability, 1, 4);
+        if(player.Mana < mana_cost[choice_ability - 1]){
+            std::cout << "Nemáte dostatek many pro tuto schopnost. Zvolte jinou schopnost.\n";
+            continue;
+        }
+        break;
+    }while(true);
+}
+int gamba_mage(Player &player){
+    int random = rand() % 2;
+    int random2;
+    switch(random){
+        case 0:
+            random2 = rand() % 3 + 1;
+            std::cout << "No níc gamba nevyšla a dal si mu jenom " << random2 << " poškození (tomu říkam skill issue ale určitě to zkus zas :D)\n";
+            player.Gamba_counter--;
+            if(player.Gamba_counter < -3){
+                std::cout << "Teď si říkáš, že to je riggnutý. Je to možný, ale určitě nepřestávej gamblit\n";
+            }
+            break;
+        case 1:
+            random2 = rand() % 3 + 5;
+            std::cout << "Ty si rozený gambler normálně. Vyhrál si gambu a dal si mu za " << random2 << " poškození\n";
+            player.Gamba_counter++;
+            if(player.Gamba_counter > 4){
+                std::cout << "vypni ty cheaty bro je to jenom hra (anyway dneska si docela lucky a dostaneš buff na jedno kolo)\n";
+            }
+            std::cout << "Tvoje gamba skóre je: " << player.Gamba_counter << "\n";
+            break;
+        default:
+            break;
+    }
+    return random2;
 }

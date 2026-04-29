@@ -6,6 +6,10 @@ struct Enemy{
     int Damage;
     int XP_reward;
     int Gold_reward;
+    int Defense;
+    int stun_duration = 0;
+    int damage_reduction_duration = 0;
+    int damage_reduction_percentage = 0;
 };
 
 Enemy Freddy_fazbear();

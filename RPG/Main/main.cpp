@@ -2,9 +2,10 @@
 #include <cmath>
 #include <windows.h>
 #include "Player.hpp"
+#include "Enemy.hpp"
 #include "Village.hpp"
 #include "Miscellaneous.hpp"
-#include "Enemy.hpp"
+#include "Battle.hpp"
 
 int main(){
     SetConsoleOutputCP(CP_UTF8);
@@ -20,6 +21,7 @@ int main(){
     Class_choose(player);
     Show_playerstats(player);
     Choose_enemy(enemy);
+    Battle(player, enemy);
     
     return 0;
 }

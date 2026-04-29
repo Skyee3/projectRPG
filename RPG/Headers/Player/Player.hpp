@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "Miscellaneous.hpp"
 
 struct Player{
     std::string name;
@@ -10,6 +11,10 @@ struct Player{
     int Gold;
     int Level, XP;
     int Damage;
+    int Dodge;
+    int Gamba_counter = 0;
+    int damage_multiplayer = 1;
+    int damage_multiplier_duration = 0;
 };
 
 void Class_choose(Player &player);
