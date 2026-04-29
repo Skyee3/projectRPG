@@ -2,7 +2,6 @@
 #include "Miscellaneous.hpp"
 
 void Show_start_menu(){
-    int choice;
     std::cout << "\n========================================" << std::endl;
     std::cout << "                RPG                      " << std::endl;
     std::cout << "========================================" << std::endl;
@@ -10,18 +9,8 @@ void Show_start_menu(){
     std::cout << "  [2] O hře\n";
     std::cout << "  [3] Ukoncit\n";
     std::cout << "----------------------------------------" << std::endl;
-    do{
-        std::cout << "Vaše volba: ";
-        std::cin >> choice;
-        if(std::cin.fail() || choice < 1 || choice > 3) {
-            std::cin.clear();
-            std::cin.ignore(1000, '\n');
-            std::cout << "ERROR: Zadejte validní hodnotu (1-3)\n";
-            continue;
-        }
-        break;
-    }while(true);
-    
+    int choice;
+    Input_checker("Vaše volba: ", choice, 1, 3);
     switch (choice){
         case 1:
             break;
@@ -33,4 +22,18 @@ void Show_start_menu(){
             break;
     }
     
+}
+
+void Input_checker(std::string Input_message, int &input, int min, int max){
+    do{
+        std::cout << Input_message;
+        std::cin >> input;
+        if(std::cin.fail() || input < min || input > max) {
+            std::cin.clear();
+            std::cin.ignore(1000, '\n');
+            std::cout << "ERROR: Zadejte validní hodnotu (" << min << "-" << max << ")\n";
+            continue;
+        }
+        break;
+    }while(true);
 }
