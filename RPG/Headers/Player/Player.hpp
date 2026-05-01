@@ -8,6 +8,7 @@ struct Player{
     int Class_ID;
     int HP, Max_HP;
     int Mana, Max_Mana;
+    int mana_cost[4] = {0};
     int Gold;
     int Level, XP;
     int Damage;
@@ -18,8 +19,10 @@ struct Player{
 };
 
 void Class_choose(Player &player);
+bool Confirm_class_choice(Player &player);
 void Class_warrior(Player &player);
 void Class_ranger(Player &player);
 void Class_mage(Player &player);
 void Show_playerstats(Player &player);
 void Class_preview(Player &player);
+void set_mana_cost(Player &player, int C1, int C2, int C3, int C4);

@@ -14,7 +14,7 @@ Enemy Zdenek_Pohlreich(){
     Enemy zdenek; 
     zdenek.Type = 2;
     zdenek.Max_HP = 20;
-    zdenek.HP = 20;
+    zdenek.HP = zdenek.Max_HP;
     zdenek.Damage = 5;
     return zdenek;
 }
@@ -23,7 +23,7 @@ Enemy Gnome(){
     Enemy gnome;
     gnome.Type = 3;
     gnome.Max_HP = 28;
-    gnome.HP = 28;
+    gnome.HP = gnome.Max_HP;
     gnome.Damage = 7;
     return gnome;
 }
@@ -32,7 +32,7 @@ Enemy Ricardo(){
     Enemy ricardo;
     ricardo.Type = 4;
     ricardo.Max_HP = 50;
-    ricardo.HP = 50;
+    ricardo.HP = ricardo.Max_HP;
     ricardo.Damage = 10;
     return ricardo;
 }
@@ -41,7 +41,7 @@ Enemy Discord_mod(){
     Enemy discord;
     discord.Type = 5;
     discord.Max_HP = 100;
-    discord.HP = 100;
+    discord.HP = discord.Max_HP;
     discord.Damage = 15;
     return discord;
 }
@@ -50,7 +50,7 @@ Enemy Walter_White(){
     Enemy walter;
     walter.Type = 6;
     walter.Max_HP = 120;
-    walter.HP = 120;
+    walter.HP = walter.Max_HP;
     walter.Damage = 20;
     return walter;
 }
@@ -59,7 +59,7 @@ Enemy Frodo_pytlik(){
     Enemy frodo;
     frodo.Type = 7;
     frodo.Max_HP = 80;
-    frodo.HP = 80;
+    frodo.HP = frodo.Max_HP;
     frodo.Damage = 12;
     return frodo;
 }
@@ -68,7 +68,7 @@ Enemy Gandalf(){
     Enemy gandalf;
     gandalf.Type = 8;
     gandalf.Max_HP = 150;
-    gandalf.HP = 150;
+    gandalf.HP = gandalf.Max_HP;
     gandalf.Damage = 25;
     return gandalf;
 }
@@ -77,7 +77,7 @@ Enemy Alzak(){
     Enemy alzak;
     alzak.Type = 9;
     alzak.Max_HP = 200;
-    alzak.HP = 200;
+    alzak.HP = alzak.Max_HP;
     alzak.Damage = 30;
     return alzak;
 }
