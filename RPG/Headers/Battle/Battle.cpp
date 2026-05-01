@@ -28,41 +28,30 @@ void User_choice_ability(Player &player, int &choice_ability){
     std::cout << "\n========================================\n";
     std::cout << "             TVŮJ TAH              \n";
     std::cout << "========================================\n";
-    int mana_cost[4];
     switch(player.Class_ID){
         case 1:
             std::cout << "1. Útok mečem\n";
-            std::cout << "2. Silný úder (Mana: 20)\n";
-            std::cout << "3. Dominantní jedinec (Mana: 35)\n";
-            mana_cost[0] = 0;
-            mana_cost[1] = 20;
-            mana_cost[2] = 35;
+            std::cout << "2. Silný úder (Mana: " << player.mana_cost[1] << ")\n";
+            std::cout << "3. Dominantní jedinec (Mana: " << player.mana_cost[2] << ")\n";
             break;
         case 2:
             std::cout << "1. Útok lukem\n";
-            std::cout << "2. Jedovatý šíp (Mana: 20)\n";
-            std::cout << "3. Šípová sprcha (Mana: 30)\n";
-            std::cout << "4. Legolas (Mana: 5)\n";
-            mana_cost[0] = 0;
-            mana_cost[1] = 20;
-            mana_cost[2] = 30;
-            mana_cost[3] = 5;
+            std::cout << "2. Jedovatý šíp (Mana: " << player.mana_cost[1] << ")\n";
+            std::cout << "3. Šípová sprcha (Mana: " << player.mana_cost[2] << ")\n";
+            std::cout << "4. Legolas (Mana: " << player.mana_cost[3] << ")\n";
             break;
         case 3:
-            std::cout << "1. Flákanec (Mana: 10)\n";
-            std::cout << "2. Gamba (Mana: 20)\n";
-            std::cout << "3. Karma (Mana: 40)\n";
-            mana_cost[0] = 10;
-            mana_cost[1] = 20;
-            mana_cost[2] = 40;
+            std::cout << "1. Flákanec (Mana: " << player.mana_cost[0] << ")\n";
+            std::cout << "2. Gamba (Mana: " << player.mana_cost[1] << ")\n";
+            std::cout << "3. Karma (Mana: " << player.mana_cost[2] << ")\n";
             break;
         default:
             break;
     }
-    check_mana_cost(player, choice_ability, mana_cost);
-    player.Mana -= mana_cost[choice_ability - 1];
+    check_mana_cost(player, choice_ability);
+    player.Mana -= player.mana_cost[choice_ability - 1];
 }
-
+// překopak warriora + upravit posledni abilitku tak aby fungovala spravně
 void Warrior_atack(Player &player, Enemy &enemy, int choice_ability){
     switch(choice_ability){
         case 1:
@@ -93,7 +82,7 @@ void Warrior_atack(Player &player, Enemy &enemy, int choice_ability){
     }
 
 }
-
+// překopak celeho rangera
 void Ranger_atack(Player &player, Enemy &enemy, int choice_ability){
     switch(choice_ability){
         case 1:
@@ -106,8 +95,6 @@ void Ranger_atack(Player &player, Enemy &enemy, int choice_ability){
             std::cout << "Zasáhli jste nepřítele a způsobili mu " << player.Damage << " poškození\n";
             std::cout << "Nepřitel dostal jed, který způsobí 3 poškození za kolo, po dobu 3 kol\n";
             enemy.HP -= player.Damage;
-            enemy.damage_reduction_duration = 3;
-            enemy.damage_reduction_percentage = 3;
             break;
         case 3:{
             std::cout << "Zvolili jste šípovou sprchu\n";
@@ -134,9 +121,7 @@ void Mage_atack(Player &player, Enemy &enemy, int choice_ability){
             break;
         case 2:
             std::cout << "GAMBAAAAAAAAAAAAA (absolutní gigachad si po dnešku za zvolení tohoto útoku :D)\n";
-            
-                enemy.HP -= gamba_mage(player);
-
+            enemy.HP -= gamba_mage(player);
             break;
         case 3:
             break;
@@ -145,10 +130,10 @@ void Mage_atack(Player &player, Enemy &enemy, int choice_ability){
     }
 }
 
-void check_mana_cost(Player &player, int &choice_ability, int mana_cost[]){
+void check_mana_cost(Player &player, int &choice_ability){
     do{
         Input_checker("Zadejte číslo schopnosti, kterou chcete použít: ", choice_ability, 1, 4);
-        if(player.Mana < mana_cost[choice_ability - 1]){
+        if(player.Mana < player.mana_cost[choice_ability - 1]){
             std::cout << "Nemáte dostatek many pro tuto schopnost. Zvolte jinou schopnost.\n";
             continue;
         }
