@@ -26,6 +26,7 @@ void Class_choose(Player &player){
             default:
                 break;
         }
+        Class_preview(player);
         if(Confirm_class_choice(player)){
             break;
         }
@@ -45,69 +46,18 @@ bool Confirm_class_choice(Player &player){
     }
 }
 void Class_warrior(Player &player){
-    player.Class = "Warrior";
-    player.Class_ID = 1;
-    player.Max_HP = 130;
-    player.HP = player.Max_HP;
-    player.Max_Mana = 40;
-    player.Mana = player.Max_Mana;
-    player.Damage = 15;
+    set_class_stats(player, "Warrior", 1, 130, 40, 15);
     set_mana_cost(player, 0, 20, 35, 0);
-    Class_preview(player);
-    std::cout << "SCHOPNOSTI: \n";
-    std::cout << " 1. Útok mečem\n";
-    std::cout << "   V základu " << player.Damage << " poškození\n";
-    std::cout << " 2. Silný úder (Mana: " << player.mana_cost[1] << ")\n";
-    std::cout << "   V základu " << player.Damage - 2 << " poškození\n";
-    std::cout << "   Omráčí nepřítele na 1 kolo\n\n";
-    std::cout << " 3. Dominantní jedinec (Mana: " << player.mana_cost[2] << ")\n";
-    std::cout << "   V základu " << player.Damage - 1 << " poškození\n";
-    std::cout << "   Snižuje poškození nepřítele o 50% na 2 kola\n";
-    std::cout << "   Zvýší poškození o 20% na 3 kola\n\n";
 }
 
 void Class_ranger(Player &player){
-    player.Class = "Ranger";
-    player.Class_ID = 2;
-    player.Max_HP = 80;
-    player.HP = player.Max_HP;
-    player.Max_Mana = 40;
-    player.Mana = player.Max_Mana;
-    player.Damage = 3;
-    set_mana_cost(player, 0, 20, 30, 5); 
-    Class_preview(player);
-    std::cout << "SCHOPNOSTI: \n";
-    std::cout << " 1. Útok lukem\n";
-    std::cout << "   V základu " << player.Damage << " poškození\n";
-    std::cout << "   Při útoku vás nepřítel nemůže zasáhnout\n\n";
-    std::cout << " 2. Jedovatý šíp (Mana: " << player.mana_cost[1] << ")\n";
-    std::cout << "   V základu " << player.Damage << " poškození\n";
-    std::cout << "   Nepřitel dostane jed, který způsobí 3 poškození za kolo, po dobu 3 kol\n\n";
-    std::cout << " 3. Šípová sprcha (Mana: " << player.mana_cost[2] << ")\n";
-    std::cout << "   Vystřelíš salvu šípů na všechny nepřítele\n";
-    std::cout << "   Zasáhne více nepřátel najednou\n";
-    std::cout << "   Každý zásah dává 75% poškození\n\n";
-    std::cout << " 4. Legolas (Mana: " << player.mana_cost[3] << ")\n";
-    std::cout << "   "; //dodělat
+    set_class_stats(player, "Ranger", 2, 80, 40, 3);
+    set_mana_cost(player, 0, 20, 30, 5);
 }
 
 void Class_mage(Player &player){ 
-    player.Class = "Mage";
-    player.Class_ID = 3;
-    player.Max_HP = 50;
-    player.HP = player.Max_HP;
-    player.Max_Mana = 60;
-    player.Mana = player.Max_Mana;
-    player.Damage = 10;
+    set_class_stats(player, "Mage", 3, 50, 60, 10);
     set_mana_cost(player, 10, 20, 40, 0);
-    Class_preview(player);
-    std::cout << "SCHOPNOSTI: \n";
-    std::cout << " 1. Flákanec (Mana: " << player.mana_cost[0] << ")\n";
-    std::cout << "   Objeví se magicka pazoura pana Lubomíra Volného, a ten dá nepříteli flákanec, který způsobí " << player.Damage << " poškození\n\n";
-    std::cout << " 2. Gamba (Mana: " << player.mana_cost[1] << ")\n";
-    std::cout << "  Je to gamba, buď dáš vysoké nebo malé poškození (prostě gamba lol)\n\n";
-    std::cout << " 3. Karma (Mana: " << player.mana_cost[2] << ")\n";
-    std::cout << "   V příštím kole nepřítel zautočí sám na sebe\n\n";
 }
 
 void Show_playerstats(Player &player){
@@ -134,7 +84,8 @@ void Class_preview(Player &player){
     std::cout << "STATISTIKY: \n";
     std::cout << "  HP: " << player.HP << "/" << player.Max_HP << "\n";
     std::cout << "  MANA: " << player.Mana << "/" << player.Max_Mana << "\n";
-    std::cout << "  Poškození: " << player.Damage << "\n\n";
+    std::cout << "  Poškození: " << player.Damage << "\n\n";¨
+    Show_class_abilities(player);
 }
 
 void set_mana_cost(Player &player, int C1, int C2, int C3, int C4){
@@ -142,4 +93,56 @@ void set_mana_cost(Player &player, int C1, int C2, int C3, int C4){
     player.mana_cost[1] = C2;
     player.mana_cost[2] = C3;
     player.mana_cost[3] = C4;
+}
+
+void set_class_stats(Player &player, std::string Class, int ID, int Max_HP, int Max_Mana, int Damage){
+    player.Class = Class;
+    player.Class_ID = ID;
+    player.Max_HP = Max_HP; 
+    player.HP = player.Max_HP;
+    player.Max_Mana = Max_Mana;
+    player.Mana = player.Max_Mana;
+    player.Damage = Damage;
+}
+
+void Show_class_abilities(Player &player){
+    switch(player.Class_ID){
+        case 1:
+            std::cout << "SCHOPNOSTI: \n";
+            std::cout << " 1. Útok mečem\n";
+            std::cout << "   V základu " << player.Damage << " poškození\n";
+            std::cout << " 2. Silný úder (Mana: " << player.mana_cost[1] << ")\n";
+            std::cout << "   V základu " << player.Damage - 2 << " poškození\n";
+            std::cout << "   Omráčí nepřítele na 1 kolo\n\n";
+            std::cout << " 3. Dominantní jedinec (Mana: " << player.mana_cost[2] << ")\n";
+            std::cout << "   V základu " << player.Damage - 1 << " poškození\n";
+            std::cout << "   Snižuje poškození nepřítele o 50% na 2 kola\n";
+            std::cout << "   Zvýší poškození o 20% na 3 kola\n\n";
+            break;
+        case 2:
+            std::cout << "SCHOPNOSTI: \n";
+            std::cout << " 1. Útok lukem\n";
+            std::cout << "s   V základu " << player.Damage << " poškození\n";
+            std::cout << "   Při útoku vás nepřítel nemůže zasáhnout\n\n";
+            std::cout << " 2. Jedovatý šíp (Mana: " << player.mana_cost[1] << ")\n";
+            std::cout << "   V základu " << player.Damage << " poškození\n";
+            std::cout << "   Nepřitel dostane jed, který způsobí 3 poškození za kolo, po dobu 3 kol\n\n";
+            std::cout << " 3. Šípová sprcha (Mana: " << player.mana_cost[2] << ")\n";
+            std::cout << "   Vystřelíš salvu šípů na všechny nepřítele\n";
+            std::cout << "   Zasáhne více nepřátel najednou\n";
+            std::cout << "   Každý zásah dává 75% poškození\n\n";
+            std::cout << " 4. Legolas (Mana: " << player.mana_cost[3] << ")\n";
+            break;
+        case 3:
+            std::cout << "SCHOPNOSTI: \n";
+            std::cout << " 1. Flákanec (Mana: " << player.mana_cost[0] << ")\n";
+            std::cout << "   Objeví se magicka pazoura pana Lubomíra Volného, a ten dá nepříteli flákanec, který způsobí " << player.Damage << " poškození\n\n";
+            std::cout << " 2. Gamba (Mana: " << player.mana_cost[1] << ")\n";
+            std::cout << "  Je to gamba, buď dáš vysoké nebo malé poškození (prostě gamba lol)\n\n";
+            std::cout << " 3. Karma (Mana: " << player.mana_cost[2] << ")\n";
+            std::cout << "   V příštím kole nepřítel zautočí sám na sebe\n\n";
+            break;
+        default:
+            break;
+    }
 }
