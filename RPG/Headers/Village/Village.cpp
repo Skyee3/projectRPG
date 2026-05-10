@@ -59,8 +59,7 @@ void Village_choice(Player &player){
         }
         Village_loop = false;
 
-    }while(choice < 0 || choice > 5 || Village_loop); // loop na kontrolu validnosti vstupu a spousteč funkcí vesnice
-    // dodělat vystup aby vědel sve nasledujici staty
+    }while(choice < 0 || choice > 5 || Village_loop);
 }
 
 void Village_Regen_HP(Player &player){

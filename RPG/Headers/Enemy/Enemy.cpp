@@ -1,116 +1,48 @@
 #include <iostream>
 #include "Enemy.hpp"
 
-Enemy Freddy_fazbear(){
-    Enemy freddy; // Zhasne světla a bude težší ho trefit
-    freddy.Type = 1;
-    freddy.Max_HP = 80;
-    freddy.HP = freddy.Max_HP;
-    freddy.Damage = 10;
-    return freddy;
-}
-
-Enemy Zdenek_Pohlreich(){
-    Enemy zdenek; 
-    zdenek.Type = 2;
-    zdenek.Max_HP = 20;
-    zdenek.HP = zdenek.Max_HP;
-    zdenek.Damage = 5;
-    return zdenek;
-}
-
-Enemy Gnome(){
-    Enemy gnome;
-    gnome.Type = 3;
-    gnome.Max_HP = 28;
-    gnome.HP = gnome.Max_HP;
-    gnome.Damage = 7;
-    return gnome;
-}
-
-Enemy Ricardo(){
-    Enemy ricardo;
-    ricardo.Type = 4;
-    ricardo.Max_HP = 50;
-    ricardo.HP = ricardo.Max_HP;
-    ricardo.Damage = 10;
-    return ricardo;
-}
-
-Enemy Discord_mod(){
-    Enemy discord;
-    discord.Type = 5;
-    discord.Max_HP = 100;
-    discord.HP = discord.Max_HP;
-    discord.Damage = 15;
-    return discord;
-}
-
-Enemy Walter_White(){
-    Enemy walter;
-    walter.Type = 6;
-    walter.Max_HP = 120;
-    walter.HP = walter.Max_HP;
-    walter.Damage = 20;
-    return walter;
-}
-
-Enemy Frodo_pytlik(){
-    Enemy frodo;
-    frodo.Type = 7;
-    frodo.Max_HP = 80;
-    frodo.HP = frodo.Max_HP;
-    frodo.Damage = 12;
-    return frodo;
-}
-
-Enemy Gandalf(){
-    Enemy gandalf;
-    gandalf.Type = 8;
-    gandalf.Max_HP = 150;
-    gandalf.HP = gandalf.Max_HP;
-    gandalf.Damage = 25;
-    return gandalf;
-}
-
-Enemy Alzak(){
-    Enemy alzak;
-    alzak.Type = 9;
-    alzak.Max_HP = 200;
-    alzak.HP = alzak.Max_HP;
-    alzak.Damage = 30;
-    return alzak;
-}
 
 void Choose_enemy(Enemy &enemy){
-    int random = rand() % 9;
+    int random = rand() % 4;
     switch(random){
         case 0:
-            enemy = Freddy_fazbear();
+            enemy.set_enemy("Buldozer", 1, 50, 10, 5);
             break;
         case 1:
-            enemy = Zdenek_Pohlreich();
+            enemy.set_enemy("e2", 2, 80, 15, 8);
             break;
         case 2:
-            enemy = Gnome();
+            enemy.set_enemy("e3", 3, 120, 20, 10);
             break;
         case 3:
-            enemy = Ricardo();
+            enemy.set_enemy("e4", 4, 200, 30, 15);
             break;
-        case 4:
-            enemy = Discord_mod();
+        default:
             break;
-        case 5:
-            enemy = Walter_White();
+    }
+}
+
+void Enemy_turn(Player &player, Enemy &enemy){
+    std::cout << "\n========================================\n";
+    std::cout << "             TAH NEPŘÍTELE              \n";
+    std::cout << "========================================\n";
+}
+
+void Buldozer_turn(Player &player, Enemy &enemy){ //debuffer
+    int ability = rand() % 4;
+    switch(ability){
+        case 0:
+            std::cout << "Nepřítel tě shodil a dal ti " << enemy.Damage - 2 << " poškození a oslabil tě na další kolo o 15%\n";
+            player.HP -= enemy.Damage - 2;
             break;
-        case 6:
-            enemy = Frodo_pytlik();
+        case 1:
+            std::cout << "Nepřítel zvolil útok ohňem a dal ti " << enemy.Damage + 5 << " poškození.\n";
+            std::cout << "Po dobu 2 kol budeš hořet a dostavat 5 poškození navíc.\n";
+            player.HP -= enemy.Damage + 5;
             break;
-        case 7:
-            enemy = Gandalf();
-            break;
-        case 8:
-            enemy = Alzak();
+        default:
+            std::cout << "Nepřítel zvolil basic útok a kopl tě za" << enemy.Damage << " poškození.\n";
+            player.HP -= enemy.Damage;
             break;
     }
 }
