@@ -7,6 +7,10 @@
 #include "Miscellaneous.hpp"
 #include "Battle.hpp"
 
+////////////////////////////////////////////////////////////////////////
+// Přeji hodně štěstí při čtení tohoto absolutního bordel kódu (enjoy)//
+////////////////////////////////////////////////////////////////////////
+
 int main(){
     SetConsoleOutputCP(CP_UTF8);
     srand(time(0));
@@ -19,7 +23,7 @@ int main(){
     
     Show_start_menu();
     Class_choose(player);
-    Show_playerstats(player);
+    player.Show_playerstats();
     Choose_enemy(enemy);
     Battle(player, enemy);
     

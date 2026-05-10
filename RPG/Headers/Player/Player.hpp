@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include "Miscellaneous.hpp"
+#include "Enemy.hpp"
 
 struct Player{
     std::string name;
@@ -16,13 +17,53 @@ struct Player{
     int Gamba_counter = 0;
     int damage_multiplayer = 1;
     int damage_multiplier_duration = 0;
+
+    void set_class_stats(std::string Class_c, int ID_c, int Max_HP_c, int Max_Mana_c, int Damage_c){
+        Class = Class_c;
+        Class_ID = ID_c;
+        Max_HP = Max_HP_c; 
+        HP = Max_HP_c;
+        Max_Mana = Max_Mana_c;
+        Mana = Max_Mana;
+        Damage = Damage_c;
+    }
+
+    void set_mana_cost(int C1, int C2, int C3, int C4){
+        mana_cost[0] = C1;
+        mana_cost[1] = C2;
+        mana_cost[2] = C3;
+        mana_cost[3] = C4;
+    }
+
+    void Show_playerstats(){
+        std::cout << "\n========================================\n";
+        std::cout << "             STATUS POSTAVY             \n";
+        std::cout << "========================================\n";
+        
+        std::cout << "  Jméno:      " << name << "\n";
+        std::cout << "  Class:      " << Class << "\n";
+        std::cout << "\n";
+        std::cout << "  Level:     " << Level << "\n";
+        std::cout << "  XP:        " << XP << "\n";
+        std::cout << "\n";
+        std::cout << "  HP:         " << HP << " / " << Max_HP << "\n";
+        std::cout << "  MANA:       " << Mana << " / " << Max_Mana << "\n";
+        std::cout << "  Poškození:  " << Damage << "\n";
+        std::cout << "  ZLATO:      " << Gold << " ks\n";
+        
+        std::cout << "========================================\n";
+    }
+
 };
 
 void Class_choose(Player &player);
 bool Confirm_class_choice(Player &player);
-void Class_warrior(Player &player);
-void Class_ranger(Player &player);
-void Class_mage(Player &player);
-void Show_playerstats(Player &player);
 void Class_preview(Player &player);
-void set_mana_cost(Player &player, int C1, int C2, int C3, int C4);
+void Show_class_abilities(Player &player);
+void Player_turn(Player &player, Enemy &enemy);
+void User_choice_ability(Player &player, int &choice_ability);
+void Warrior_atack(Player &player, Enemy &enemy, int choice_ability);
+void Ranger_atack(Player &player, Enemy &enemy, int choice_ability);
+void Gandalf_atack(Player &player, Enemy &enemy, int choice_ability);
+void check_mana_cost(Player &player, int &choice_ability);
+int gamba_Gandalf(Player &player);
