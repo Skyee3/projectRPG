@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Player.hpp"
+#include "Enemy.hpp"
 
 void Class_choose(Player &player){
     std::cout << "\n /===================\\\n";
@@ -15,15 +16,15 @@ void Class_choose(Player &player){
         Input_checker("Vaše volba: ", choice, 1, 3);
         switch(choice){
             case 1:
-                player.set_class_stats("Warrior", 1, 130, 40, 15);
+                player.set_class_stats("Warrior", 1, 130, 40, 15, 0);
                 player.set_mana_cost(0, 20, 35, 0);
                 break;
             case 2:
-                player.set_class_stats("Ranger", 2, 80, 40, 3);
+                player.set_class_stats("Ranger", 2, 80, 40, 30, 1);
                 player.set_mana_cost(0, 20, 30, 5);
                 break;
             case 3:
-                player.set_class_stats("Gandalf", 3, 50, 60, 10);
+                player.set_class_stats("Gandalf", 3, 50, 60, 10, 1);
                 player.set_mana_cost(10, 20, 40, 0);
                 break;
             default:

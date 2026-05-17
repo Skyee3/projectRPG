@@ -3,6 +3,8 @@
 #include "Miscellaneous.hpp"
 #include "Enemy.hpp"
 
+struct Enemy;
+
 struct Player{
     std::string name;
     std::string Class;
@@ -13,12 +15,12 @@ struct Player{
     int Gold;
     int Level, XP;
     int Damage;
-    int Dodge;
+    int Dodge; // maximum 3 lze dodělat vylepšení ve vesnici
     int Gamba_counter = 0;
     int damage_multiplayer = 1;
     int damage_multiplier_duration = 0;
 
-    void set_class_stats(std::string Class_c, int ID_c, int Max_HP_c, int Max_Mana_c, int Damage_c){
+    void set_class_stats(std::string Class_c, int ID_c, int Max_HP_c, int Max_Mana_c, int Damage_c, int Dodge_c){
         Class = Class_c;
         Class_ID = ID_c;
         Max_HP = Max_HP_c; 
@@ -26,6 +28,7 @@ struct Player{
         Max_Mana = Max_Mana_c;
         Mana = Max_Mana;
         Damage = Damage_c;
+        Dodge = Dodge_c;
     }
 
     void set_mana_cost(int C1, int C2, int C3, int C4){
@@ -50,6 +53,18 @@ struct Player{
         std::cout << "  MANA:       " << Mana << " / " << Max_Mana << "\n";
         std::cout << "  Poškození:  " << Damage << "\n";
         std::cout << "  ZLATO:      " << Gold << " ks\n";
+        
+        std::cout << "========================================\n";
+    }
+
+    void Show_Playerstats_short(){
+        std::cout << "========================================\n";
+        std::cout << "             STATUS POSTAVY             \n";
+        std::cout << "========================================\n";
+
+        std::cout << "  HP:         " << HP << " / " << Max_HP << "\n";
+        std::cout << "  MANA:       " << Mana << " / " << Max_Mana << "\n";
+
         
         std::cout << "========================================\n";
     }
