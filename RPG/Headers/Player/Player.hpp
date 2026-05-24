@@ -15,12 +15,13 @@ struct Player{
     int Gold;
     int Level, XP;
     int Damage;
-    int Dodge; // maximum 3 lze dodělat vylepšení ve vesnici
+    int Dodge;
+    int Defense;
     int Gamba_counter = 0;
     int damage_multiplayer = 1;
     int damage_multiplier_duration = 0;
 
-    void set_class_stats(std::string Class_c, int ID_c, int Max_HP_c, int Max_Mana_c, int Damage_c, int Dodge_c){
+    void set_class_stats(std::string Class_c, int ID_c, int Max_HP_c, int Max_Mana_c, int Damage_c, int Dodge_c, int Defense_c){
         Class = Class_c;
         Class_ID = ID_c;
         Max_HP = Max_HP_c; 
@@ -29,13 +30,13 @@ struct Player{
         Mana = Max_Mana;
         Damage = Damage_c;
         Dodge = Dodge_c;
+        Defense = Defense_c;
     }
 
-    void set_mana_cost(int C1, int C2, int C3, int C4){
+    void set_mana_cost(int C1, int C2, int C3){
         mana_cost[0] = C1;
         mana_cost[1] = C2;
         mana_cost[2] = C3;
-        mana_cost[3] = C4;
     }
 
     void Show_playerstats(){
@@ -81,4 +82,4 @@ void Warrior_atack(Player &player, Enemy &enemy, int choice_ability);
 void Ranger_atack(Player &player, Enemy &enemy, int choice_ability);
 void Gandalf_atack(Player &player, Enemy &enemy, int choice_ability);
 void check_mana_cost(Player &player, int &choice_ability);
-int gamba_Gandalf(Player &player);
+int gamba_Gandalf(Player &player, Enemy &enemy, int final_damage);

@@ -10,3 +10,8 @@ Zdroj - https://www.w3schools.com/cpp/cpp_structs.asp
 Header files jsem využil kvůli přehlednosti a jednodušší navigaci v kódu
 
 Zdroj - https://learn.microsoft.com/en-us/cpp/cpp/header-files-cpp?view=msvc-170
+
+### **Vector**
+Vector jsem využil z důvodu lehčího zápisu a mazání otázek v souboji proti quizlerovi
+
+Zdroj - https://www.w3schools.com/cpp/cpp_vectors.asp

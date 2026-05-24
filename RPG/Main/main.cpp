@@ -17,6 +17,7 @@ int main(){
     srand(time(0));
     Player player;
     Enemy enemy;
+    std::vector<question> questions = initialize_questions();
 
     player.Gold = 0;
     player.Level = 1;
@@ -26,7 +27,7 @@ int main(){
     Class_choose(player);
     player.Show_playerstats();
     Choose_enemy(enemy);
-    Battle(player, enemy);
+    Battle(player, enemy, questions);
     
     return 0;
 }
