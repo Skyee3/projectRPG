@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cmath>
-#include <windows.h>
+#include <clocale>
 #include "Player.hpp"
 #include "Enemy.hpp"
 #include "Village.hpp"
@@ -13,7 +13,7 @@
 ////////////////////////////////////////////////////////////////////////
 
 int main(){
-    SetConsoleOutputCP(CP_UTF8);
+    std::setlocale(LC_ALL, "cs_CZ.UTF-8"); 
     srand(time(0));
     Player player;
     Enemy enemy;
