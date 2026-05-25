@@ -1,0 +1,30 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug RPG (Windows)",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/RPG/Main/main_win.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/RPG/Main",
+            "environment": [],
+            "console": "integratedTerminal",
+            "preLaunchTask": "compile win"
+        },
+        {
+            "name": "Debug RPG (macOS)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/RPG/Main/main_mac",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/RPG/Main",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb",
+            "preLaunchTask": "compile mac"
+        }
+    ]
+}
