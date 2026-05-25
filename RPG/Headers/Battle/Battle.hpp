@@ -3,4 +3,4 @@
 #include "Player.hpp"
 #include "Enemy.hpp"
 
-void Battle(Player &player, Enemy &enemy);
+void Battle(Player &player, Enemy &enemy, std::vector<question> &questions);

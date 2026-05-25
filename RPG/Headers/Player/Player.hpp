@@ -3,6 +3,8 @@
 #include "Miscellaneous.hpp"
 #include "Enemy.hpp"
 
+struct Enemy;
+
 struct Player{
     std::string name;
     std::string Class;
@@ -14,11 +16,12 @@ struct Player{
     int Level, XP;
     int Damage;
     int Dodge;
+    int Defense;
     int Gamba_counter = 0;
     int damage_multiplayer = 1;
     int damage_multiplier_duration = 0;
 
-    void set_class_stats(std::string Class_c, int ID_c, int Max_HP_c, int Max_Mana_c, int Damage_c){
+    void set_class_stats(std::string Class_c, int ID_c, int Max_HP_c, int Max_Mana_c, int Damage_c, int Dodge_c, int Defense_c){
         Class = Class_c;
         Class_ID = ID_c;
         Max_HP = Max_HP_c; 
@@ -26,13 +29,14 @@ struct Player{
         Max_Mana = Max_Mana_c;
         Mana = Max_Mana;
         Damage = Damage_c;
+        Dodge = Dodge_c;
+        Defense = Defense_c;
     }
 
-    void set_mana_cost(int C1, int C2, int C3, int C4){
+    void set_mana_cost(int C1, int C2, int C3){
         mana_cost[0] = C1;
         mana_cost[1] = C2;
         mana_cost[2] = C3;
-        mana_cost[3] = C4;
     }
 
     void Show_playerstats(){
@@ -54,6 +58,18 @@ struct Player{
         std::cout << "========================================\n";
     }
 
+    void Show_Playerstats_short(){
+        std::cout << "========================================\n";
+        std::cout << "             STATUS POSTAVY             \n";
+        std::cout << "========================================\n";
+
+        std::cout << "  HP:         " << HP << " / " << Max_HP << "\n";
+        std::cout << "  MANA:       " << Mana << " / " << Max_Mana << "\n";
+
+        
+        std::cout << "========================================\n";
+    }
+
 };
 
 void Class_choose(Player &player);
@@ -66,4 +82,4 @@ void Warrior_atack(Player &player, Enemy &enemy, int choice_ability);
 void Ranger_atack(Player &player, Enemy &enemy, int choice_ability);
 void Gandalf_atack(Player &player, Enemy &enemy, int choice_ability);
 void check_mana_cost(Player &player, int &choice_ability);
-int gamba_Gandalf(Player &player);
+int gamba_Gandalf(Player &player, Enemy &enemy, int final_damage);
