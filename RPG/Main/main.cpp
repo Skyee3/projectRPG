@@ -13,7 +13,7 @@
 ////////////////////////////////////////////////////////////////////////
 
 int main(){
-    std::setlocale(LC_ALL, "cs_CZ.UTF-8"); 
+    std::setlocale(LC_ALL, "cs_CZ.UTF-8");
     srand(time(0));
     Player player;
     Enemy enemy;
@@ -22,7 +22,7 @@ int main(){
     player.Gold = 0;
     player.Level = 1;
     player.XP = 0;
-    
+
     Show_start_menu();
     Class_choose(player);
     player.Show_playerstats();

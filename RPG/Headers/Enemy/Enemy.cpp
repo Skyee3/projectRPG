@@ -58,23 +58,15 @@ std::vector<question> initialize_questions(){
 }
 
 void Choose_enemy(Enemy &enemy){
-    int random = rand() % 4;
-    switch(random){
-        case 0:
-            enemy.set_enemy("Buldozer", 1, 50, 10, 5);
-            break;
-        case 1:
-            enemy.set_enemy("Kostík", 2, 80, 15, 8);
-            break;
-        case 2:
-            enemy.set_enemy("Bohničan", 3, 120, 20, 10);
-            break;
-        case 3:
-            enemy.set_enemy("Quizler", 4, 200, 30, 15);
-            break;
-        default:
-            break;
+    int random = rand() % 10;
+    if(random < 1 && !enemy.was_quizler){
+        enemy.set_enemy("Quizler", 4, 100, 10, 1);
+        enemy.was_quizler = true;
     }
+    else if(random < 4) enemy.set_enemy("Buldozer", 1, 50, 10, 5);
+    else if(random < 7) enemy.set_enemy("Kostík", 2, 80, 15, 8);
+    else enemy.set_enemy("Bohničan", 3, 120, 20, 10);
+
 }
 
 void Enemy_turn(Player &player, Enemy &enemy, std::vector<question> &questions){
@@ -105,11 +97,12 @@ void Buldozer_turn(Player &player, Enemy &enemy){
     switch(ability){
         case 0:
             final_damage = (enemy.Damage - 2) - player.Defense;
-            std::cout << "Buldozer tě shodil a dal ti " << final_damage << " poškození a oslabil tě na další kolo o 15%\n";
-            player.HP -= final_damage;
+            std::cout << "Buldozer ti napálil a dal ti " << final_damage << " poškození a oslabil tě na další kolo o 15%\n";
+            player.HP -= final_damage; 
+            enemy.player_debuff_by_buldozer = 1;
             break;
         case 1:
-            final_damage = enemy.Damage + 5;
+            final_damage = enemy.Damage + 5 - player.Defense;
             std::cout << "Buldozer zvolil útok ohňem a dal ti " << final_damage << " poškození.\n";
             std::cout << "Po dobu 2 kol budeš hořet a dostavat 5 poškození navíc.\n";
             player.HP -= final_damage;
@@ -129,7 +122,7 @@ void kostik_turn(Player &player, Enemy &enemy){
     if(ability >= 8){
         int arrow_count = check_dodge_kostik(player);
         std::cout << "Kostík do svého luku dal 10 šípů a vystřelil do vzduchu, každopádně každý dává jen 50% poškození\n";
-        final_damage = (enemy.Damage * arrow_count) * 0.50;
+        final_damage = (enemy.Damage * arrow_count) * 0.50 - player.Defense;
 
         std::cout << "Celkem si dostal " << final_damage << " poškození\n";
         player.HP -= final_damage;
@@ -184,7 +177,7 @@ void bohnican_turn(Player &player, Enemy &enemy){
         int count_enemies = rand() % 3 + 2;
         if(count_enemies == 3) count_enemies = 4;
         final_damage = (enemy.Damage * count_enemies) / 2;
-        std::cout << "Pacient z bohnic si povolal armádu jeho kamarádů a všichni se na tebe vrhli a dostal si absolutní bídu\\n";
+        std::cout << "Pacient z bohnic si povolal armádu jeho kamarádů a všichni se na tebe vrhli a dostal si absolutní bídu\n";
         std::cout << "Vzhledem k tomu že na tebe naběhlo " << count_enemies << " nepřátel tak si dostal " << final_damage << " poškození\n";
         std::cout << "Pro tvoje štěstí jsi je vypnul na jeden hit takže už nejsou (dont worry, be happy)\n";
         player.HP -= final_damage;

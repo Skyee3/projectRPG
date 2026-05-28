@@ -11,9 +11,10 @@ struct Enemy{
     int Damage;
     int Defense;
     int stun_duration = 0;
-    int damage_reduction_duration = 0;
-    int damage_reduction_percentage = 0;
+    float Damage_multiplier = 1;
 
+    int player_debuff_by_buldozer = 0;
+    bool was_quizler = false;
     bool is_upgraded = false;
 
     void set_enemy(std::string name_c, int Type_c, int Max_HP_c, int Damage_c, int Defense_c){
