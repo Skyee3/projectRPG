@@ -198,6 +198,7 @@ void Ranger_atack(Player &player, Enemy &enemy, int choice_ability){
             std::cout << "Zasáhli jste nepřítele a způsobili mu " << final_damage << " poškození\n";
             std::cout << "Nepřitel dostal jed, který způsobí 3 poškození za kolo, po dobu 3 kol\n";
             enemy.HP -= final_damage;
+            enemy.poison_duration = 3;
             break;
         case 3:{
             int random = rand() % 4 + 3; 
@@ -287,19 +288,24 @@ int gamba_Gandalf(Player &player, Enemy &enemy, int final_damage){
 }
 
 void check_after_player_turn(Player &player, Enemy &enemy){
-if(player.Class_ID == 1 && player.jedinec_cooldown > 0){
-        player.jedinec_cooldown--;
-        std::cout << "Schopnost Dominantní jedinec můžete použít za " << player.jedinec_cooldown << " kol\n";
+    if(player.Class_ID == 1 && player.jedinec_cooldown > 0){
+            player.jedinec_cooldown--;
+            std::cout << "Schopnost Dominantní jedinec můžete použít za " << player.jedinec_cooldown << " kol\n";
     }
-
 
     if(player.jedinec_buff_duration > 0) {
         player.jedinec_buff_duration--;
         if(player.jedinec_buff_duration == 0) {
             std::cout << "Buff z Dominantního jedince právě vyprchal.\n";
-        } else {
+        }
+        else {
             std::cout << "Buff z Dominantního jedince potrvá ještě " << player.jedinec_buff_duration << " kol.\n";
         }
+    }
+    if(enemy.poison_duration > 0){
+        enemy.poison_duration--;
+        enemy.HP -= 5;
+        std::cout << "Poškození z jedu způsobilo " << 5 << " poškození nepříteli. Zbývající trvání jedu: " << enemy.poison_duration << " kol\n";
     }
 
     if(player.buldozer_debuff_duration > 0) {
@@ -308,8 +314,6 @@ if(player.Class_ID == 1 && player.jedinec_cooldown > 0){
             std::cout << "Debuff od Buldozera právě vyprchal.\n";
         }
     }
-
-
     player.damage_multiplier = 1.0;
 
     if(player.jedinec_buff_duration > 0) {
@@ -317,5 +321,29 @@ if(player.Class_ID == 1 && player.jedinec_cooldown > 0){
     }
     if(player.buldozer_debuff_duration > 0) {
         player.damage_multiplier *= 0.85; 
+    }
+}
+
+bool check_dodge_player(Player &player){
+    int random;
+    switch(player.Dodge){
+        case 0:
+            random = rand() % 18;
+            break;
+        case 1:
+            random = rand() % 12;
+            break;
+        case 2:
+            random = rand() % 8;
+            break;
+        default:
+            random = rand() % 4;
+            break;        
+    }
+    if(player.Dodge){
+        return true;
+    }
+    else{
+        return false;
     }
 }

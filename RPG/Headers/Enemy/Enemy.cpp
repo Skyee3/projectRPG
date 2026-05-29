@@ -58,14 +58,24 @@ std::vector<question> initialize_questions(){
 }
 
 void Choose_enemy(Enemy &enemy){
+    if(enemy.counter == 5 || enemy.counter == 8){
+        int random2 = rand() % 2;
+        if(random2 == 5){
+            enemy.set_enemy("Miniboss", 5, 150, 25, 15, true);
+        }
+        else{
+            enemy.set_enemy("Miniboss2", 6, 150, 25, 15, true);
+        }
+        return;
+    }
     int random = rand() % 10;
     if(random < 1 && !enemy.was_quizler){
-        enemy.set_enemy("Quizler", 4, 100, 10, 1);
+        enemy.set_enemy("Quizler", 4, 100, 10, 1, 0);
         enemy.was_quizler = true;
     }
-    else if(random < 4) enemy.set_enemy("Buldozer", 1, 50, 10, 5);
-    else if(random < 7) enemy.set_enemy("Kostík", 2, 80, 15, 8);
-    else enemy.set_enemy("Bohničan", 3, 120, 20, 10);
+    else if(random < 4) enemy.set_enemy("Buldozer", 1, 50, 10, 5, 0);
+    else if(random < 7) enemy.set_enemy("Kostík", 2, 80, 15, 8, 0);
+    else enemy.set_enemy("Bohničan", 3, 120, 20, 10, 0);
 
 }
 

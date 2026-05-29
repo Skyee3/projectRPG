@@ -23,6 +23,7 @@ struct Player{
     int jedinec_cooldown = 0;
     int buldozer_debuff_duration = 0;
     float damage_multiplier = 1;
+    bool skip_turn = false;
 
     void set_class_stats(std::string Class_c, int ID_c, int Max_HP_c, int Max_Mana_c, int Damage_c, int Dodge_c, int Defense_c){
         Class = Class_c;
@@ -87,3 +88,4 @@ void Gandalf_atack(Player &player, Enemy &enemy, int choice_ability);
 void Input_ability(Player &player, int &choice_ability);
 int gamba_Gandalf(Player &player, Enemy &enemy, int final_damage);
 void check_after_player_turn(Player &player, Enemy &enemy);
+bool check_dodge_player(Player &player);
