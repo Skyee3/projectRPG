@@ -153,13 +153,13 @@ void Warrior_atack(Player &player, Enemy &enemy, int choice_ability){
     int final_damage = 0;
     switch(choice_ability){
         case 1:
-            final_damage = (player.Damage - enemy.Defense) * player.damage_multiplier;
+            final_damage = (player.Damage * player.damage_multiplier) - enemy.Defense;
             std::cout << "Zvolili jste útok mečem\n";
             std::cout << "Zasáhli jste nepřítele a způsobili mu " << final_damage << " poškození\n";
             enemy.HP -= final_damage;
             break;
         case 2:
-            final_damage = (player.Damage + 5 - enemy.Defense) * player.damage_multiplier;
+            final_damage = (player.Damage + 5) * player.damage_multiplier - enemy.Defense;
             std::cout << "Zvolili jste silný úder\n";
             std::cout << "Zasáhli jste nepřítele a způsobili mu " << final_damage << " poškození\n";
             std::cout << "Nepřítel je omráčen a nemůže útočit v příštím kole\n";
@@ -167,7 +167,7 @@ void Warrior_atack(Player &player, Enemy &enemy, int choice_ability){
             enemy.stun_duration = 1;
             break;
         case 3:
-            final_damage = (player.Damage + 10 - enemy.Defense) * player.damage_multiplier;
+            final_damage = (player.Damage + 10) * player.damage_multiplier - enemy.Defense;
             std::cout << "Zvolili jste dominantního jedince \n";
             std::cout << "Zasáhli jste nepřítele a způsobili mu " << final_damage << " poškození\n";
             std::cout << "Snižujete poškození nepřítele o 50% na 2 kola\n";
@@ -187,13 +187,13 @@ void Ranger_atack(Player &player, Enemy &enemy, int choice_ability){
     int final_damage = 0;
     switch(choice_ability){
         case 1:
-            final_damage = (player.Damage - enemy.Defense) * player.damage_multiplier;
+            final_damage = (player.Damage * player.damage_multiplier) - enemy.Defense;
             std::cout << "Zvolili jste útok lukem\n";
             std::cout << "Zasáhli jste nepřítele a způsobili mu " << final_damage << " poškození\n";
             enemy.HP -= final_damage ;
             break;
         case 2:
-            final_damage = (player.Damage - enemy.Defense) * player.damage_multiplier;
+            final_damage = (player.Damage * player.damage_multiplier) - enemy.Defense;
             std::cout << "Zvolili jste jedovatý šíp\n";
             std::cout << "Zasáhli jste nepřítele a způsobili mu " << final_damage << " poškození\n";
             std::cout << "Nepřitel dostal jed, který způsobí 3 poškození za kolo, po dobu 3 kol\n";
@@ -202,10 +202,10 @@ void Ranger_atack(Player &player, Enemy &enemy, int choice_ability){
             break;
         case 3:{
             int random = rand() % 4 + 3; 
-            final_damage = (player.Damage * 0.75 * player.damage_multiplier) - enemy.Defense;
+            final_damage = (player.Damage * 0.50 * player.damage_multiplier) - enemy.Defense;
             std::cout << "Zvolili jste šípovou sprchu\n";
             std::cout << "Vystřelili jste salvu šípů na všechny nepřítele\n";
-            std::cout << "Každý zásah dává 75% poškození\n";
+            std::cout << "Každý zásah dává 50% poškození\n";
             enemy.HP -= final_damage;
             break;
         }
@@ -219,7 +219,7 @@ void Gandalf_atack(Player &player, Enemy &enemy, int choice_ability){
     int final_damage = 0;
     switch(choice_ability){
         case 1:
-            final_damage = (player.Damage - enemy.Defense) * player.damage_multiplier;
+            final_damage = (player.Damage * player.damage_multiplier) - enemy.Defense;
             std::cout << "Zvolili jste flákanec\n";
             std::cout << "Objevil se pan Lubimírek a plesknul mu za " << player.Damage << " poškození\n";
             enemy.HP -= player.Damage;
