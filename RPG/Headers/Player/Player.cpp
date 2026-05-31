@@ -175,6 +175,7 @@ void Warrior_atack(Player &player, Enemy &enemy, int choice_ability){
             enemy.HP -= final_damage;
             player.jedinec_cooldown = 6;
             player.jedinec_buff_duration = 3;
+            enemy.Damage_multiplier_duration = 2;
             break;
         default:
             break;
@@ -202,7 +203,7 @@ void Ranger_atack(Player &player, Enemy &enemy, int choice_ability){
             break;
         case 3:{
             int random = rand() % 4 + 3; 
-            final_damage = (player.Damage * 0.50 * player.damage_multiplier) - enemy.Defense;
+            final_damage = (player.Damage * 0.50 * player.damage_multiplier * random) - enemy.Defense;
             std::cout << "Zvolili jste šípovou sprchu\n";
             std::cout << "Vystřelili jste salvu šípů na všechny nepřítele\n";
             std::cout << "Každý zásah dává 50% poškození\n";
@@ -221,18 +222,19 @@ void Gandalf_atack(Player &player, Enemy &enemy, int choice_ability){
         case 1:
             final_damage = (player.Damage * player.damage_multiplier) - enemy.Defense;
             std::cout << "Zvolili jste flákanec\n";
-            std::cout << "Objevil se pan Lubimírek a plesknul mu za " << player.Damage << " poškození\n";
-            enemy.HP -= player.Damage;
+            std::cout << "Objevil se pan Lubimírek a plesknul mu za " << final_damage << " poškození\n";
+            enemy.HP -= final_damage;
             break;
         case 2:
             final_damage = gamba_Gandalf(player, enemy, final_damage);
-            final_damage = final_damage * player.damage_multiplier;
+            final_damage = final_damage * player.damage_multiplier - enemy.Defense;
             std::cout << "GAMBAAAAAAAAAAAAA (absolutní gigachad si po dnešku za zvolení tohoto útoku :D)\n";
             enemy.HP -= final_damage;
             break;
         case 3:
             std::cout << "Karma\n";
             std::cout << "V příštím kole se nepřítel zautočí sám na sebe\n";
+            enemy.karma_active = true;
             break;
         default:
             break;
@@ -264,7 +266,7 @@ int gamba_Gandalf(Player &player, Enemy &enemy, int final_damage){
     switch(random){
         case 0:
             random2 = rand() % 3 + 1;
-            final_damage = random2 - enemy.Defense;
+            final_damage = random2;
             std::cout << "No níc gamba nevyšla a dal si mu jenom " << final_damage << " poškození (tomu říkam skill issue ale určitě to zkus zas :D)\n";
             player.Gamba_counter--;
             if(player.Gamba_counter < -3){
@@ -273,7 +275,7 @@ int gamba_Gandalf(Player &player, Enemy &enemy, int final_damage){
             break;
         case 1:
             random2 = rand() % 3 + 5;
-            final_damage = random2 - enemy.Defense;
+            final_damage = random2;
             std::cout << "Ty si rozený gambler normálně. Vyhrál si gambu a dal si mu za " << final_damage << " poškození\n";
             player.Gamba_counter++;
             if(player.Gamba_counter > 4){
@@ -285,43 +287,6 @@ int gamba_Gandalf(Player &player, Enemy &enemy, int final_damage){
             break;
     }
     return final_damage;
-}
-
-void check_after_player_turn(Player &player, Enemy &enemy){
-    if(player.Class_ID == 1 && player.jedinec_cooldown > 0){
-            player.jedinec_cooldown--;
-            std::cout << "Schopnost Dominantní jedinec můžete použít za " << player.jedinec_cooldown << " kol\n";
-    }
-
-    if(player.jedinec_buff_duration > 0) {
-        player.jedinec_buff_duration--;
-        if(player.jedinec_buff_duration == 0) {
-            std::cout << "Buff z Dominantního jedince právě vyprchal.\n";
-        }
-        else {
-            std::cout << "Buff z Dominantního jedince potrvá ještě " << player.jedinec_buff_duration << " kol.\n";
-        }
-    }
-    if(enemy.poison_duration > 0){
-        enemy.poison_duration--;
-        enemy.HP -= 5;
-        std::cout << "Poškození z jedu způsobilo " << 5 << " poškození nepříteli. Zbývající trvání jedu: " << enemy.poison_duration << " kol\n";
-    }
-
-    if(player.buldozer_debuff_duration > 0) {
-        player.buldozer_debuff_duration--;
-        if(player.buldozer_debuff_duration == 0) {
-            std::cout << "Debuff od Buldozera právě vyprchal.\n";
-        }
-    }
-    player.damage_multiplier = 1.0;
-
-    if(player.jedinec_buff_duration > 0) {
-        player.damage_multiplier *= 1.2;
-    }
-    if(player.buldozer_debuff_duration > 0) {
-        player.damage_multiplier *= 0.85; 
-    }
 }
 
 bool check_dodge_player(Player &player){
@@ -340,7 +305,7 @@ bool check_dodge_player(Player &player){
             random = rand() % 4;
             break;        
     }
-    if(player.Dodge){
+    if(random == 0){
         return true;
     }
     else{

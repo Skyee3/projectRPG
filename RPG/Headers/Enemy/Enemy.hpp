@@ -12,12 +12,14 @@ struct Enemy{
     int Defense;
     int stun_duration = 0;
     float Damage_multiplier = 1;
+    int Damage_multiplier_duration = 0;
     int counter = 0;
     int poison_duration = 0;
     int player_debuff_by_buldozer = 0;
     bool was_quizler = false;
     bool is_upgraded = false;
     bool is_miniboss = false;
+    bool karma_active = false;
 
     void set_enemy(std::string name_c, int Type_c, int Max_HP_c, int Damage_c, int Defense_c, bool miniboss_c){
         name = name_c;

@@ -87,5 +87,4 @@ void Ranger_atack(Player &player, Enemy &enemy, int choice_ability);
 void Gandalf_atack(Player &player, Enemy &enemy, int choice_ability);
 void Input_ability(Player &player, int &choice_ability);
 int gamba_Gandalf(Player &player, Enemy &enemy, int final_damage);
-void check_after_player_turn(Player &player, Enemy &enemy);
 bool check_dodge_player(Player &player);
