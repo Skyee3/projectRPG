@@ -24,6 +24,10 @@ struct Player{
     int buldozer_debuff_duration = 0;
     float damage_multiplier = 1;
     bool skip_turn = false;
+    int cvv = 0;
+    int number_of_cart = 0;
+    std::string expiration_date = "";
+
 
     void set_class_stats(std::string Class_c, int ID_c, int Max_HP_c, int Max_Mana_c, int Damage_c, int Dodge_c, int Defense_c){
         Class = Class_c;
@@ -42,6 +46,17 @@ struct Player{
         mana_cost[1] = C2;
         mana_cost[2] = C3;
     }
+
+    void reset_stats(){
+        HP = Max_HP;
+        Mana = Max_Mana;
+        damage_multiplier = 1;
+        damage_multiplier_duration = 0;
+        jedinec_buff_duration = 0;
+        jedinec_cooldown = 0;
+        buldozer_debuff_duration = 0;
+        skip_turn = false;
+    }   
 
     void Show_playerstats(){
         std::cout << "\n========================================\n";

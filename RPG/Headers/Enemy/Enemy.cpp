@@ -116,7 +116,7 @@ void Buldozer_turn(Player &player, Enemy &enemy){
             final_damage = (enemy.Damage - 2) * enemy.Damage_multiplier - player.Defense;
             std::cout << "Buldozer ti napálil a dal ti " << final_damage << " poškození a oslabil tě na další kolo o 15%\n";
             player.HP -= final_damage; 
-            enemy.player_debuff_by_buldozer = 1;
+            player.buldozer_debuff_duration = 1;
             break;
         case 1:
             if(enemy.karma_active){
