@@ -42,56 +42,6 @@ void Battle(Player &player, Enemy &enemy, std::vector<question> &questions){
     enemy.counter++;
 }
 
-
-void check_after_player_turn(Player &player, Enemy &enemy){
-    player.damage_multiplier = 1.0;
-
-    if(player.jedinec_buff_duration > 0) {
-        player.damage_multiplier *= 1.2;
-    }
-    if(player.buldozer_debuff_duration > 0) {
-        player.damage_multiplier *= 0.85; 
-    }
-
-    
-    if(player.buldozer_debuff_duration > 0) {
-        player.buldozer_debuff_duration--;
-        if(player.buldozer_debuff_duration == 0) {
-            std::cout << "Debuff od Buldozera právě vyprchal.\n";
-        }
-    }
-    if(player.Class_ID == 1 && player.jedinec_cooldown > 0){
-            player.jedinec_cooldown--;
-            std::cout << "Schopnost Dominantní jedinec můžete použít za " << player.jedinec_cooldown << " kol\n";
-    }
-}
-
-void check_after_enemy_turn(Player &player, Enemy &enemy){
-    if(enemy.poison_duration > 0){
-        enemy.HP -= 5;
-        enemy.poison_duration--;
-
-        std::cout << "Poškození z jedu způsobilo " << 5 << " poškození nepříteli\n";
-        if(enemy.poison_duration == 0){
-            std::cout << "Jed přestal působit\n";
-        }
-        else{
-            std::cout << "Jed bude působit ještě " << enemy.poison_duration << " kol\n";
-        }
-    }
-    enemy.Damage_multiplier = 1.0;
-    if(enemy.Damage_multiplier_duration > 0){
-        enemy.Damage_multiplier *= 0.5;
-        enemy.Damage_multiplier_duration--;
-        if(enemy.Damage_multiplier_duration == 0){
-            std::cout << "Enemy už není debuffnutý.\n";
-        }
-        else{
-            std::cout << "Enemy bude debuffnutý ještě " << enemy.Damage_multiplier_duration << " kol.\n";
-        }
-    }
-}
-
 void Before_player_turn(Player &player, Enemy &enemy){
     player.damage_multiplier = 1.0;
 
@@ -119,9 +69,21 @@ void Before_player_turn(Player &player, Enemy &enemy){
         player.damage_multiplier *= 0.85; 
         std::cout << "Debuff od Buldozera ti snižuje poškození o 15% na toto kolo\n";
     }
+    if(player.Burn_duration > 0){
+        player.HP -= 5;
+        player.Burn_duration--;
+        std::cout << "Poškození z ohně způsobilo 5 poškození\n";
+        if(player.Burn_duration == 0){
+            std::cout << "Už nehoříš (Big thumbs up :P)\n";
+        }
+        else{
+            std::cout << "Oheň bude působit ještě " << player.Burn_duration << " kol :(\n";
+        }
+    }
 }
 
 bool Before_enemy_turn(Player &player, Enemy &enemy) {
+    enemy.Damage_multiplier = 1.0;
     if(enemy.stun_duration > 0) {
         std::cout << "Nepřítel je omráčen a nemůže v tomto kole útočit!\n";
         enemy.stun_duration--;
@@ -133,7 +95,6 @@ bool Before_enemy_turn(Player &player, Enemy &enemy) {
         return false; 
     }
 
-    enemy.Damage_multiplier = 1.0;
     if(enemy.Damage_multiplier_duration > 0){
         enemy.Damage_multiplier *= 0.5;
         enemy.Damage_multiplier_duration--;

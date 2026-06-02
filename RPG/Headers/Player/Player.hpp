@@ -22,11 +22,13 @@ struct Player{
     int jedinec_buff_duration = 0;
     int jedinec_cooldown = 0;
     int buldozer_debuff_duration = 0;
+    int Burn_duration = 0;
     float damage_multiplier = 1;
     bool skip_turn = false;
     int cvv = 0;
     int number_of_cart = 0;
     std::string expiration_date = "";
+
 
 
     void set_class_stats(std::string Class_c, int ID_c, int Max_HP_c, int Max_Mana_c, int Damage_c, int Dodge_c, int Defense_c){

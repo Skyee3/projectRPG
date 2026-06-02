@@ -130,6 +130,7 @@ void Buldozer_turn(Player &player, Enemy &enemy){
             std::cout << "Buldozer zvolil útok ohňem a dal ti " << final_damage << " poškození.\n";
             std::cout << "Po dobu 2 kol budeš hořet a dostavat 5 poškození navíc.\n";
             player.HP -= final_damage;
+            player.Burn_duration = 2;
             break;
         default:
             if(enemy.karma_active){
