@@ -26,6 +26,8 @@ struct Player{
     float damage_multiplier = 1;
     int stun_duration = 0;
     bool skip_turn = false;
+    bool is_upgraded = false;
+
     int cvv = 0;
     int number_of_cart = 0;
     std::string expiration_date = "";
@@ -70,6 +72,7 @@ struct Player{
         buldozer_debuff_duration = 0;
         skip_turn = false;
         stun_duration = 0;
+        is_upgraded = false;
     }   
 
     void Show_playerstats(){

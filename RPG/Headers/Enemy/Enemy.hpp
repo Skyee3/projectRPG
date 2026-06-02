@@ -39,7 +39,6 @@ struct Enemy{
         Damage_multiplier_duration = 0;
         poison_duration = 0;
         player_debuff_by_buldozer = 0;
-        was_quizler = false;
         karma_active = false;
         is_miniboss = false;
         is_upgraded = false;
