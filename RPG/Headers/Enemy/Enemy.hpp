@@ -11,12 +11,17 @@ struct Enemy{
     int Damage;
     int Defense;
     int stun_duration = 0;
-    int damage_reduction_duration = 0;
-    int damage_reduction_percentage = 0;
-
+    float Damage_multiplier = 1;
+    int Damage_multiplier_duration = 0;
+    int counter = 0;
+    int poison_duration = 0;
+    int player_debuff_by_buldozer = 0;
+    bool was_quizler = false;
     bool is_upgraded = false;
+    bool is_miniboss = false;
+    bool karma_active = false;
 
-    void set_enemy(std::string name_c, int Type_c, int Max_HP_c, int Damage_c, int Defense_c){
+    void set_enemy(std::string name_c, int Type_c, int Max_HP_c, int Damage_c, int Defense_c, bool miniboss_c){
         name = name_c;
         Type = Type_c;
         HP = Max_HP_c;
@@ -24,6 +29,7 @@ struct Enemy{
         Damage = Damage_c;
         Defense = Defense_c;
         is_upgraded = false;
+        is_miniboss = miniboss_c;
     }
 
     //pak smazat
@@ -34,6 +40,7 @@ struct Enemy{
         std::cout << "Max_HP: " << Max_HP << "\n";
         std::cout << "Damage: " << Damage << "\n";
         std::cout << "Defense: " << Defense << "\n";
+        std::cout << "Is Miniboss: " << is_miniboss << "\n";
     }
 };
 struct question{
