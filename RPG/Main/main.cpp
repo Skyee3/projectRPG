@@ -26,18 +26,20 @@ int main(){
     Show_start_menu();
     Class_choose(player);
     player.Show_playerstats();
+    
     while(true){
         Choose_enemy(enemy);
         Battle(player, enemy, questions);
         if(player.HP <= 0){
             Dead_screen(player);
-            return 0;
+            break;
         }
         player.reset_stats();
+        enemy.reset_stats();
         if(enemy.counter % 2 == 0){
             Village_choice(player);
         }
     }
-    
+
     return 0;
 }

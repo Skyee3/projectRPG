@@ -24,6 +24,7 @@ struct Player{
     int buldozer_debuff_duration = 0;
     int Burn_duration = 0;
     float damage_multiplier = 1;
+    int stun_duration = 0;
     bool skip_turn = false;
     int cvv = 0;
     int number_of_cart = 0;
@@ -43,6 +44,15 @@ struct Player{
         Defense = Defense_c;
     }
 
+    bool is_stunned(){
+        if(stun_duration > 0){
+            std::cout << "Jsi omráčený a nemůžeš v tomto kole utočit\n";
+            stun_duration--;
+            return true;
+        }
+        return false;
+    }
+
     void set_mana_cost(int C1, int C2, int C3){
         mana_cost[0] = C1;
         mana_cost[1] = C2;
@@ -56,8 +66,10 @@ struct Player{
         damage_multiplier_duration = 0;
         jedinec_buff_duration = 0;
         jedinec_cooldown = 0;
+        Burn_duration = 0;
         buldozer_debuff_duration = 0;
         skip_turn = false;
+        stun_duration = 0;
     }   
 
     void Show_playerstats(){

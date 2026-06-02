@@ -32,6 +32,19 @@ struct Enemy{
         is_miniboss = miniboss_c;
     }
 
+    void reset_stats(){
+        HP = Max_HP;
+        stun_duration = 0;
+        Damage_multiplier = 1;
+        Damage_multiplier_duration = 0;
+        poison_duration = 0;
+        player_debuff_by_buldozer = 0;
+        was_quizler = false;
+        karma_active = false;
+        is_miniboss = false;
+        is_upgraded = false;
+    }
+
     //pak smazat
     void show_all_enemy_stats_testing(){
         std::cout << "Name: " << name << "\n";

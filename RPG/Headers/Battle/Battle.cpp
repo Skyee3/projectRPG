@@ -22,7 +22,11 @@ void Battle(Player &player, Enemy &enemy, std::vector<question> &questions){
         quizler_turn(player, enemy, questions);
     }
     while(player.HP > 0 && enemy.HP > 0 && enemy.Type != 4){
-        if(player.skip_turn){
+        if(player.skip_turn || player.is_stunned()){
+            if(player.is_stunned()){
+                Before_player_turn(player, enemy);
+                Before_enemy_turn(player, enemy);
+            }
             Enemy_turn(player, enemy, questions);
             player.skip_turn = false;
             continue;
@@ -44,7 +48,7 @@ void Battle(Player &player, Enemy &enemy, std::vector<question> &questions){
 
 void Before_player_turn(Player &player, Enemy &enemy){
     player.damage_multiplier = 1.0;
-
+    
     if(player.jedinec_buff_duration > 0) {
         player.damage_multiplier *= 1.2;
         player.jedinec_buff_duration--;
