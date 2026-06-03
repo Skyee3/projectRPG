@@ -31,17 +31,15 @@ int main(){
     if(enemy.counter == 0){
         do{
             Choose_enemy(enemy1);
-        }while(enemy1.Type == 4);
-        do{
             Choose_enemy(enemy2);
-        }while(enemy2.Type == 4);
-        while(enemy1.name == enemy2.name){
-            Choose_enemy(enemy1);
-            Choose_enemy(enemy2);
-        }
+        }while(enemy1.name == enemy2.name || enemy2.Type == 4 || enemy1.Type == 4);
         std::cout << "Tohle nebude normální fight teď budeš bojovat proti " << enemy1.name << " a " << enemy2.name << "najednou\n";
         Battle_two_enemies(player, enemy1, enemy2, questions);
+        enemy.counter++;
+        enemy1.reset_stats();
+        enemy2 .reset_stats();
     }
+
 
     while(true){
         Choose_enemy(enemy);
