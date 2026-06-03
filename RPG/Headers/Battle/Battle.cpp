@@ -20,18 +20,18 @@ void Battle(Player &player, Enemy &enemy, std::vector<question> &questions){
     }
     while(player.HP > 0 && enemy.HP > 0 && enemy.Type == 4){
         quizler_turn(player, enemy, questions);
+        if(!enemy.is_alive() || !player.is_alive()) break;
     }
     while(player.HP > 0 && enemy.HP > 0 && enemy.Type != 4){
+        Before_player_turn(player, enemy);
         if(player.skip_turn || player.is_stunned()){
             if(player.is_stunned()){
-                Before_player_turn(player, enemy);
                 Before_enemy_turn(player, enemy);
             }
             Enemy_turn(player, enemy, questions);
             player.skip_turn = false;
             continue;
         }
-        Before_player_turn(player, enemy);
         Player_turn(player, enemy);
         enemy.show_all_enemy_stats_testing();
         if(enemy.HP <= 0 || player.HP <= 0){
@@ -46,13 +46,64 @@ void Battle(Player &player, Enemy &enemy, std::vector<question> &questions){
     enemy.counter++;
 }
 
+void Battle_two_enemies(Player &player, Enemy &enemy1, Enemy &enemy2, std::vector<question> &questions){
+    while(player.HP > 0 && (enemy1.HP > 0 || enemy2.HP > 0)){
+        Before_player_turn(player, enemy1);
+        if(player.is_stunned()){
+            if (!player.is_alive()) break;
+            if(enemy1.HP > 0){
+                if(Before_enemy_turn(player, enemy1)) Enemy_turn(player, enemy1, questions);
+                After_enemy_turn(player, enemy1);
+            }
+            if(enemy1.HP <= 0 && enemy2.HP <= 0) break;
+            if(player.HP <= 0) break;
+            if(enemy2.HP > 0){
+                if(Before_enemy_turn(player, enemy2)) Enemy_turn(player, enemy2, questions);
+                After_enemy_turn(player, enemy2);
+            }
+            if(enemy1.HP <= 0 && enemy2.HP <= 0) break;
+            continue;
+        }
+        if(!player.is_alive()) break;
+        std::cout << "Vyberte proti kterému enemy chcete teď bojovat (1 - " << enemy1.name << ", 2 - " << enemy2.name << ")\n";
+        int choice;
+        do{
+            Input_checker("Váš výběr", choice, 1, 2);
+            if(choice == 1 && enemy1.HP <= 0){
+                std::cout << "Tenhle už je mrtvej bro... vyber č.2\n";
+            }
+            else if(choice == 2 && enemy2.HP <= 0){
+                std::cout << "Tenhle už je mrtvej bro... vyber č.1\n";
+            }
+            else break;
+        }while(true);
+        if(choice == 1){
+            Player_turn(player, enemy1);
+        }
+        else{
+            Player_turn(player, enemy2);
+        }
+        if(enemy1.HP <= 0 && enemy2.HP <= 0) break;
+        if(enemy1.HP > 0){
+            if(Before_enemy_turn(player, enemy1)) Enemy_turn(player, enemy1, questions);
+            After_enemy_turn(player, enemy1);
+        }
+        if(player.HP <= 0) break;
+        if(enemy2.HP > 0){
+            if(Before_enemy_turn(player, enemy2)) Enemy_turn(player, enemy2, questions);
+            After_enemy_turn(player, enemy2);
+        }
+        if(enemy1.HP <= 0 && enemy2.HP <= 0) break;
+
+    }
+}
+
 void Before_player_turn(Player &player, Enemy &enemy){
     player.damage_multiplier = 1.0;
-    
     if(player.jedinec_buff_duration > 0) {
         player.damage_multiplier *= 1.2;
         player.jedinec_buff_duration--;
-        if(player.jedinec_buff_duration == 0) {
+        if(player.jedinec_buff_duration == 0){
             std::cout << "Buff z Dominantního jedince právě vyprchal.\n";
         }
         else{
