@@ -88,7 +88,7 @@ void Show_class_abilities(Player &player){
             std::cout << " 3. Šípová sprcha (Mana: " << player.mana_cost[2] << ")\n";
             std::cout << "   Vystřelíš salvu šípů na všechny nepřítele\n";
             std::cout << "   Zasáhne více nepřátel najednou\n";
-            std::cout << "   Každý zásah dává 75% poškození\n\n";
+            std::cout << "   Každý zásah dává 50% poškození\n\n";
             break;
         case 3:
             std::cout << "Absolutní Gambler (nízké HP ale gamba)\n";

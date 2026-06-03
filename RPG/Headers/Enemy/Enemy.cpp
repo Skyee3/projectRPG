@@ -76,7 +76,6 @@ void Choose_enemy(Enemy &enemy){
     else if(random < 4) enemy.set_enemy("Buldozer", 1, 50, 10, 5, 0);
     else if(random < 7) enemy.set_enemy("Kostík", 2, 80, 15, 8, 0);
     else enemy.set_enemy("Bohničan", 3, 120, 20, 10, 0);
-
 }
 
 void Enemy_turn(Player &player, Enemy &enemy, std::vector<question> &questions){
@@ -122,7 +121,7 @@ void Buldozer_turn(Player &player, Enemy &enemy){
         player.HP -= final_damage; 
         player.buldozer_debuff_duration = 1;
     }
-    if(ability == 1 && player.Burn_duration == 0){
+    else if(ability == 1 && player.Burn_duration == 0){
         if(enemy.karma_active){
             final_damage = (enemy.Damage + 5) * enemy.Damage_multiplier - enemy.Defense;
             std::cout << "Buldozer se zautočil sám na sebe díky karmě a dal si " << final_damage << " poškození\n";
