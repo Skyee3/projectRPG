@@ -31,6 +31,22 @@ struct Enemy{
         is_upgraded = false;
         is_miniboss = miniboss_c;
     }
+    bool is_alive(){
+        if(HP <= 0) return false;
+        return true;
+    }
+
+    void reset_stats(){
+        HP = Max_HP;
+        stun_duration = 0;
+        Damage_multiplier = 1;
+        Damage_multiplier_duration = 0;
+        poison_duration = 0;
+        player_debuff_by_buldozer = 0;
+        karma_active = false;
+        is_miniboss = false;
+        is_upgraded = false;
+    }
 
     //pak smazat
     void show_all_enemy_stats_testing(){
@@ -58,3 +74,5 @@ void kostik_turn(Player &player, Enemy &enemy);
 int check_dodge_kostik(Player &player);
 void bohnican_turn(Player &player, Enemy &enemy);
 void quizler_turn(Player &player, Enemy &enemy, std::vector<question> &questions);
+void BOB_turn(Player &player, Enemy &enemy);
+void Chief_turn(Player &player, Enemy &enemy);

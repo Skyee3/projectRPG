@@ -61,10 +61,10 @@ void Choose_enemy(Enemy &enemy){
     if(enemy.counter % 5 == 0 && enemy.counter != 0){
         int random2 = rand() % 2;
         if(random2 == 0){
-            enemy.set_enemy("Miniboss", 5, 150, 25, 15, true);
+            enemy.set_enemy("BOB", 5, 150, 25, 15, true);
         }
         else{
-            enemy.set_enemy("Miniboss2", 6, 150, 25, 15, true);
+            enemy.set_enemy("Chief", 6, 150, 25, 15, true);
         }
         return;
     }
@@ -96,6 +96,12 @@ void Enemy_turn(Player &player, Enemy &enemy, std::vector<question> &questions){
         case 4:
             quizler_turn(player, enemy, questions);
             break;
+        case 5:
+            BOB_turn(player, enemy);
+            break;
+        case 6:
+            Chief_turn(player, enemy);
+            break;
         default:
             break;
     }
@@ -104,46 +110,41 @@ void Enemy_turn(Player &player, Enemy &enemy, std::vector<question> &questions){
 void Buldozer_turn(Player &player, Enemy &enemy){
     int final_damage;
     int ability = rand() % 4;
-    switch(ability){
-        case 0:
-            if(enemy.karma_active){
-                final_damage =  (enemy.Damage - 2) * enemy.Damage_multiplier - enemy.Defense;
-                std::cout << "Buldozer se zautočil sám na sebe díky karmě a dal si " << final_damage << " poškození\n";
-                enemy.HP -= final_damage;
-                enemy.karma_active = false;
-                break;
-            }
-            final_damage = (enemy.Damage - 2) * enemy.Damage_multiplier - player.Defense;
-            std::cout << "Buldozer ti napálil a dal ti " << final_damage << " poškození a oslabil tě na další kolo o 15%\n";
-            player.HP -= final_damage; 
-            player.buldozer_debuff_duration = 1;
-            break;
-        case 1:
-            if(enemy.karma_active){
-                final_damage = (enemy.Damage + 5) * enemy.Damage_multiplier - enemy.Defense;
-                std::cout << "Buldozer se zautočil sám na sebe díky karmě a dal si " << final_damage << " poškození\n";
-                enemy.HP -= final_damage;
-                enemy.karma_active = false;
-                break;
-            }
-            final_damage = (enemy.Damage + 5) * enemy.Damage_multiplier - player.Defense;
-            std::cout << "Buldozer zvolil útok ohňem a dal ti " << final_damage << " poškození.\n";
-            std::cout << "Po dobu 2 kol budeš hořet a dostavat 5 poškození navíc.\n";
-            player.HP -= final_damage;
-            player.Burn_duration = 2;
-            break;
-        default:
-            if(enemy.karma_active){
-                final_damage = enemy.Damage * enemy.Damage_multiplier - enemy.Defense;
-                std::cout << "Buldozer se zautočil sám na sebe díky karmě a dal si " << final_damage << " poškození\n";
-                enemy.HP -= final_damage;
-                enemy.karma_active = false;
-                break;
-            }
-            final_damage = enemy.Damage * enemy.Damage_multiplier - player.Defense;
-            std::cout << "Buldozer zvolil basic útok a kopl tě za" << final_damage << " poškození.\n";
-            player.HP -= final_damage;
-            break;
+    if(ability == 0){
+        if(enemy.karma_active){
+            final_damage =  (enemy.Damage - 2) * enemy.Damage_multiplier - enemy.Defense;
+            std::cout << "Buldozer se zautočil sám na sebe díky karmě a dal si " << final_damage << " poškození\n";
+            enemy.HP -= final_damage;
+            enemy.karma_active = false;
+        }
+        final_damage = (enemy.Damage - 2) * enemy.Damage_multiplier - player.Defense;
+        std::cout << "Buldozer ti napálil a dal ti " << final_damage << " poškození a oslabil tě na další kolo o 15%\n";
+        player.HP -= final_damage; 
+        player.buldozer_debuff_duration = 1;
+    }
+    if(ability == 1 && player.Burn_duration == 0){
+        if(enemy.karma_active){
+            final_damage = (enemy.Damage + 5) * enemy.Damage_multiplier - enemy.Defense;
+            std::cout << "Buldozer se zautočil sám na sebe díky karmě a dal si " << final_damage << " poškození\n";
+            enemy.HP -= final_damage;
+            enemy.karma_active = false;
+        }
+        final_damage = (enemy.Damage + 5) * enemy.Damage_multiplier - player.Defense;
+        std::cout << "Buldozer zvolil útok ohňem a dal ti " << final_damage << " poškození.\n";
+        std::cout << "Po dobu 2 kol budeš hořet a dostavat 5 poškození navíc.\n";
+        player.HP -= final_damage;
+        player.Burn_duration = 2;
+    }
+    else{
+        if(enemy.karma_active){
+            final_damage = enemy.Damage * enemy.Damage_multiplier - enemy.Defense;
+            std::cout << "Buldozer se zautočil sám na sebe díky karmě a dal si " << final_damage << " poškození\n";
+            enemy.HP -= final_damage;
+            enemy.karma_active = false;
+        }
+        final_damage = enemy.Damage * enemy.Damage_multiplier - player.Defense;
+        std::cout << "Buldozer zvolil basic útok a kopl tě za" << final_damage << " poškození.\n";
+        player.HP -= final_damage;
     }
     final_damage = 0;
 }
@@ -273,4 +274,171 @@ void quizler_turn(Player &player, Enemy &enemy, std::vector<question> &questions
         player.HP -= enemy.Damage;
     }
     questions.erase(questions.begin() + random);
+}
+
+void BOB_turn(Player &player, Enemy &enemy){
+    int ability = rand() % 10;
+    int final_damage = 0;
+    if(ability >= 9 && enemy.HP < enemy.Max_HP && !enemy.karma_active){
+        std::cout << "OKEEEJ tenhle fight začíná být zajimávý BOB si dal full heal\n";
+        enemy.HP = enemy.Max_HP;
+    }
+    else if(ability >= 9 && player.HP < player.Max_HP && enemy.karma_active){
+        std::cout << "Ty máš takový štěstí, že to snad není ani možné.\n";
+        std::cout << "BOB se pokusil si dát full heal ale díky karmě dostáváš full heal ty!!!\n";
+        player.HP = player.Max_HP;
+        enemy.karma_active = false;
+    }
+    else if(ability >= 8){
+        if(enemy.karma_active){
+            final_damage = enemy.Damage * enemy.Damage_multiplier - enemy.Defense;
+            std::cout << "BOB se zautočil sám na sebe a dal si " << final_damage << " poškození\n";
+            enemy.HP -= final_damage;
+            enemy.karma_active = false;
+            enemy.stun_duration++;
+            return;
+        }
+        std::cout << "No nííc ty končíš kámo, Bob si na toto kolo upgradnul svojí sekeru dal ti docela bombu\n";
+        player.stun_duration = 1;
+        if(player.Dodge >= 1){
+            final_damage = (enemy.Damage - 10) * enemy.Damage_multiplier - player.Defense;
+            std::cout << "Naštěstí máš vylepčený dodge na úrovni " << player.Dodge << '\n';
+            std::cout << "Normálně by tě trefil ale naštestí si to dodgenul takže se BOB trefil do země ale stejně tě zemětřesení dostalo na zem a jedno kolo nemůžeš útočit\n";
+            std::cout << "Stejně ses bouchl do hlavy takže dostáváš " << final_damage << " poškození\n";
+            player.HP -= final_damage;
+            return;
+        }
+        final_damage = (enemy.Damage + 10) * enemy.Damage_multiplier - player.Defense;
+        std::cout << "tohle nekončí, ještě dostanš stun\n";
+        std::cout << "sis myslel že to je konec ? jakoby ne páč nemáš vyupgraděný dodge takže tě BOB trefil sekerou a dal ti " << final_damage << " poškození\n";
+        player.HP -= final_damage;
+    }
+    else if(ability < 8 && ability >= 4){
+        if(enemy.karma_active){
+            final_damage = (enemy.Damage + 15) * enemy.Damage_multiplier - enemy.Defense;
+            std::cout << "Původně si měl dostat bídu ale naštestí si dal karmu\n";
+            std::cout << "BOB se zautočil sám na sebe a dal si " << final_damage << " poškození\n";
+            enemy.HP -= final_damage;
+            enemy.karma_active = false;
+            return;
+        }
+        final_damage = (enemy.Damage + 15) * enemy.Damage_multiplier - player.Defense;
+        std::cout << "No jo no bohužel BOB se rozhodl že dnes dostaneš bídu.\n";
+        std::cout << "Bohužel dostaváš critical hit a dostáváš " << final_damage << " poškození\n";
+        player.HP -= final_damage;
+    }
+    else{
+        if(enemy.karma_active){
+            final_damage = enemy.Damage * enemy.Damage_multiplier - enemy.Defense;
+            std::cout << "BOB se zautočil sám na sebe a dal si " << final_damage << " poškození\n";
+            enemy.HP -= final_damage;
+            enemy.karma_active = false;
+            return;
+        }
+        final_damage = enemy.Damage * enemy.Damage_multiplier - player.Defense;
+        std::cout << "BOB vytasil svojí pálku a nahulil ti za " << final_damage << " poškození (nic speciálního LOL)\n";
+        player.HP -= final_damage;
+    }
+}
+
+void Chief_turn(Player &player, Enemy &enemy){
+    int ability = rand() % 10;
+    int final_damage = 0;
+
+    if(ability >= 9 && !enemy.is_upgraded && !enemy.karma_active){
+        std::cout << "No jo no si prostě cooked chief si. upgradnul jeho spearu a nyní bude dávat větší poškození\n";
+        enemy.Damage += 10;
+        enemy.is_upgraded = true;
+        return;
+    }
+    else if(ability >= 9 &&  enemy.karma_active && !player.is_upgraded){
+        std::cout << "OOOO tohle začíná být zajimavé normalně by se Chief upgradnul ale vzhledem k aktivované karmě se věci obracejí a zvyšujeme ti poškození o 10\n";
+        player.Damage += 10;
+        enemy.karma_active = false;
+        player.is_upgraded = true;
+        return;
+    }
+    else if(ability >= 8 && player.Gold > 10){
+        if(enemy.karma_active){
+            std::cout << "Chief ti chtěl ukrást peníze ale pro tvoje štěstí máš zaplou karmu takže nedostaneš poděl\n";
+            std::cout << "Ale dostaneš goldy :D\n";
+            std::cout << "Dostáváš " << player.Gold / 3 << " goldů\n";
+            player.Gold += player.Gold / 3;
+            final_damage = (enemy.Damage + 10) * enemy.Damage_multiplier - enemy.Defense;
+            std::cout << "Chief se zautočil sám na sebe a dal si " << final_damage << " poškození\n";
+            enemy.HP -= final_damage;
+            enemy.karma_active = false;
+            return;
+        }
+        std::cout << "Finanční úřad je tu :D aktuálně máš " << player.Gold << " goldů a Chief ti ukradne " << player.Gold / 3 << " goldů\n";
+        if(player.Gold > 50){
+            final_damage = (enemy.Damage + 10) * enemy.Damage_multiplier - player.Defense;
+            std::cout << "Ale tady je někdo lovatý, takžéé dostaneš i větší poškození celkem " << final_damage << " poškození\n";
+            std::cout << "Dostáváš " << final_damage << " poškození\n";
+        }
+        else{
+            final_damage = (enemy.Damage - 10) * enemy.Damage_multiplier - player.Defense;
+            std::cout << "Jsi chudá krysa takžéé dostaneš jenom " << final_damage << " poškození\n";
+        }
+        player.HP -= final_damage;
+        player.Gold -= player.Gold / 3;
+    }
+    else if(ability >= 7){
+        if(enemy.karma_active){
+            std::cout << "Chief ti chtěl ukrást manu ale pro tvoje štěstí máš zaplou karmu takze dostáváš full manu :)\n";
+            player.Mana = player.Max_Mana;
+            enemy.karma_active = false;
+            return;
+        }
+        std::cout << "No níc bohužel ti Chief ukradl 50% tvé aktuální many\n";
+        if(player.Mana > 30){
+            final_damage = (enemy.Damage - 5) * enemy.Damage_multiplier - player.Defense;
+            std::cout << "Vzheldem k tomu že si u sebe mě hodně many tak dostaneš i větší poškození celkem " << final_damage << " poškození\n";
+        }
+        else{
+            final_damage = (enemy.Damage - 10) * enemy.Damage_multiplier - player.Defense;
+            std::cout << "Vzhledem k tomu že si u sebe nemáš moc many tak dostaneš menší poškození celkem " << final_damage << " poškození\n";
+        }
+        player.Mana /= 2;
+        player.HP -= final_damage;
+        std::cout << "Teď máš " << player.Mana << " many\n";
+    }
+    else if(ability >= 5){
+        if(enemy.karma_active){
+            final_damage = (enemy.Damage + 5) * enemy.Damage_multiplier - enemy.Defense;
+            std::cout << "Chief se zautočil sám na sebe a dal si " << final_damage << " poškození\n";
+            enemy.HP -= final_damage;
+            enemy.karma_active = false;
+            return;
+        }
+        final_damage = (enemy.Damage + 5) * enemy.Damage_multiplier - player.Defense;
+        std::cout << "Chief ti dal critical hit a dostaneš " << final_damage << " poškození\n";
+        player.HP -= final_damage;
+    }
+    else if(ability >= 4 && player.Burn_duration == 0){
+        if(enemy.karma_active){
+            final_damage = (enemy.Damage + 5) * enemy.Damage_multiplier - enemy.Defense;
+            std::cout << "Chief se zautočil sám na sebe a dal si " << final_damage << " poškození\n";
+            enemy.HP -= final_damage;
+            enemy.karma_active = false;
+            return;
+        }
+        final_damage = (enemy.Damage + 5) * enemy.Damage_multiplier - player.Defense;
+        std::cout << "Chief si zapálil svojí spearu a bodnul tě za " << final_damage << " poškození\n";
+        std::cout << "Po dobu 2 kol budeš hořet a dostávat 5 poškození\n";
+        player.HP -= final_damage;
+        player.Burn_duration = 2;
+    }
+    else{
+        if(enemy.karma_active){
+            final_damage = enemy.Damage * enemy.Damage_multiplier - enemy.Defense;
+            std::cout << "Chief se zautočil sám na sebe a dal si " << final_damage << " poškození\n";
+            enemy.HP -= final_damage;
+            enemy.karma_active = false;
+            return;
+        }
+        final_damage = enemy.Damage * enemy.Damage_multiplier - player.Defense;   
+        std::cout << "Chief tě klasicky bodnul spearou a dal ti " << final_damage << " poškození\n";
+        player.HP -= final_damage;
+    }
 }

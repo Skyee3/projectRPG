@@ -226,9 +226,9 @@ void Gandalf_atack(Player &player, Enemy &enemy, int choice_ability){
             enemy.HP -= final_damage;
             break;
         case 2:
+            std::cout << "GAMBAAAAAAAAAAAAA (absolutní gigachad si po dnešku za zvolení tohoto útoku :D)\n";
             final_damage = gamba_Gandalf(player, enemy, final_damage);
             final_damage = final_damage * player.damage_multiplier - enemy.Defense;
-            std::cout << "GAMBAAAAAAAAAAAAA (absolutní gigachad si po dnešku za zvolení tohoto útoku :D)\n";
             enemy.HP -= final_damage;
             break;
         case 3:

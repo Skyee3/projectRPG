@@ -19,6 +19,8 @@ void Show_start_menu(){
         case 3:
             break;
         default:
+            std::cout << "Achjoo\n";
+            exit(0);
             break;
     }
     
