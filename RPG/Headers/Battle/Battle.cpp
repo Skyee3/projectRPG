@@ -68,7 +68,7 @@ void Battle_two_enemies(Player &player, Enemy &enemy1, Enemy &enemy2, std::vecto
         std::cout << "Vyberte proti kterému enemy chcete teď bojovat (1 - " << enemy1.name << ", 2 - " << enemy2.name << ")\n";
         int choice;
         do{
-            Input_checker("Váš výběr", choice, 1, 2);
+            Input_checker("Váš výběr: ", choice, 1, 2);
             if(choice == 1 && enemy1.HP <= 0){
                 std::cout << "Tenhle už je mrtvej bro... vyber č.2\n";
             }
@@ -94,8 +94,77 @@ void Battle_two_enemies(Player &player, Enemy &enemy1, Enemy &enemy2, std::vecto
             After_enemy_turn(player, enemy2);
         }
         if(enemy1.HP <= 0 && enemy2.HP <= 0) break;
-
     }
+    std::cout << "vyhra/oproghralOL\n";
+}
+
+void Battle_three_enemies(Player &player, Enemy &enemy1, Enemy &enemy2, Enemy &enemy3, std::vector<question> &questions){
+    while(player.HP > 0 && (enemy1.HP > 0 || enemy2.HP > 0 || enemy3.HP > 0)){
+        Before_player_turn(player, enemy1);
+        if (!player.is_alive()) break;
+        if(player.is_stunned()){
+            if(enemy1.HP > 0){
+                if(Before_enemy_turn(player, enemy1)) Enemy_turn(player, enemy1, questions);
+                After_enemy_turn(player, enemy1);
+            }
+            if(enemy1.HP <= 0 && enemy2.HP <= 0 && enemy3.HP <= 0) break;
+            if(player.HP <= 0) break;
+            if(enemy2.HP > 0){
+                if(Before_enemy_turn(player, enemy2)) Enemy_turn(player, enemy2, questions);
+                After_enemy_turn(player, enemy2);
+            }
+            if(enemy1.HP <= 0 && enemy2.HP <= 0 && enemy3.HP <= 0) break;
+            if(enemy3.HP > 0){
+                if(Before_enemy_turn(player, enemy3)) Enemy_turn(player, enemy3, questions);
+                After_enemy_turn(player, enemy3);
+            }
+            if(enemy1.HP <= 0 && enemy2.HP <= 0 && enemy3.HP <= 0) break;
+            continue;
+        }
+        if(!player.is_alive()) break;
+        std::cout << "Vyberte proti kterému enemy chcete teď bojovat (1 - " << enemy1.name << ", 2 - " << enemy2.name << ", 3 - " << enemy3.name << ")\n";
+        int choice;
+        do{
+            Input_checker("Váš výběr: ", choice, 1, 3);
+            if(choice == 1 && enemy1.HP <= 0){
+                std::cout << "Tenhle už je mrtvej bro... Vyber jiného\n";
+            }
+            else if(choice == 2 && enemy2.HP <= 0){
+                std::cout << "Tenhle už je mrtvej bro... Vyber jiného\n";
+            }
+            else if(choice == 3 && enemy3.HP <= 0){
+                std::cout << "Tenhle už je mrtvej bro... Vyber jiného\n";
+            }
+            else break;
+        }while(true);
+        if(choice == 1){
+            Player_turn(player, enemy1);
+        }
+        else if(choice == 2){
+            Player_turn(player, enemy2);
+        }
+        else{
+            Player_turn(player, enemy3);
+        }
+        if(enemy1.HP <= 0 && enemy2.HP <= 0 && enemy3.HP <= 0) break;
+        if(enemy1.HP > 0){
+            if(Before_enemy_turn(player, enemy1)) Enemy_turn(player, enemy1, questions);
+            After_enemy_turn(player, enemy1);
+        }
+        if(!player.is_alive()) break;
+        if(enemy2.HP > 0){
+            if(Before_enemy_turn(player, enemy2)) Enemy_turn(player, enemy2, questions);
+            After_enemy_turn(player, enemy2);
+        }
+        if(!player.is_alive()) break;
+        if(enemy1.HP <= 0 && enemy2.HP <= 0 && enemy3.HP <= 0) break;
+        if(enemy3.HP > 0){
+            if(Before_enemy_turn(player, enemy3)) Enemy_turn(player, enemy3, questions);
+            After_enemy_turn(player, enemy3);
+        }
+        if(!player.is_alive()) break;
+    }
+    std::cout << "vyhra/oproghralOL\n";
 }
 
 void Before_player_turn(Player &player, Enemy &enemy){
