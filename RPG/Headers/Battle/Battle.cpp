@@ -23,7 +23,7 @@ void Battle(Player &player, Enemy &enemy, std::vector<question> &questions){
         if(!enemy.is_alive() || !player.is_alive()) break;
     }
     while(player.HP > 0 && enemy.HP > 0 && enemy.Type != 4){
-        Before_player_turn(player, enemy);
+        Before_player_turn(player);
         if(player.skip_turn || player.is_stunned()){
             if(player.is_stunned()){
                 Before_enemy_turn(player, enemy);
@@ -48,7 +48,7 @@ void Battle(Player &player, Enemy &enemy, std::vector<question> &questions){
 
 void Battle_two_enemies(Player &player, Enemy &enemy1, Enemy &enemy2, std::vector<question> &questions){
     while(player.HP > 0 && (enemy1.HP > 0 || enemy2.HP > 0)){
-        Before_player_turn(player, enemy1);
+        Before_player_turn(player);
         if(player.is_stunned()){
             if (!player.is_alive()) break;
             if(enemy1.HP > 0){
@@ -56,7 +56,7 @@ void Battle_two_enemies(Player &player, Enemy &enemy1, Enemy &enemy2, std::vecto
                 After_enemy_turn(player, enemy1);
             }
             if(enemy1.HP <= 0 && enemy2.HP <= 0) break;
-            if(player.HP <= 0) break;
+            if(!player.is_alive()) break;
             if(enemy2.HP > 0){
                 if(Before_enemy_turn(player, enemy2)) Enemy_turn(player, enemy2, questions);
                 After_enemy_turn(player, enemy2);
@@ -83,12 +83,29 @@ void Battle_two_enemies(Player &player, Enemy &enemy1, Enemy &enemy2, std::vecto
         else{
             Player_turn(player, enemy2);
         }
+        if(player.is_sprcha_active){
+            if(enemy1.HP > 0){
+                int random = rand() % 4 + 3;
+                int dmg1 = 0;
+                dmg1 = ((player.Damage * player.damage_multiplier * 0.75) * random)  - enemy1.Defense;
+                std::cout << "Do " << enemy1.name << "a jsi trefil " << random << " šípů takže dáváš " << dmg1 << "Poškození\n";
+                enemy1.HP -= dmg1;
+            }
+            if(enemy2.HP > 0){
+                int random2 = rand() % 4 + 3;
+                int dmg2 = 0;
+                dmg2 = ((player.Damage * player.damage_multiplier * 0.75) * random2)  - enemy2.Defense;
+                std::cout << "Do " << enemy2.name << "a jsi trefil " << random2 << " šípů takže dáváš " << dmg2 << "Poškození\n";
+                enemy2.HP -= dmg2;
+            }
+            player.is_sprcha_active = false;
+        }
         if(enemy1.HP <= 0 && enemy2.HP <= 0) break;
         if(enemy1.HP > 0){
             if(Before_enemy_turn(player, enemy1)) Enemy_turn(player, enemy1, questions);
             After_enemy_turn(player, enemy1);
         }
-        if(player.HP <= 0) break;
+        if(!player.is_alive()) break;
         if(enemy2.HP > 0){
             if(Before_enemy_turn(player, enemy2)) Enemy_turn(player, enemy2, questions);
             After_enemy_turn(player, enemy2);
@@ -100,7 +117,7 @@ void Battle_two_enemies(Player &player, Enemy &enemy1, Enemy &enemy2, std::vecto
 
 void Battle_three_enemies(Player &player, Enemy &enemy1, Enemy &enemy2, Enemy &enemy3, std::vector<question> &questions){
     while(player.HP > 0 && (enemy1.HP > 0 || enemy2.HP > 0 || enemy3.HP > 0)){
-        Before_player_turn(player, enemy1);
+        Before_player_turn(player);
         if (!player.is_alive()) break;
         if(player.is_stunned()){
             if(enemy1.HP > 0){
@@ -146,6 +163,30 @@ void Battle_three_enemies(Player &player, Enemy &enemy1, Enemy &enemy2, Enemy &e
         else{
             Player_turn(player, enemy3);
         }
+        if(player.is_sprcha_active){
+            if(enemy1.HP > 0){
+                int random = rand() % 4 + 3;
+                int dmg1 = 0;
+                dmg1 = ((player.Damage * player.damage_multiplier * 0.75) * random)  - enemy1.Defense;
+                std::cout << "Do " << enemy1.name << "a jsi trefil " << random << " šípů takže dáváš " << dmg1 << "Poškození\n";
+                enemy1.HP -= dmg1;
+            }
+            if(enemy2.HP > 0){
+                int random2 = rand() % 4 + 3;
+                int dmg2 = 0;
+                dmg2 = ((player.Damage * player.damage_multiplier * 0.75) * random2)  - enemy2.Defense;
+                std::cout << "Do " << enemy2.name << "a jsi trefil " << random2 << " šípů takže dáváš " << dmg2 << "Poškození\n";
+                enemy2.HP -= dmg2;
+            }
+            if(enemy3.HP > 0){
+                int random3 = rand() % 4 + 3;
+                int dmg3 = 0;
+                dmg3 = ((player.Damage * player.damage_multiplier * 0.75) * random3)  - enemy3.Defense;
+                std::cout << "Do " << enemy3.name << "a jsi trefil " << random3 << " šípů takže dáváš " << dmg3 << "Poškození\n";
+                enemy3.HP -= dmg3;
+            }
+            player.is_sprcha_active = false;
+        }
         if(enemy1.HP <= 0 && enemy2.HP <= 0 && enemy3.HP <= 0) break;
         if(enemy1.HP > 0){
             if(Before_enemy_turn(player, enemy1)) Enemy_turn(player, enemy1, questions);
@@ -167,7 +208,7 @@ void Battle_three_enemies(Player &player, Enemy &enemy1, Enemy &enemy2, Enemy &e
     std::cout << "vyhra/oproghralOL\n";
 }
 
-void Before_player_turn(Player &player, Enemy &enemy){
+void Before_player_turn(Player &player){
     player.damage_multiplier = 1.0;
     if(player.jedinec_buff_duration > 0) {
         player.damage_multiplier *= 1.2;

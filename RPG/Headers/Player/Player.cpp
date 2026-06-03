@@ -88,7 +88,7 @@ void Show_class_abilities(Player &player){
             std::cout << " 3. Šípová sprcha (Mana: " << player.mana_cost[2] << ")\n";
             std::cout << "   Vystřelíš salvu šípů na všechny nepřítele\n";
             std::cout << "   Zasáhne více nepřátel najednou\n";
-            std::cout << "   Každý zásah dává 50% poškození\n\n";
+            std::cout << "   Každý zásah dává 75% poškození\n\n";
             break;
         case 3:
             std::cout << "Absolutní Gambler (nízké HP ale gamba)\n";
@@ -202,12 +202,10 @@ void Ranger_atack(Player &player, Enemy &enemy, int choice_ability){
             enemy.poison_duration = 3;
             break;
         case 3:{
-            int random = rand() % 4 + 3; 
-            final_damage = (player.Damage * 0.50 * player.damage_multiplier * random) - enemy.Defense;
             std::cout << "Zvolili jste šípovou sprchu\n";
             std::cout << "Vystřelili jste salvu šípů na všechny nepřítele\n";
-            std::cout << "Každý zásah dává 50% poškození\n";
-            enemy.HP -= final_damage;
+            std::cout << "Každý zásah dává 75% poškození\n";
+            player.is_sprcha_active = true;
             break;
         }
         default:
@@ -312,3 +310,5 @@ bool check_dodge_player(Player &player){
         return false;
     }
 }
+
+

@@ -27,6 +27,7 @@ struct Player{
     int stun_duration = 0;
     bool skip_turn = false;
     bool is_upgraded = false;
+    bool is_sprcha_active = false;
 
     int cvv = 0;
     int number_of_cart = 0;
@@ -75,9 +76,10 @@ struct Player{
         jedinec_cooldown = 0;
         Burn_duration = 0;
         buldozer_debuff_duration = 0;
-        skip_turn = false;
         stun_duration = 0;
+        skip_turn = false;
         is_upgraded = false;
+        is_sprcha_active = false;
     }   
 
     void Show_playerstats(){
