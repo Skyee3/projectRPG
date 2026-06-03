@@ -208,6 +208,43 @@ void Battle_three_enemies(Player &player, Enemy &enemy1, Enemy &enemy2, Enemy &e
     std::cout << "vyhra/oproghralOL\n";
 }
 
+void Final_battle(Player &player, Enemy &boss){
+    int hit_chance = 50;
+    int random_hit = 0;
+    int critical_chance = 20;
+    int heal_chance = 1;
+    while(true){
+        Before_player_turn(player);
+        if(!player.is_alive()) break;
+        random_hit = rand() % 100;
+        if(random_hit < hit_chance){
+            std::cout << "Gamba vítězí a máš možnost útočitl\n";
+            std::cout << "Šance na hit se ti zmenšíla\n";
+            Player_turn(player, boss);
+            hit_chance -= 10;
+            if(hit_chance < 0) hit_chance = 0;
+        }
+        else{
+            std::cout << "Bohužel enemáka si minul takže toto kolo skipuješ\n";
+            std::cout << "příší kolo budeš ale mít větší šanci na zásah\n";
+            hit_chance += 10;
+            if(hit_chance > 100) hit_chance = 100;
+        }
+        if(boss.HP < 0) break;
+        if(!Before_enemy_turn(player, boss)){
+            continue;
+        }
+        if(boss.HP < boss.Max_HP / 20){
+            std::cout << "boss má od teď vyší šanci na heal, takže bacha\n";
+            heal_chance = 50;
+        }
+        else heal_chance = 1;
+        Boss_turn(player, boss, critical_chance, heal_chance);
+        if(!player.is_alive()) break;
+    }
+
+}
+
 void Before_player_turn(Player &player){
     player.damage_multiplier = 1.0;
     if(player.jedinec_buff_duration > 0) {

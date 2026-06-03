@@ -28,7 +28,7 @@ int main(){
     
     Enemy enemy;
     while(true){
-        if(enemy.counter == 4){
+        if(enemy.counter % 7 && enemy.counter != 0){
             Enemy enemy1;
             Enemy enemy2;
             do{
@@ -42,7 +42,7 @@ int main(){
             enemy2.reset_stats();
             player.reset_stats();
         }
-        else if(enemy.counter == 0){
+        else if(enemy.counter % 12 == 0 && enemy.counter != 0){
             Enemy enemy1;
             Enemy enemy2;
             Enemy enemy3;
@@ -59,6 +59,24 @@ int main(){
             enemy2.reset_stats();
             enemy3.reset_stats();
             player.reset_stats();
+        }
+        else if(enemy.counter == 15){
+            Enemy boss;
+            boss.set_enemy("Shuffler", 7, 350, 30, 10, 0);
+            std::cout << "No jo čeká tě finální boss jménem: Shuffler\n";
+            std::cout << "takže se dobře připrav a užívej\n";
+            Final_battle(player, boss);
+            if(player.HP <= 0){
+                Dead_screen(player);
+                break;
+            }
+            int choice;
+            std::cout << "Gratuluji, porazil si finálního bosse. Chceš zapnout endless mód ? (1 - ano, 0 - ne)\n";
+            Input_checker("Výběr: ", choice, 0, 1);
+            if(choice == 0){
+                std::cout << "Tak zas příště\n";
+            }
+            else std::cout << "Užívej endless mód\n";
         }
         else{
             Choose_enemy(enemy);

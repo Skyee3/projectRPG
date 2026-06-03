@@ -441,3 +441,30 @@ void Chief_turn(Player &player, Enemy &enemy){
         player.HP -= final_damage;
     }
 }
+
+void Boss_turn(Player &player, Enemy &boss, int &critical_chance, int &heal_chance){
+    int random = rand() % 100;
+    int random2 = rand() % 100;
+    int final_damage;
+    if(random < critical_chance){
+        final_damage = (boss.Damage * boss.Damage_multiplier * 2) - player.Defense;
+        std::cout << "Shuffler ti udělil kritický zásah a dal ti 2x větší damage takže: " << final_damage << "poškození\n";
+        player.HP -= final_damage;
+        std::cout << "Zároveň se mu znížíla šance na kritický zásah\n";
+        critical_chance -=5;
+        if(critical_chance < 0) critical_chance = 0;
+    }
+    else{
+        final_damage = (boss.Damage * boss.Damage_multiplier) - player.Defense;
+        std::cout << "Shuffler použil normální útok a dostáváš " << final_damage << " poškození\n";
+        std::cout << "Zároveň se zvyšuje šance na kritický zásah\n";
+        player.HP -= final_damage;
+        critical_chance += 15;
+        if(critical_chance > 100) critical_chance = 100;
+    }
+    if(heal_chance > random2){
+        std::cout << "POZOOOR Shuffler jako správný gambler si vygamblil heal. Dostává 100% HP\n";
+        boss.HP = boss.Max_HP;
+    }
+    
+}

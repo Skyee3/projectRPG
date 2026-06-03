@@ -76,3 +76,4 @@ void bohnican_turn(Player &player, Enemy &enemy);
 void quizler_turn(Player &player, Enemy &enemy, std::vector<question> &questions);
 void BOB_turn(Player &player, Enemy &enemy);
 void Chief_turn(Player &player, Enemy &enemy);
+void Boss_turn(Player &player, Enemy &boss, int &critical_chance, int &heal_chance);
