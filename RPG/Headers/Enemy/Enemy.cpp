@@ -119,7 +119,7 @@ void Buldozer_turn(Player &player, Enemy &enemy){
         final_damage = (enemy.Damage - 2) * enemy.Damage_multiplier - player.Defense;
         std::cout << "Buldozer ti napálil a dal ti " << final_damage << " poškození a oslabil tě na další kolo o 15%\n";
         player.HP -= final_damage; 
-        player.buldozer_debuff_duration = 1;
+        player.buldozer_debuff_duration++;
     }
     else if(ability == 1 && player.Burn_duration == 0){
         if(enemy.karma_active){
@@ -131,8 +131,11 @@ void Buldozer_turn(Player &player, Enemy &enemy){
         final_damage = (enemy.Damage + 5) * enemy.Damage_multiplier - player.Defense;
         std::cout << "Buldozer zvolil útok ohňem a dal ti " << final_damage << " poškození.\n";
         std::cout << "Po dobu 2 kol budeš hořet a dostavat 5 poškození navíc.\n";
+        if(player.Burn_duration > 0){
+            std::cout << "Vzhledem k tomu že už hoříš tak budeš hořet o 2 kola déle\n";
+        }
         player.HP -= final_damage;
-        player.Burn_duration = 2;
+        player.Burn_duration += 2;
     }
     else{
         if(enemy.karma_active){
@@ -142,7 +145,7 @@ void Buldozer_turn(Player &player, Enemy &enemy){
             enemy.karma_active = false;
         }
         final_damage = enemy.Damage * enemy.Damage_multiplier - player.Defense;
-        std::cout << "Buldozer zvolil basic útok a kopl tě za" << final_damage << " poškození.\n";
+        std::cout << "Buldozer zvolil basic útok a kopl tě za " << final_damage << " poškození.\n";
         player.HP -= final_damage;
     }
     final_damage = 0;
@@ -150,8 +153,8 @@ void Buldozer_turn(Player &player, Enemy &enemy){
 
 void kostik_turn(Player &player, Enemy &enemy){
     int final_damage;
-    int ability = rand() % 13;
-    if(ability >= 12){
+    int ability = rand() % 10;
+    if(ability >= 9){
         int arrow_count = check_dodge_kostik(player);
         if(enemy.karma_active){
             final_damage = (enemy.Damage * arrow_count * 0.50 * enemy.Damage_multiplier) - enemy.Defense;
@@ -298,7 +301,7 @@ void BOB_turn(Player &player, Enemy &enemy){
             return;
         }
         std::cout << "No nííc ty končíš kámo, Bob si na toto kolo upgradnul svojí sekeru dal ti docela bombu\n";
-        player.stun_duration = 1;
+        player.stun_duration += 1;
         if(player.Dodge >= 1){
             final_damage = (enemy.Damage - 10) * enemy.Damage_multiplier - player.Defense;
             std::cout << "Naštěstí máš vylepčený dodge na úrovni " << player.Dodge << '\n';
@@ -467,4 +470,19 @@ void Boss_turn(Player &player, Enemy &boss, int &critical_chance, int &heal_chan
         boss.HP = boss.Max_HP;
     }
     
+}
+
+void check_gold_reward(Player &player, Enemy &enemy, int min, int max){
+    int random = rand() % 2;
+    int random2 = rand() % max + min;
+    if(random == 0){
+        std::cout << enemy.name << " měl u sebe " << random2 << " goldů a všechny jsou nyní tvoje\n";
+        player.Gold += random2;
+    }
+    else if(enemy.is_miniboss){
+        std::cout << "Vzheldem k tomu že tvůj enemy byl miniboss tak máš 100% na goldy\n";
+        std::cout << enemy.name << " měl u sebe " << random2 << " goldů a všechny jsou nyní tvoje\n";
+        player.Gold += random2;
+    }
+    else std::cout << enemy.name << " bohužel u sebe neměl žádné goldy\n";
 }

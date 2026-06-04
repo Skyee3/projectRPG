@@ -28,7 +28,7 @@ int main(){
     
     Enemy enemy;
     while(true){
-        if(enemy.counter % 7 && enemy.counter != 0){
+        if(enemy.counter % 7 == 0 && enemy.counter != 0){
             Enemy enemy1;
             Enemy enemy2;
             do{
@@ -37,7 +37,12 @@ int main(){
             }while(enemy1.name == enemy2.name || enemy2.Type == 4 || enemy1.Type == 4);
             std::cout << "Tohle nebude normální fight teď budeš bojovat proti " << enemy1.name << " a " << enemy2.name << " najednou\n";
             Battle_two_enemies(player, enemy1, enemy2, questions);
-            enemy.counter++;
+            if(!player.is_alive()){
+                Dead_screen(player);
+            }
+            check_gold_reward(player, enemy1, 25, 25);
+            check_gold_reward(player, enemy2, 25, 25);
+            count_level(player, 13, 17);
             enemy1.reset_stats();
             enemy2.reset_stats();
             player.reset_stats();
@@ -54,7 +59,13 @@ int main(){
             std::cout << "Tohle bude zábavička :D jdeš proti třem enemákům na jednou\n";
             std::cout << "Bojuješ proti následujícím enemákům: " << enemy1.name << ", " << enemy2.name << ", " << enemy3.name << "\n";
             Battle_three_enemies(player, enemy1, enemy2, enemy3, questions);
-            enemy.counter++;
+            if(!player.is_alive()){
+                Dead_screen(player);
+            }
+            check_gold_reward(player, enemy1, 25, 25);
+            check_gold_reward(player, enemy2, 25, 25);
+            check_gold_reward(player, enemy3, 25, 25);
+            count_level(player, 16, 20);
             enemy1.reset_stats();
             enemy2.reset_stats();
             enemy3.reset_stats();
@@ -70,13 +81,16 @@ int main(){
                 Dead_screen(player);
                 break;
             }
+            std::cout << "Získáváš 100 goldů za final bosse\n";
+            player.Gold += 100;
             int choice;
             std::cout << "Gratuluji, porazil si finálního bosse. Chceš zapnout endless mód ? (1 - ano, 0 - ne)\n";
             Input_checker("Výběr: ", choice, 0, 1);
             if(choice == 0){
                 std::cout << "Tak zas příště\n";
+                return 0;
             }
-            else std::cout << "Užívej endless mód\n";
+            std::cout << "Užívej endless mód\n";
         }
         else{
             Choose_enemy(enemy);
@@ -85,11 +99,14 @@ int main(){
                 Dead_screen(player);
                 break;
             }
+            check_gold_reward(player, enemy, 20, 30);
             player.reset_stats();
             enemy.reset_stats();
-            if(enemy.counter % 2 == 0){
-                Village_choice(player);
-            }
+            
+        }
+        enemy.counter++;
+        if(enemy.counter % 2 == 0){
+            Village_choice(player);
         }
     }
     return 0;
