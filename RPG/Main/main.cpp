@@ -71,7 +71,7 @@ int main(){
             enemy3.reset_stats();
             player.reset_stats();
         }
-        else if(enemy.counter == 0){
+        else if(enemy.counter == 15){
             Enemy boss;
             boss.set_enemy("Shuffler", 7, 350, 30, 10, 0);
             std::cout << "No jo čeká tě finální boss jménem: Shuffler (absolutní gamber :D)\n";

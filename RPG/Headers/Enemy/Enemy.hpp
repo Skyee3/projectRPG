@@ -48,8 +48,11 @@ struct Enemy{
         is_upgraded = false;
     }
 
-    //pak smazat
+
     void show_all_enemy_stats_testing(){
+        std::cout << "========================================\n";
+        std::cout << "             STATUS " << name << "a\n";
+        std::cout << "========================================\n";
         std::cout << "Name: " << name << "\n";
         std::cout << "Type: " << Type << "\n";
         std::cout << "HP: " << HP << "\n";

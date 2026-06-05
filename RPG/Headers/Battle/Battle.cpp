@@ -33,6 +33,7 @@ void Battle(Player &player, Enemy &enemy, std::vector<question> &questions){
             continue;
         }
         Player_turn(player, enemy);
+        std::cout << "========================================\n\n";
         if(player.is_sprcha_active && player.is_alive()){
             int random = rand() % 4 + 3;
             int dmg1 = 0;
@@ -108,6 +109,9 @@ void Battle_two_enemies(Player &player, Enemy &enemy1, Enemy &enemy2, std::vecto
             }
             player.is_sprcha_active = false;
         }
+        std::cout << "========================================\n\n";
+        enemy1.show_all_enemy_stats_testing();
+        enemy2.show_all_enemy_stats_testing();
         if(enemy1.HP <= 0 && enemy2.HP <= 0) break;
         if(enemy1.HP > 0){
             if(Before_enemy_turn(player, enemy1)) Enemy_turn(player, enemy1, questions);
@@ -119,6 +123,7 @@ void Battle_two_enemies(Player &player, Enemy &enemy1, Enemy &enemy2, std::vecto
             After_enemy_turn(player, enemy2);
         }
         if(enemy1.HP <= 0 && enemy2.HP <= 0) break;
+        player.Show_Playerstats_short();
     }
 }
 
@@ -194,6 +199,9 @@ void Battle_three_enemies(Player &player, Enemy &enemy1, Enemy &enemy2, Enemy &e
             }
             player.is_sprcha_active = false;
         }
+        enemy1.show_all_enemy_stats_testing();
+        enemy2.show_all_enemy_stats_testing();
+        enemy3.show_all_enemy_stats_testing();
         if(enemy1.HP <= 0 && enemy2.HP <= 0 && enemy3.HP <= 0) break;
         if(enemy1.HP > 0){
             if(Before_enemy_turn(player, enemy1)) Enemy_turn(player, enemy1, questions);
@@ -211,6 +219,7 @@ void Battle_three_enemies(Player &player, Enemy &enemy1, Enemy &enemy2, Enemy &e
             After_enemy_turn(player, enemy3);
         }
         if(!player.is_alive()) break;
+        player.Show_Playerstats_short();
     }
 }
 
@@ -229,9 +238,8 @@ void Final_battle(Player &player, Enemy &boss){
     
             Boss_turn(player, boss, critical_chance, heal_chance);   
         }
-        if(!player.is_alive()) break; 
-
-
+        if(!player.is_alive()) break;
+        player.Show_Playerstats_short();
         Before_player_turn(player);
         if(!player.is_alive()) break;
 

@@ -451,7 +451,7 @@ void Boss_turn(Player &player, Enemy &boss, int &critical_chance, int &heal_chan
     int final_damage;
     std::cout << "\n========================================\n";
     std::cout << "             TAH " << boss.name << "a\n";
-    std::cout << "========================================\n";
+    std::cout << "========================================\n\n";
     if(random < critical_chance){
         if(boss.karma_active){
             std::cout << "Shufler ti chtěl udělit kritický zásah, ale vzhledem k aktivované karmě si dal 2x větší poškození\n";

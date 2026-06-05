@@ -5,7 +5,7 @@
 
 void Village_choice(Player &player){
     int choice;
-    int Village_price[5] = {10, 25, 20, 50, 50}; // nasledne upravit hodno
+    int Village_price[5] = {10, 25, 20, 50, 50}; 
     bool Village_loop = true;
     std::cout << R"(
     /---------------------------------------------\
@@ -69,17 +69,19 @@ void Village_Regen_HP(Player &player){
 }
 
 void Village_upgrade_max_HP(Player &player){
-    player.Max_HP+=5;
-    player.HP+=5;
+    player.Max_HP+=10;
+    player.HP+=10;
+    std::cout << "Nyní máte " << player.HP << "/" << player.Max_HP << " HP\n";
 }
 
 void Village_upgrade_max_MANA(Player &player){
-    player.Max_Mana+=5;
-    player.Mana+=5;
+    player.Max_Mana+=10;
+    player.Mana+=10;
+    std::cout << "Nyní máte " << player.HP << "/" << player.Max_HP << " HP\n";
 }
 
 void Village_upgrade_Atack(Player &player){
-    //dodělat
+    std::cout << "Nyní dáváte " << player.Damage << " Poškození\n";
 }
 
 void Village_upgrade_Ability(Player &player){
