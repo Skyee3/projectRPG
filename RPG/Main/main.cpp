@@ -71,16 +71,17 @@ int main(){
             enemy3.reset_stats();
             player.reset_stats();
         }
-        else if(enemy.counter == 15){
+        else if(enemy.counter == 0){
             Enemy boss;
             boss.set_enemy("Shuffler", 7, 350, 30, 10, 0);
-            std::cout << "No jo čeká tě finální boss jménem: Shuffler\n";
+            std::cout << "No jo čeká tě finální boss jménem: Shuffler (absolutní gamber :D)\n";
             std::cout << "takže se dobře připrav a užívej\n";
             Final_battle(player, boss);
             if(player.HP <= 0){
                 Dead_screen(player);
                 break;
             }
+            count_level(player, 15, 20);
             std::cout << "Získáváš 100 goldů za final bosse\n";
             player.Gold += 100;
             int choice;
@@ -99,6 +100,7 @@ int main(){
                 Dead_screen(player);
                 break;
             }
+            count_level(player, 5, 10);
             check_gold_reward(player, enemy, 20, 30);
             player.reset_stats();
             enemy.reset_stats();

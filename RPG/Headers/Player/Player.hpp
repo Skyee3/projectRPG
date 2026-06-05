@@ -134,3 +134,4 @@ int gamba_Gandalf(Player &player, Enemy &enemy, int final_damage);
 bool check_dodge_player(Player &player);
 void count_level(Player &player, int min, int max);
 void Choose_stat_upgrade(Player &player);
+void calculate_mana(Player &player, int m);

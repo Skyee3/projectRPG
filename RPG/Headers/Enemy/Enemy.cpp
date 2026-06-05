@@ -61,10 +61,10 @@ void Choose_enemy(Enemy &enemy){
     if(enemy.counter % 5 == 0 && enemy.counter != 0){
         int random2 = rand() % 2;
         if(random2 == 0){
-            enemy.set_enemy("BOB", 5, 150, 25, 15, true);
+            enemy.set_enemy("BOB", 5, 150, 20, 10, true);
         }
         else{
-            enemy.set_enemy("Chief", 6, 150, 25, 15, true);
+            enemy.set_enemy("Chief", 6, 150, 20, 10, true);
         }
         return;
     }
@@ -74,8 +74,8 @@ void Choose_enemy(Enemy &enemy){
         enemy.was_quizler = true;
     }
     else if(random < 4) enemy.set_enemy("Buldozer", 1, 50, 10, 5, 0);
-    else if(random < 7) enemy.set_enemy("Kostík", 2, 80, 15, 8, 0);
-    else enemy.set_enemy("Bohničan", 3, 120, 20, 10, 0);
+    else if(random < 8) enemy.set_enemy("Kostík", 2, 80, 15, 8, 0);
+    else enemy.set_enemy("Bohničan", 3, 100, 20, 10, 0);
 }
 
 void Enemy_turn(Player &player, Enemy &enemy, std::vector<question> &questions){
@@ -449,7 +449,17 @@ void Boss_turn(Player &player, Enemy &boss, int &critical_chance, int &heal_chan
     int random = rand() % 100;
     int random2 = rand() % 100;
     int final_damage;
+    std::cout << "\n========================================\n";
+    std::cout << "             TAH " << boss.name << "a\n";
+    std::cout << "========================================\n";
     if(random < critical_chance){
+        if(boss.karma_active){
+            std::cout << "Shufler ti chtěl udělit kritický zásah, ale vzhledem k aktivované karmě si dal 2x větší poškození\n";
+            final_damage = (boss.Damage * boss.Damage_multiplier * 2) - boss.Defense;
+            std::cout << "Shuffler si dal " << final_damage << " poškození\n";
+            boss.karma_active = false;
+            return;
+        }
         final_damage = (boss.Damage * boss.Damage_multiplier * 2) - player.Defense;
         std::cout << "Shuffler ti udělil kritický zásah a dal ti 2x větší damage takže: " << final_damage << "poškození\n";
         player.HP -= final_damage;
@@ -458,6 +468,13 @@ void Boss_turn(Player &player, Enemy &boss, int &critical_chance, int &heal_chan
         if(critical_chance < 0) critical_chance = 0;
     }
     else{
+        if(boss.karma_active){
+            std::cout << "Shufler ti chtěl dát normální útok, ale vzhledem k aktivované karmě si dal sám sobě poškození\n";
+            final_damage = (boss.Damage * boss.Damage_multiplier * 2) - boss.Defense;
+            std::cout << "Shuffler si dal " << final_damage << " poškození\n";
+            boss.karma_active = false;
+            return;
+        }
         final_damage = (boss.Damage * boss.Damage_multiplier) - player.Defense;
         std::cout << "Shuffler použil normální útok a dostáváš " << final_damage << " poškození\n";
         std::cout << "Zároveň se zvyšuje šance na kritický zásah\n";

@@ -16,15 +16,15 @@ void Class_choose(Player &player){
         Input_checker("Vaše volba: ", choice, 1, 3);
         switch(choice){
             case 1:
-                player.set_class_stats("Warrior", 1, 130, 40, 15, 0, 10);
-                player.set_mana_cost(0, 20, 35);
+                player.set_class_stats("Warrior", 1, 130, 40, 20, 0, 10); // class, ID, HP, mana, damage, dodge., defense
+                player.set_mana_cost(0, 15, 30);
                 break;
             case 2:
-                player.set_class_stats("Ranger", 2, 80, 40, 30, 1, 5);
+                player.set_class_stats("Ranger", 2, 100, 40, 25, 1, 5);
                 player.set_mana_cost(0, 20, 30);
                 break;
             case 3:
-                player.set_class_stats("Gandalf", 3, 50, 60, 10, 1, 15);
+                player.set_class_stats("Gandalf", 3, 90, 60, 15, 1, 10);
                 player.set_mana_cost(10, 20, 40);
                 break;
             default:
@@ -68,10 +68,10 @@ void Show_class_abilities(Player &player){
             std::cout << " 1. Útok mečem\n";
             std::cout << "   V základu " << player.Damage << " poškození\n";
             std::cout << " 2. Silný úder (Mana: " << player.mana_cost[1] << ")\n";
-            std::cout << "   V základu " << player.Damage - 2 << " poškození\n";
+            std::cout << "   V základu " << player.Damage + 5 << " poškození\n";
             std::cout << "   Omráčí nepřítele na 1 kolo\n\n";
             std::cout << " 3. Dominantní jedinec (Mana: " << player.mana_cost[2] << ")\n";
-            std::cout << "   V základu " << player.Damage - 1 << " poškození\n";
+            std::cout << "   V základu " << player.Damage + 5 << " poškození\n";
             std::cout << "   Snižuje poškození nepřítele o 50% na 2 kola\n";
             std::cout << "   Zvýší poškození o 20% na 3 kola\n";
             std::cout << "   Lze použít jednou za 5 kol\n\n";
@@ -154,12 +154,14 @@ void Warrior_atack(Player &player, Enemy &enemy, int choice_ability){
     switch(choice_ability){
         case 1:
             final_damage = (player.Damage * player.damage_multiplier) - enemy.Defense;
+            if(final_damage < 0) final_damage = 0;
             std::cout << "Zvolili jste útok mečem\n";
             std::cout << "Zasáhli jste nepřítele a způsobili mu " << final_damage << " poškození\n";
             enemy.HP -= final_damage;
             break;
         case 2:
             final_damage = (player.Damage + 5) * player.damage_multiplier - enemy.Defense;
+            if(final_damage < 0) final_damage = 0;
             std::cout << "Zvolili jste silný úder\n";
             std::cout << "Zasáhli jste nepřítele a způsobili mu " << final_damage << " poškození\n";
             std::cout << "Nepřítel je omráčen a nemůže útočit v příštím kole\n";
@@ -167,7 +169,8 @@ void Warrior_atack(Player &player, Enemy &enemy, int choice_ability){
             enemy.stun_duration++;
             break;
         case 3:
-            final_damage = (player.Damage + 10) * player.damage_multiplier - enemy.Defense;
+            final_damage = (player.Damage + 5) * player.damage_multiplier - enemy.Defense;
+            if(final_damage < 0) final_damage = 0;
             std::cout << "Zvolili jste dominantního jedince \n";
             std::cout << "Zasáhli jste nepřítele a způsobili mu " << final_damage << " poškození\n";
             std::cout << "Snižujete poškození nepřítele o 50% na 2 kola\n";
@@ -180,6 +183,7 @@ void Warrior_atack(Player &player, Enemy &enemy, int choice_ability){
         default:
             break;
     }
+    calculate_mana(player, 5);
     final_damage = 0;
 
 }
@@ -189,12 +193,14 @@ void Ranger_atack(Player &player, Enemy &enemy, int choice_ability){
     switch(choice_ability){
         case 1:
             final_damage = (player.Damage * player.damage_multiplier) - enemy.Defense;
+            if(final_damage < 0) final_damage = 0;
             std::cout << "Zvolili jste útok lukem\n";
             std::cout << "Zasáhli jste nepřítele a způsobili mu " << final_damage << " poškození\n";
             enemy.HP -= final_damage ;
             break;
         case 2:
             final_damage = (player.Damage * player.damage_multiplier) - enemy.Defense;
+            if(final_damage < 0) final_damage = 0;
             std::cout << "Zvolili jste jedovatý šíp\n";
             std::cout << "Zasáhli jste nepřítele a způsobili mu " << final_damage << " poškození\n";
             std::cout << "Nepřitel dostal jed, který způsobí 3 poškození za kolo, po dobu 3 kol\n";
@@ -212,6 +218,7 @@ void Ranger_atack(Player &player, Enemy &enemy, int choice_ability){
         default:
             break;
     }
+    calculate_mana(player, 5);
     final_damage = 0;
 }
 
@@ -220,6 +227,7 @@ void Gandalf_atack(Player &player, Enemy &enemy, int choice_ability){
     switch(choice_ability){
         case 1:
             final_damage = (player.Damage * player.damage_multiplier) - enemy.Defense;
+            if(final_damage < 0) final_damage = 0;
             std::cout << "Zvolili jste flákanec\n";
             std::cout << "Objevil se pan Lubimírek a plesknul mu za " << final_damage << " poškození\n";
             enemy.HP -= final_damage;
@@ -228,6 +236,7 @@ void Gandalf_atack(Player &player, Enemy &enemy, int choice_ability){
             std::cout << "GAMBAAAAAAAAAAAAA (absolutní gigachad si po dnešku za zvolení tohoto útoku :D)\n";
             final_damage = gamba_Gandalf(player, enemy, final_damage);
             final_damage = final_damage * player.damage_multiplier - enemy.Defense;
+            if(final_damage < 0) final_damage = 0;
             enemy.HP -= final_damage;
             break;
         case 3:
@@ -238,10 +247,7 @@ void Gandalf_atack(Player &player, Enemy &enemy, int choice_ability){
         default:
             break;
     }
-    player.Mana += 15;
-    if(player.Mana > player.Max_Mana){
-        player.Mana = player.Max_Mana;
-    }
+    calculate_mana(player, 5);
     final_damage = 0;
 }
 
@@ -314,7 +320,7 @@ bool check_dodge_player(Player &player){
 
 void count_level(Player &player, int min, int max){
     std::cout << "\n========================================\n";
-    std::cout << "            XP REWARDING SYSTEM\n";
+    std::cout << "            XP REWARDING SYSTEM.        \n";
     std::cout << "========================================\n";
     int random = rand () % (max - min + 1) + min;
     player.XP += random;
@@ -387,4 +393,21 @@ void Choose_stat_upgrade(Player &player){
             }
         }
     }while(!valid_choice);
+}
+
+void calculate_mana(Player &player, int m){
+    if(player.Mana == player.Max_Mana){
+        std::cout << "už máš maximum many takže žádnou nedostaneš lol\n";
+        player.Mana = player.Max_Mana;
+        return;
+    }
+    player.Mana += m;
+    if(player.Mana > player.Max_Mana){
+        std::cout << "Doplnila se ti maximální mana\n";
+        player.Mana = player.Max_Mana;
+    }
+    else{
+        std::cout << "Za konec kola získáváš " << m << " many\n";
+    }
+    std::cout << "Aktuální mana: " << player.Mana << "/" << player.Max_Mana << "\n";
 }
