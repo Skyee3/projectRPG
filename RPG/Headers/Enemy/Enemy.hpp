@@ -16,6 +16,7 @@ struct Enemy{
     int counter = 0;
     int poison_duration = 0;
     int player_debuff_by_buldozer = 0;
+    int question_count = 1;
     bool was_quizler = false;
     bool is_upgraded = false;
     bool is_miniboss = false;
@@ -50,16 +51,9 @@ struct Enemy{
 
 
     void show_all_enemy_stats_testing(){
-        std::cout << "========================================\n";
-        std::cout << "             STATUS " << name << "a\n";
-        std::cout << "========================================\n";
-        std::cout << "Name: " << name << "\n";
-        std::cout << "Type: " << Type << "\n";
-        std::cout << "HP: " << HP << "\n";
-        std::cout << "Max_HP: " << Max_HP << "\n";
-        std::cout << "Damage: " << Damage << "\n";
-        std::cout << "Defense: " << Defense << "\n";
-        std::cout << "Is Miniboss: " << is_miniboss << "\n";
+        std::cout << "============ STATUS " << name << "a ===========\n\n";
+        std::cout << "HP: " << HP << "/" << Max_HP << "\n";
+        std::cout << "\n========================================\n\n";
     }
 };
 struct question{

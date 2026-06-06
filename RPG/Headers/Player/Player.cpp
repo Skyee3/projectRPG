@@ -247,7 +247,7 @@ void Gandalf_atack(Player &player, Enemy &enemy, int choice_ability){
         default:
             break;
     }
-    calculate_mana(player, 5);
+    calculate_mana(player, 15);
     final_damage = 0;
 }
 
@@ -264,6 +264,7 @@ void Input_ability(Player &player, int &choice_ability){
         }
         break;
     }while(true);
+    std::cout << '\n';
 }
 int gamba_Gandalf(Player &player, Enemy &enemy, int final_damage){
     int random = rand() % 2;
@@ -324,12 +325,12 @@ void count_level(Player &player, int min, int max){
     std::cout << "========================================\n";
     int random = rand () % (max - min + 1) + min;
     player.XP += random;
-    std::cout << "[XP]  Získal jsi " << random << " XP\n[XP]  Celkem máš " << player.XP << "XP\n";
+    std::cout << "[XP]  Získal jsi " << random << " XP\n[XP]  Celkem máš " << player.XP << " XP\n";
     while(player.XP >= 15){
         std::cout << "[LEVELUP]\n";
         player.Level++;
         std::cout << "[INFO - LEVEL]  Tvůj nový level je: " << player.Level << '\n';
-        std::cout << "[INFO - LEVEL]  level tě stál 15XP\n";
+        std::cout << "[INFO - LEVEL]  level tě stál 15 XP\n";
         player.XP -=15;
         Choose_stat_upgrade(player);
     }
@@ -338,11 +339,11 @@ void Choose_stat_upgrade(Player &player){
     int choice;
     bool valid_choice = false;
     do{
-        std::cout << "Vyber si z následujících možností co bys chtěl upgradnout:\n";
-        std::cout << "1. upgrade max many o 5 (Aktuálně: " << player.upgrade_mana_counter << "/4)\n";
-        std::cout << "2. upgrade max HP o 10 (Aktuálně: " << player.upgrade_hp_counter << "/4)\n";
-        std::cout << "3. Zvýšit poškození o 5 (Aktuálně: " << player.upgrade_dmg_counter << "/4)\n";
-        std::cout << "4. Zvýšit defense o 2 (Aktuálně: " << player.upgrade_dfns_counter << "/4)\n";
+        std::cout << "[UPGRADE]  Vyber si z následujících možností co bys chtěl upgradnout:\n";
+        std::cout << "[1]  upgrade max many o 5 (Aktuálně: " << player.upgrade_mana_counter << "/4)\n";
+        std::cout << "[2]  upgrade max HP o 10 (Aktuálně: " << player.upgrade_hp_counter << "/4)\n";
+        std::cout << "[3]  Zvýšit poškození o 5 (Aktuálně: " << player.upgrade_dmg_counter << "/4)\n";
+        std::cout << "[4]  Zvýšit defense o 2 (Aktuálně: " << player.upgrade_dfns_counter << "/4)\n";
         
         Input_checker("Váš výběr: ", choice, 1, 4);
 
@@ -351,11 +352,11 @@ void Choose_stat_upgrade(Player &player){
                 player.Max_Mana += 5;
                 player.Mana = player.Max_Mana;
                 player.upgrade_mana_counter++;
-                std::cout << "Výborně, maximální mana navýšena na: " << player.Max_Mana << '\n';
+                std::cout << "[INFO - UPGRADE]  maximální mana navýšena na: " << player.Max_Mana << '\n';
                 valid_choice = true;
             }
             else{
-                std::cout << "Mana upgrade je už na maximu!\n\n";
+                std::cout << "[INFO - UPGRADE]  Mana upgrade je už na maximu!\n\n";
             }
         }
         else if(choice == 2){
@@ -363,33 +364,33 @@ void Choose_stat_upgrade(Player &player){
                 player.Max_HP += 10;
                 player.HP = player.Max_HP;
                 player.upgrade_hp_counter++;
-                std::cout << "Výborně, maximální HP navýšeno na: " << player.Max_HP << '\n';
+                std::cout << "[INFO - UPGRADE]  Výborně, maximální HP navýšeno na: " << player.Max_HP << '\n';
                 valid_choice = true;
             }
             else{
-                std::cout << "HP upgrade je už na maximu!\n\n";
+                std::cout << "[INFO - UPGRADE]  HP upgrade je už na maximu!\n\n";
             }
         }
         else if(choice == 3){
             if(player.upgrade_dmg_counter < 4){
                 player.Damage += 5;
                 player.upgrade_dmg_counter++;
-                std::cout << "Výborně, tvůj Damage je nyní: " << player.Damage << '\n';
+                std::cout << "[INFO - UPGRADE]  Výborně, tvůj Damage je nyní: " << player.Damage << '\n';
                 valid_choice = true;
             }
             else{
-                std::cout << "Damage upgrade je už na maximu!\n\n";
+                std::cout << "[INFO - UPGRADE]  Damage upgrade je už na maximu!\n\n";
             }
         }
         else if(choice == 4){
             if(player.upgrade_dfns_counter < 4){
                 player.Defense += 2;
                 player.upgrade_dfns_counter++;
-                std::cout << "Nyní máš " << player.Defense << " defense\n";
+                std::cout << "[INFO - UPGRADE]  Nyní máš " << player.Defense << " defense\n";
                 valid_choice = true;
             }
             else{
-                std::cout << "Defense upgrade je už na maximu!\n\n";
+                std::cout << "[INFO - UPGRADE]  Defense upgrade je už na maximu!\n\n";
             }
         }
     }while(!valid_choice);
@@ -407,7 +408,14 @@ void calculate_mana(Player &player, int m){
         player.Mana = player.Max_Mana;
     }
     else{
-        std::cout << "[MANA]  Za konec kola získáváš " << m << " many\n";
+        std::cout << "[MANA]  Za tento tah získáváš " << m << " many\n";
     }
     std::cout << "[MANA]  Aktuální mana: " << player.Mana << "/" << player.Max_Mana << "\n";
+}
+
+void win(){
+    std::cout << "\n========================================\n";
+    std::cout << "             VÝHRA!!!!!             \n";
+    std::cout << "========================================\n\n";
+    std::cout << "Porazil si enemáka gratuluju\n";
 }

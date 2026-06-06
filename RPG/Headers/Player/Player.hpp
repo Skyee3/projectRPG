@@ -30,7 +30,7 @@ struct Player{
     bool is_sprcha_active = false;
 
     int cvv = 0;
-    int number_of_cart = 0;
+    std::string number_of_cart = "";
     std::string expiration_date = "";
 
     int upgrade_hp_counter = 0;
@@ -51,27 +51,25 @@ struct Player{
         Dodge = Dodge_c;
         Defense = Defense_c;
     }
-
     bool is_stunned(){
         if(stun_duration > 0){
-            std::cout << "Jsi omráčený a nemůžeš v tomto kole utočit\n";
+            std::cout << "======================STUN=======================\n\n";
+            std::cout << "[STAV]  Jste omráčen a nemůžete útočit\n";
+            std::cout << "\n==================================================\n\n";
             stun_duration--;
             return true;
         }
         return false;
     }
-
     void set_mana_cost(int C1, int C2, int C3){
         mana_cost[0] = C1;
         mana_cost[1] = C2;
         mana_cost[2] = C3;
     }
-
     bool is_alive(){
         if(HP <= 0) return false;
         return true;
     }
-
     void reset_stats(){
         HP = Max_HP;
         Mana = Max_Mana;
@@ -86,7 +84,6 @@ struct Player{
         is_upgraded = false;
         is_sprcha_active = false;
     }   
-
     void Show_playerstats(){
         std::cout << "\n========================================\n";
         std::cout << "             STATUS POSTAVY             \n";
@@ -105,19 +102,24 @@ struct Player{
         
         std::cout << "========================================\n";
     }
-
     void Show_Playerstats_short(){
-        std::cout << "========================================\n";
-        std::cout << "             STATUS POSTAVY             \n";
-        std::cout << "========================================\n";
+        std::cout << "============ STATUS POSTAVY ============\n\n";
 
         std::cout << "  HP:         " << HP << " / " << Max_HP << "\n";
         std::cout << "  MANA:       " << Mana << " / " << Max_Mana << "\n";
 
         
-        std::cout << "========================================\n";
+        std::cout << "\n========================================\n\n";
     }
-
+    void name_choice(){
+        std::cout << "Vítej bro... zvol si své jméno, které tě bude doprovázet do konce života (už ho v životě neuslišíš)\n";
+        std::cout << "Jméno: ";
+        if(std::cin.peek() == '\n'){
+            std::cin.ignore(); 
+        }
+        std::getline(std::cin, name);
+        std::cout << "Budiš. Od teď se jmenuješ: " << name << '\n';
+    }
 };
 
 void Class_choose(Player &player);
@@ -135,3 +137,4 @@ bool check_dodge_player(Player &player);
 void count_level(Player &player, int min, int max);
 void Choose_stat_upgrade(Player &player);
 void calculate_mana(Player &player, int m);
+void win();

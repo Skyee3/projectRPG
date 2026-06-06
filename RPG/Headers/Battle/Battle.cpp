@@ -1,26 +1,29 @@
 #include "Battle.hpp"
 
 void Battle(Player &player, Enemy &enemy, std::vector<question> &questions){
-
-    std::cout << "Utkáváš se s " << enemy.name << "em\n";
+    std::cout << "\n========================================\n";
+    std::cout << "       Utkáváš se s " << enemy.name << "em\n";
+    std::cout << "========================================\n\n";
     switch(enemy.Type){
         case 3:
-        std::cout << "Well well well, Pacient z bohnic tě portnul asi můžeš hádat kam (do bohnic) a ted užívej absolutní peak tohoto souboje\n";
-        break;
+            std::cout << "[INFO - BOHNIČAN]  Well well well, Pacient z bohnic tě portnul asi můžeš hádat kam (do bohnic) a ted užívej absolutní peak tohoto souboje\n";
+            break;
         case 4:
-        std::cout << "No... tohle nebude basic battle. Teďka tě čeká kvíz.\n";
-        std::cout << "když odpovíš dobře tak quizler dostane poškození když ne tak asi můžeš hádat co se stane\n";
-        std::cout << "ten se objeví pouze jednou\n";
-        break;
+            std::cout << "[INFO - QUIZLER]  No... tohle nebude basic battle. Teďka tě čeká kvíz.\n";
+            std::cout << "[INFO - QUIZLER]  když odpovíš dobře tak quizler dostane poškození když ne tak asi můžeš hádat co se stane\n";
+            std::cout << "[INFO - QUIZLER]  ten se objeví pouze jednou\n\n";
+            break;
         default: break;
     }
     if(enemy.is_miniboss){
-        std::cout << "No... tohle nebude easy battle. Narazil jsi na minibosse. Teď už nezačínáš první\n";
+        std::cout << "[INFO - BATTLE]  No... tohle nebude easy battle. Narazil jsi na minibosse. Teď už nezačínáš první\n\n";
         player.skip_turn = true;
     }
     while(player.HP > 0 && enemy.HP > 0 && enemy.Type == 4){
         quizler_turn(player, enemy, questions);
         if(!enemy.is_alive() || !player.is_alive()) break;
+        player.Show_Playerstats_short();
+        enemy.show_all_enemy_stats_testing();
     }
     while(player.HP > 0 && enemy.HP > 0 && enemy.Type != 4){
         Before_player_turn(player);
@@ -29,11 +32,11 @@ void Battle(Player &player, Enemy &enemy, std::vector<question> &questions){
                 Before_enemy_turn(player, enemy);
             }
             Enemy_turn(player, enemy, questions);
+            player.Show_Playerstats_short();
             player.skip_turn = false;
             continue;
         }
         Player_turn(player, enemy);
-        std::cout << "========================================\n\n";
         if(player.is_sprcha_active && player.is_alive()){
             int random = rand() % 4 + 3;
             int dmg1 = 0;
@@ -42,17 +45,18 @@ void Battle(Player &player, Enemy &enemy, std::vector<question> &questions){
             enemy.HP -= dmg1;
             player.is_sprcha_active = false;
         }
-        enemy.show_all_enemy_stats_testing();
+        std::cout << "\n========================================\n\n";
         if(enemy.HP <= 0 || player.HP <= 0){
             break;
         }
+        enemy.show_all_enemy_stats_testing();
         if(Before_enemy_turn(player, enemy)){
             Enemy_turn(player, enemy, questions);
         }
         After_enemy_turn(player, enemy);
+        std::cout << "\n========================================\n\n";
         player.Show_Playerstats_short();
     }
-    enemy.counter++;
 }
 
 void Battle_two_enemies(Player &player, Enemy &enemy1, Enemy &enemy2, std::vector<question> &questions){
@@ -151,7 +155,7 @@ void Battle_three_enemies(Player &player, Enemy &enemy1, Enemy &enemy2, Enemy &e
             continue;
         }
         if(!player.is_alive()) break;
-        std::cout << "Vyberte proti kterému enemy chcete teď bojovat (1 - " << enemy1.name << ", 2 - " << enemy2.name << ", 3 - " << enemy3.name << ")\n";
+        std::cout << "\nVyberte proti kterému enemy chcete teď bojovat (1 - " << enemy1.name << ", 2 - " << enemy2.name << ", 3 - " << enemy3.name << ")\n";
         int choice;
         do{
             Input_checker("Váš výběr: ", choice, 1, 3);
@@ -231,7 +235,7 @@ void Final_battle(Player &player, Enemy &boss){
     while(true){
         if(Before_enemy_turn(player, boss)){
             if(boss.HP < boss.Max_HP / 20){
-                std::cout << "boss má od teď vyší šanci na heal, takže bacha\n";
+                std::cout << "\n[INFO]  boss má od teď vyší šanci na heal, takže bacha\n\n";
                 heal_chance = 50;
             }
             else heal_chance = 1;
@@ -245,15 +249,15 @@ void Final_battle(Player &player, Enemy &boss){
 
         random_hit = rand() % 100;
         if(random_hit < hit_chance){
-            std::cout << "Gamba vítězí a máš možnost útočit!\n";
-            std::cout << "Šance na hit se ti zmenšila\n";
+            std::cout << "[ÚTOK INFO]  Gamba vítězí a máš možnost útočit!\n";
+            std::cout << "[ŠANCE]  Šance na hit se ti zmenšila\n";
             Player_turn(player, boss);
             hit_chance -= 10;
             if(hit_chance < 0) hit_chance = 0;
         }
         else{
-            std::cout << "Bohužel enemáka jsi minul, takže toto kolo skipuješ\n";
-            std::cout << "Příští kolo budeš ale mít větší šanci na zásah\n";
+            std::cout << "[ÚTOK INFO]  Bohužel enemáka jsi minul, takže toto kolo skipuješ\n";
+            std::cout << "[ŠANCE]  Příští kolo budeš ale mít větší šanci na zásah\n";
             hit_chance += 10;
             if(hit_chance > 100) hit_chance = 100;
         }
@@ -264,65 +268,101 @@ void Final_battle(Player &player, Enemy &boss){
 
     void Before_player_turn(Player &player){
         player.damage_multiplier = 1.0;
-        if(player.jedinec_buff_duration > 0) {
+        if(player.jedinec_buff_duration > 0){
+            std::cout << "\n============EFEKT DOMINANTNÍ JEDINEC============\n\n";
             player.damage_multiplier *= 1.2;
             player.jedinec_buff_duration--;
             if(player.jedinec_buff_duration == 0){
-                std::cout << "Buff z Dominantního jedince právě vyprchal.\n";
+                std::cout << "[STAV]  BUFF už vyprchal\n";
+            }
+            else if(player.jedinec_buff_duration == 1){
+                std::cout << "[AKTIVNÍ BUFF] - DOMINANTNÍ JEDINEC\n";
+                std::cout << "[EFEKT]  Zvýšené poškození o 20%\n";
+                std::cout << "[STAV]  BUFF bude trvat ještě 1 kolo\n";
             }
             else{
-                std::cout << "Buff z Dominantního jedince potrvá ještě " << player.jedinec_buff_duration << " kol.\n";
+                std::cout << "[AKTIVNÍ BUFF] - DOMINANTNÍ JEDINEC\n";
+                std::cout << "[EFEKT]  Zvýšené poškození o 20%\n";
+                std::cout << "[STAV]  BUFF bude trvat ještě " << player.jedinec_buff_duration << " kola\n";
             }
+            std::cout << "\n==================================================\n\n";
         }
-        if(player.jedinec_cooldown > 0 && player.Class_ID == 1) {
+        if(player.jedinec_cooldown > 0 && player.Class_ID == 1){
+            std::cout << "===========COOLDOWN DOMINANTNÍ JEDINEC===========\n\n";
             player.jedinec_cooldown--;
             if(player.jedinec_cooldown == 0){
-                std::cout << "Schopnost Dominantní jedinec je teďka dostupná.\n";
+                std::cout << "[STAV]  Schopnost Dominantní jedinec je nyní dostupná.\n";
+            }
+            else if(player.jedinec_cooldown == 1){
+                std::cout << "[STAV]  Schopnost Dominantní jedin můžeš použít za 1 kolo\n";
+            }
+            else if (player.jedinec_cooldown < 5){
+                std::cout << "[STAV]  Schopnost Dominantní jedinec můžeš použít za " << player.jedinec_cooldown << " kola\n";
+
             }
             else{
-                std::cout << "Schopnost Dominantní jedinec můžeš použít za " << player.jedinec_cooldown << " kol\n";
+                std::cout << "[STAV]  Schopnost Dominantní jedinec můžeš použít za " << player.jedinec_cooldown << " kol\n";
             }
+            std::cout << "\n=================================================\n\n";
         }
-        if(player.buldozer_debuff_duration > 0) {
+        if(player.buldozer_debuff_duration > 0){
+            std::cout << "===============DEBUFF OD BULDOZERA===============\n\n";
             player.buldozer_debuff_duration--;
             player.damage_multiplier *= 0.85; 
-            std::cout << "Debuff od Buldozera ti snižuje poškození o 15% na toto kolo\n";
+            std::cout << "[DEBUFF]  máš o 15% nižší poškození\n";
+            std::cout << "\n==================================================\n\n";
         }
         if(player.Burn_duration > 0){
+            std::cout << "======================FIRE=======================\n\n";
             player.HP -= 5;
             player.Burn_duration--;
-            std::cout << "Poškození z ohně způsobilo 5 poškození\n";
+            std::cout << "[POŠKOZENÍ]  Poškození z ohně způsobilo 5 poškození\n";
+            std::cout << "[HP]  aktuálně máš " << player.HP << "/" << player.Max_HP << " HP\n";
             if(player.Burn_duration == 0){
-                std::cout << "Už nehoříš (Big thumbs up :P)\n";
+                std::cout << "[STAV]  Oheň debuff už končí, takže příší kolo už nebudeš hořet\n";
+            }
+            else if(player.Burn_duration == 1){
+                std::cout << "[STAV]  Oheň bude působit poslední kolo\n";
             }
             else{
-                std::cout << "Oheň bude působit ještě " << player.Burn_duration << " kol :(\n";
+                std::cout << "[STAV]  Oheň bude působit ještě " << player.Burn_duration << " kola :(\n";
             }
+            std::cout << "\n==================================================\n\n";
         }
     }
 
-bool Before_enemy_turn(Player &player, Enemy &enemy) {
+bool Before_enemy_turn(Player &player, Enemy &enemy){
     enemy.Damage_multiplier = 1.0;
-    if(enemy.stun_duration > 0) {
-        std::cout << "Nepřítel je omráčen a nemůže v tomto kole útočit!\n";
+    if(enemy.stun_duration > 0){
+        std::cout << "======================STUN=======================\n\n";
+        std::cout << "[STAV]  Nepřítel je omráčen a nemůže v tomto kole útočit!\n";
+        std::cout << "\n==================================================\n\n";
         enemy.stun_duration--;
         return false;
     }
 
-    if(check_dodge_player(player)) {
-        std::cout << "Skvěle! Vyhnul jsi se útoku nepřítele.\n";
+    if(check_dodge_player(player)){
+        std::cout << "=====================DODGE======================\n\n";
+        std::cout << "[DODGE]  Skvěle! Vyhnul jsi se útoku nepřítele.\n";
+        std::cout << "\n================================================\n\n";
         return false; 
     }
 
     if(enemy.Damage_multiplier_duration > 0){
+        std::cout << "=====================DEBUFF======================\n\n";
+        std::cout << "[DEBUFF]  Enemy dává pouze 50% svého poškození\n";
         enemy.Damage_multiplier *= 0.5;
         enemy.Damage_multiplier_duration--;
         if(enemy.Damage_multiplier_duration == 0){
-            std::cout << "Enemy už není debuffnutý.\n";
+            std::cout << "[STAV]  Enemy příští kolo už nebude debuffnutý.\n";
+        }
+        else if(enemy.Damage_multiplier_duration == 1){
+            std::cout << "[STAV]  Enemy bude debuffnutý ještě 1 kolo\n";
         }
         else{
-            std::cout << "Enemy bude debuffnutý ještě " << enemy.Damage_multiplier_duration << " kol.\n";
+            std::cout << "[STAV]  Enemy bude debuffnutý ještě " << enemy.Damage_multiplier_duration << " kola\n";
         }
+        std::cout << "\n==================================================\n\n";
     }
     return true; 
 }
@@ -331,24 +371,32 @@ void After_enemy_turn(Player &player, Enemy &enemy){
     if(enemy.poison_duration > 0){
         enemy.HP -= 5;
         enemy.poison_duration--;
-
-        std::cout << "Poškození z jedu způsobilo " << 5 << " poškození nepříteli\n";
+        std::cout << "=====================POISON======================\n\n";
+        std::cout << "[INFO]  Poškození z jedu způsobilo 5 poškození nepříteli\n";
         if(enemy.poison_duration == 0){
-            std::cout << "Jed přestal působit\n";
+            std::cout << "[STAV]  Jed přestal působit\n";
+        }
+        else if(enemy.poison_duration == 1){
+            std::cout << "[STAV]  Jed bude působit ještě 1 kolo\n";
         }
         else{
-            std::cout << "Jed bude působit ještě " << enemy.poison_duration << " kol\n";
+            std::cout << "[STAV]  Jed bude působit ještě " << enemy.poison_duration << " kola\n";
         }
+        std::cout << "\n==================================================\n\n";
+
     }
 }
 
 void Dead_screen(Player &player){
     int choice;
-    std::cout << "Prohrál jsi\n";
+    std::cout << "\n========================================\n";
+    std::cout << "             PROHRA!!!!!             \n";
+    std::cout << "========================================\n\n";
     std::cout << "Ale nezoufej vykoupit se můžeš když mi zadáš číslo platební karty, včetně expirace a hlavně nezapomenň na to schované číslíčko vzadu\n";
     Input_checker("Chceš se vykoupit ? (1 - ano, 0 - ne): ", choice, 0, 1);
     if(choice == 1){
-        Input_checker("číslo Karty: ", player.number_of_cart, 1000000000000000, 9999999999999999);
+        std::cout << "Číslo Karty: ";
+        std::cin >> player.number_of_cart;
         Input_checker("CVV: ", player.cvv, 100, 999);
         std::cout << "Zadejte expiraci karty (MM/YY): ";
         std::cin >> player.expiration_date;

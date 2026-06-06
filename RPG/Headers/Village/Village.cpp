@@ -28,14 +28,14 @@ void Village_choice(Player &player){
         if(std::cin.fail() || choice < 0 || choice > 5) {
             std::cin.clear();
             std::cin.ignore(1000, '\n');
-            std::cout << "ERROR: Zadejte validní hodnotu (0-5)\n";
+            std::cout << "[ERROR]  Zadejte validní hodnotu (0-5)\n";
             continue;
         }
         if(choice == 0){
             Village_loop = false;
         }
         else if(player.Gold < Village_price[choice - 1]){
-            std::cout << "Nemáte dostatek zlata! Zadejte jinou volbu.\n";
+            std::cout << "[INFO]  Nemáte dostatek zlata! Zadejte jinou volbu.\n";
             continue;
         }
         player.Gold -= Village_price[choice - 1];
@@ -71,17 +71,17 @@ void Village_Regen_HP(Player &player){
 void Village_upgrade_max_HP(Player &player){
     player.Max_HP+=10;
     player.HP+=10;
-    std::cout << "Nyní máte " << player.HP << "/" << player.Max_HP << " HP\n";
+    std::cout << "[VESNICE]  Nyní máte " << player.HP << "/" << player.Max_HP << " HP\n";
 }
 
 void Village_upgrade_max_MANA(Player &player){
     player.Max_Mana+=10;
     player.Mana+=10;
-    std::cout << "Nyní máte " << player.HP << "/" << player.Max_HP << " HP\n";
+    std::cout << "[VESNICE]  Nyní máte " << player.Mana << "/" << player.Max_Mana << " MANY\n";
 }
 
 void Village_upgrade_Atack(Player &player){
-    std::cout << "Nyní dáváte " << player.Damage << " Poškození\n";
+    std::cout << "[VESNICE]  Nyní dáváte " << player.Damage << " Poškození\n";
 }
 
 void Village_upgrade_Ability(Player &player){
