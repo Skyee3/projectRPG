@@ -21,8 +21,8 @@ int main(){
     player.Gold = 0;
     player.Level = 1;
     player.XP = 0;
-    
     Show_start_menu();
+    player.name_choice();
     Class_choose(player);
     player.Show_playerstats();
     
@@ -34,7 +34,7 @@ int main(){
             do{
                 Choose_enemy(enemy1);
                 Choose_enemy(enemy2);
-            }while(enemy1.name == enemy2.name || enemy2.Type == 4 || enemy1.Type == 4);
+            }while(enemy1.name == enemy2.name || enemy2.Type == 4 || enemy1.Type == 4); //snad to funguje tak jak má :D
             std::cout << "Tohle nebude normální fight teď budeš bojovat proti " << enemy1.name << " a " << enemy2.name << " najednou\n";
             Battle_two_enemies(player, enemy1, enemy2, questions);
             if(!player.is_alive()){
@@ -55,13 +55,14 @@ int main(){
                 Choose_enemy(enemy1);
                 Choose_enemy(enemy2);
                 Choose_enemy(enemy3);
-            }while(enemy1.Type == 4 || enemy2.Type == 4 || enemy3.Type == 4);
+            }while(enemy1.Type == 4 || enemy2.Type == 4 || enemy3.Type == 4); // toto je featurka, ne bug (urřitě ne)
             std::cout << "Tohle bude zábavička :D jdeš proti třem enemákům na jednou\n";
             std::cout << "Bojuješ proti následujícím enemákům: " << enemy1.name << ", " << enemy2.name << ", " << enemy3.name << "\n";
             Battle_three_enemies(player, enemy1, enemy2, enemy3, questions);
             if(!player.is_alive()){
                 Dead_screen(player);
             }
+            win();
             check_gold_reward(player, enemy1, 25, 25);
             check_gold_reward(player, enemy2, 25, 25);
             check_gold_reward(player, enemy3, 25, 25);
@@ -81,6 +82,7 @@ int main(){
                 Dead_screen(player);
                 break;
             }
+            win();
             count_level(player, 15, 20);
             std::cout << "Získáváš 100 goldů za final bosse\n";
             player.Gold += 100;
@@ -100,8 +102,9 @@ int main(){
                 Dead_screen(player);
                 break;
             }
+            win();
+            check_gold_reward(player, enemy, 8, 14);
             count_level(player, 5, 10);
-            check_gold_reward(player, enemy, 20, 30);
             player.reset_stats();
             enemy.reset_stats();
             
