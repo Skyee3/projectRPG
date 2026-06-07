@@ -27,12 +27,19 @@ struct Player{
     int stun_duration = 0;
     bool skip_turn = false;
     bool is_upgraded = false;
+    bool is_sprcha_active = false;
 
     int cvv = 0;
-    int number_of_cart = 0;
+    std::string number_of_cart = "";
     std::string expiration_date = "";
 
+    int upgrade_hp_counter = 0;
+    int upgrade_mana_counter = 0;
+    int upgrade_dmg_counter = 0;
 
+    int hp_upgrades_bought = 0;
+    int mana_upgrades_bought = 0;
+    int atk_upgrades_bought = 0;
 
     void set_class_stats(std::string Class_c, int ID_c, int Max_HP_c, int Max_Mana_c, int Damage_c, int Dodge_c, int Defense_c){
         Class = Class_c;
@@ -45,29 +52,29 @@ struct Player{
         Dodge = Dodge_c;
         Defense = Defense_c;
     }
-
     bool is_stunned(){
         if(stun_duration > 0){
-            std::cout << "Jsi omráčený a nemůžeš v tomto kole utočit\n";
+            std::cout << "======================STUN=======================\n\n";
+            std::cout << "[STAV]  Jste omráčen a nemůžete útočit\n";
+            std::cout << "\n==================================================\n\n";
             stun_duration--;
             return true;
         }
         return false;
     }
-
     void set_mana_cost(int C1, int C2, int C3){
         mana_cost[0] = C1;
         mana_cost[1] = C2;
         mana_cost[2] = C3;
     }
-
     bool is_alive(){
-        if(HP <= 0) return false;
+        if(HP <= 0){
+            HP = 0;
+            return false;
+        }
         return true;
     }
-
     void reset_stats(){
-        HP = Max_HP;
         Mana = Max_Mana;
         damage_multiplier = 1;
         damage_multiplier_duration = 0;
@@ -75,11 +82,11 @@ struct Player{
         jedinec_cooldown = 0;
         Burn_duration = 0;
         buldozer_debuff_duration = 0;
-        skip_turn = false;
         stun_duration = 0;
+        skip_turn = false;
         is_upgraded = false;
+        is_sprcha_active = false;
     }   
-
     void Show_playerstats(){
         std::cout << "\n========================================\n";
         std::cout << "             STATUS POSTAVY             \n";
@@ -98,19 +105,24 @@ struct Player{
         
         std::cout << "========================================\n";
     }
-
     void Show_Playerstats_short(){
-        std::cout << "========================================\n";
-        std::cout << "             STATUS POSTAVY             \n";
-        std::cout << "========================================\n";
+        std::cout << "============ STATUS POSTAVY ============\n\n";
 
         std::cout << "  HP:         " << HP << " / " << Max_HP << "\n";
         std::cout << "  MANA:       " << Mana << " / " << Max_Mana << "\n";
 
         
-        std::cout << "========================================\n";
+        std::cout << "\n========================================\n\n";
     }
-
+    void name_choice(){
+        std::cout << "Vítej bro... zvol si své jméno, které tě bude doprovázet do konce života (už ho v životě neuslišíš)\n";
+        std::cout << "Jméno: ";
+        if(std::cin.peek() == '\n'){
+            std::cin.ignore(); 
+        }
+        std::getline(std::cin, name);
+        std::cout << "Budiš. Od teď se jmenuješ: " << name << '\n';
+    }
 };
 
 void Class_choose(Player &player);
@@ -125,3 +137,7 @@ void Gandalf_atack(Player &player, Enemy &enemy, int choice_ability);
 void Input_ability(Player &player, int &choice_ability);
 int gamba_Gandalf(Player &player, Enemy &enemy, int final_damage);
 bool check_dodge_player(Player &player);
+void count_level(Player &player, int min, int max);
+void Choose_stat_upgrade(Player &player);
+void calculate_mana(Player &player, int m);
+void win();

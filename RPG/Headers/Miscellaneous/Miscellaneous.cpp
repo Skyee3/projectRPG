@@ -33,7 +33,7 @@ void Input_checker(std::string Input_message, int &input, int min, int max){
         if(std::cin.fail() || input < min || input > max) {
             std::cin.clear();
             std::cin.ignore(1000, '\n');
-            std::cout << "ERROR: Zadejte validní hodnotu (" << min << "-" << max << ")\n";
+            std::cout << "[ERROR]  Zadejte validní hodnotu (" << min << "-" << max << ")\n";
             continue;
         }
         break;
