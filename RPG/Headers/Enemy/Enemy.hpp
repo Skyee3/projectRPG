@@ -21,6 +21,7 @@ struct Enemy{
     bool is_upgraded = false;
     bool is_miniboss = false;
     bool karma_active = false;
+    bool is_death_announced = false;
 
     void set_enemy(std::string name_c, int Type_c, int Max_HP_c, int Damage_c, int Defense_c, bool miniboss_c){
         name = name_c;
@@ -47,6 +48,7 @@ struct Enemy{
         karma_active = false;
         is_miniboss = false;
         is_upgraded = false;
+        is_death_announced = false;
     }
 
 
@@ -54,6 +56,16 @@ struct Enemy{
         std::cout << "============ STATUS " << name << "a ===========\n\n";
         std::cout << "HP: " << HP << "/" << Max_HP << "\n";
         std::cout << "\n========================================\n\n";
+    }
+
+    void check_is_death(){
+        if(HP <= 0 && !is_death_announced){
+            HP = 0;
+            is_death_announced = true;
+            std::cout << "\n================================================\n";
+            std::cout << "           " << name << " JE MRTVEJ\n";
+            std::cout << "================================================\n\n";
+        }
     }
 };
 struct question{

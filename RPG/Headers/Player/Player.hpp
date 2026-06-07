@@ -67,7 +67,10 @@ struct Player{
         mana_cost[2] = C3;
     }
     bool is_alive(){
-        if(HP <= 0) return false;
+        if(HP <= 0){
+            HP = 0;
+            return false;
+        }
         return true;
     }
     void reset_stats(){

@@ -25,7 +25,6 @@ int main(){
     player.name_choice();
     Class_choose(player);
     player.Show_playerstats();
-    
     Enemy enemy;
     while(true){
         if(enemy.counter % 7 == 0 && enemy.counter != 0){
@@ -55,7 +54,7 @@ int main(){
                 Choose_enemy(enemy1);
                 Choose_enemy(enemy2);
                 Choose_enemy(enemy3);
-            }while(enemy1.Type == 4 || enemy2.Type == 4 || enemy3.Type == 4); // toto je featurka, ne bug (urřitě ne)
+            }while(enemy1.Type == 4 || enemy2.Type == 4 || enemy3.Type == 4); // toto je featurka, ne bug (určitě není)
             std::cout << "Tohle bude zábavička :D jdeš proti třem enemákům na jednou\n";
             std::cout << "Bojuješ proti následujícím enemákům: " << enemy1.name << ", " << enemy2.name << ", " << enemy3.name << "\n";
             Battle_three_enemies(player, enemy1, enemy2, enemy3, questions);

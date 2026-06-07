@@ -67,12 +67,14 @@ void Battle_two_enemies(Player &player, Enemy &enemy1, Enemy &enemy2, std::vecto
             if(enemy1.HP > 0){
                 if(Before_enemy_turn(player, enemy1)) Enemy_turn(player, enemy1, questions);
                 After_enemy_turn(player, enemy1);
+                enemy1.check_is_death();
             }
             if(enemy1.HP <= 0 && enemy2.HP <= 0) break;
             if(!player.is_alive()) break;
             if(enemy2.HP > 0){
                 if(Before_enemy_turn(player, enemy2)) Enemy_turn(player, enemy2, questions);
                 After_enemy_turn(player, enemy2);
+                enemy2.check_is_death();
             }
             if(enemy1.HP <= 0 && enemy2.HP <= 0) break;
             continue;
@@ -92,9 +94,11 @@ void Battle_two_enemies(Player &player, Enemy &enemy1, Enemy &enemy2, std::vecto
         }while(true);
         if(choice == 1){
             Player_turn(player, enemy1);
+            enemy1.check_is_death();
         }
         else{
             Player_turn(player, enemy2);
+            enemy2.check_is_death();
         }
         if(player.is_sprcha_active){
             if(enemy1.HP > 0){
@@ -103,6 +107,7 @@ void Battle_two_enemies(Player &player, Enemy &enemy1, Enemy &enemy2, std::vecto
                 dmg1 = ((player.Damage * player.damage_multiplier * 0.75) * random)  - enemy1.Defense;
                 std::cout << "Do " << enemy1.name << "a jsi trefil " << random << " šípů takže dáváš " << dmg1 << "Poškození\n";
                 enemy1.HP -= dmg1;
+                enemy1.check_is_death();
             }
             if(enemy2.HP > 0){
                 int random2 = rand() % 4 + 3;
@@ -110,23 +115,33 @@ void Battle_two_enemies(Player &player, Enemy &enemy1, Enemy &enemy2, std::vecto
                 dmg2 = ((player.Damage * player.damage_multiplier * 0.75) * random2)  - enemy2.Defense;
                 std::cout << "Do " << enemy2.name << "a jsi trefil " << random2 << " šípů takže dáváš " << dmg2 << "Poškození\n";
                 enemy2.HP -= dmg2;
+                enemy2.check_is_death();
             }
             player.is_sprcha_active = false;
         }
-        std::cout << "========================================\n\n";
-        enemy1.show_all_enemy_stats_testing();
-        enemy2.show_all_enemy_stats_testing();
+        std::cout << "\n========================================\n\n";
+        if(enemy1.HP > 0){
+            enemy1.show_all_enemy_stats_testing();
+        }
+        if(enemy2.HP > 0){
+            enemy2.show_all_enemy_stats_testing();
+        }
         if(enemy1.HP <= 0 && enemy2.HP <= 0) break;
         if(enemy1.HP > 0){
             if(Before_enemy_turn(player, enemy1)) Enemy_turn(player, enemy1, questions);
             After_enemy_turn(player, enemy1);
+            enemy1.check_is_death();
         }
+        if(enemy1.HP <= 0 && enemy2.HP <= 0) break;
         if(!player.is_alive()) break;
         if(enemy2.HP > 0){
             if(Before_enemy_turn(player, enemy2)) Enemy_turn(player, enemy2, questions);
             After_enemy_turn(player, enemy2);
+            enemy2.check_is_death();
         }
+        std::cout << "\n========================================\n\n";
         if(enemy1.HP <= 0 && enemy2.HP <= 0) break;
+        if(!player.is_alive()) break;
         player.Show_Playerstats_short();
     }
 }
@@ -134,24 +149,29 @@ void Battle_two_enemies(Player &player, Enemy &enemy1, Enemy &enemy2, std::vecto
 void Battle_three_enemies(Player &player, Enemy &enemy1, Enemy &enemy2, Enemy &enemy3, std::vector<question> &questions){
     while(player.HP > 0 && (enemy1.HP > 0 || enemy2.HP > 0 || enemy3.HP > 0)){
         Before_player_turn(player);
-        if (!player.is_alive()) break;
+        if (!player.is_alive()) break;  
         if(player.is_stunned()){
             if(enemy1.HP > 0){
                 if(Before_enemy_turn(player, enemy1)) Enemy_turn(player, enemy1, questions);
                 After_enemy_turn(player, enemy1);
+                enemy1.check_is_death();
             }
             if(enemy1.HP <= 0 && enemy2.HP <= 0 && enemy3.HP <= 0) break;
-            if(player.HP <= 0) break;
+            if(!player.is_alive()) break;
             if(enemy2.HP > 0){
                 if(Before_enemy_turn(player, enemy2)) Enemy_turn(player, enemy2, questions);
                 After_enemy_turn(player, enemy2);
+                enemy2.check_is_death();
             }
             if(enemy1.HP <= 0 && enemy2.HP <= 0 && enemy3.HP <= 0) break;
+            if(!player.is_alive()) break;
             if(enemy3.HP > 0){
                 if(Before_enemy_turn(player, enemy3)) Enemy_turn(player, enemy3, questions);
                 After_enemy_turn(player, enemy3);
+                enemy3.check_is_death();
             }
             if(enemy1.HP <= 0 && enemy2.HP <= 0 && enemy3.HP <= 0) break;
+            if(!player.is_alive()) break;
             continue;
         }
         if(!player.is_alive()) break;
@@ -172,12 +192,15 @@ void Battle_three_enemies(Player &player, Enemy &enemy1, Enemy &enemy2, Enemy &e
         }while(true);
         if(choice == 1){
             Player_turn(player, enemy1);
+            enemy1.check_is_death();
         }
         else if(choice == 2){
             Player_turn(player, enemy2);
+            enemy2.check_is_death();
         }
         else{
             Player_turn(player, enemy3);
+            enemy3.check_is_death();
         }
         if(player.is_sprcha_active){
             if(enemy1.HP > 0){
@@ -186,6 +209,7 @@ void Battle_three_enemies(Player &player, Enemy &enemy1, Enemy &enemy2, Enemy &e
                 dmg1 = ((player.Damage * player.damage_multiplier * 0.75) * random)  - enemy1.Defense;
                 std::cout << "Do " << enemy1.name << "a jsi trefil " << random << " šípů takže dáváš " << dmg1 << "Poškození\n";
                 enemy1.HP -= dmg1;
+                enemy1.check_is_death();
             }
             if(enemy2.HP > 0){
                 int random2 = rand() % 4 + 3;
@@ -193,6 +217,7 @@ void Battle_three_enemies(Player &player, Enemy &enemy1, Enemy &enemy2, Enemy &e
                 dmg2 = ((player.Damage * player.damage_multiplier * 0.75) * random2)  - enemy2.Defense;
                 std::cout << "Do " << enemy2.name << "a jsi trefil " << random2 << " šípů takže dáváš " << dmg2 << "Poškození\n";
                 enemy2.HP -= dmg2;
+                enemy2.check_is_death();
             }
             if(enemy3.HP > 0){
                 int random3 = rand() % 4 + 3;
@@ -200,28 +225,42 @@ void Battle_three_enemies(Player &player, Enemy &enemy1, Enemy &enemy2, Enemy &e
                 dmg3 = ((player.Damage * player.damage_multiplier * 0.75) * random3)  - enemy3.Defense;
                 std::cout << "Do " << enemy3.name << "a jsi trefil " << random3 << " šípů takže dáváš " << dmg3 << "Poškození\n";
                 enemy3.HP -= dmg3;
+                enemy3.check_is_death();
             }
             player.is_sprcha_active = false;
         }
-        enemy1.show_all_enemy_stats_testing();
-        enemy2.show_all_enemy_stats_testing();
-        enemy3.show_all_enemy_stats_testing();
+        std::cout << "\n========================================\n\n";
+        if(enemy1.HP > 0){
+            enemy1.show_all_enemy_stats_testing();
+        }
+        if(enemy2.HP > 0){
+            enemy2.show_all_enemy_stats_testing();
+        }
+        if(enemy3.HP > 0){
+            enemy3.show_all_enemy_stats_testing();
+        }
         if(enemy1.HP <= 0 && enemy2.HP <= 0 && enemy3.HP <= 0) break;
         if(enemy1.HP > 0){
             if(Before_enemy_turn(player, enemy1)) Enemy_turn(player, enemy1, questions);
             After_enemy_turn(player, enemy1);
+            enemy1.check_is_death();
         }
         if(!player.is_alive()) break;
+        if(enemy1.HP <= 0 && enemy2.HP <= 0 && enemy3.HP <= 0) break;
         if(enemy2.HP > 0){
             if(Before_enemy_turn(player, enemy2)) Enemy_turn(player, enemy2, questions);
             After_enemy_turn(player, enemy2);
+            enemy2.check_is_death();
         }
         if(!player.is_alive()) break;
         if(enemy1.HP <= 0 && enemy2.HP <= 0 && enemy3.HP <= 0) break;
         if(enemy3.HP > 0){
             if(Before_enemy_turn(player, enemy3)) Enemy_turn(player, enemy3, questions);
             After_enemy_turn(player, enemy3);
+            enemy3.check_is_death();
         }
+        std::cout << "\n========================================\n\n";
+        if(enemy1.HP <= 0 && enemy2.HP <= 0 && enemy3.HP <= 0) break;
         if(!player.is_alive()) break;
         player.Show_Playerstats_short();
     }
@@ -240,7 +279,13 @@ void Final_battle(Player &player, Enemy &boss){
             }
             else heal_chance = 1;
     
-            Boss_turn(player, boss, critical_chance, heal_chance);   
+            Boss_turn(player, boss, critical_chance, heal_chance);
+            After_enemy_turn(player, boss);
+        }
+        std::cout << "\n========================================\n\n";
+        if(boss.HP <= 0){
+            boss.check_is_death();
+            break;
         }
         if(!player.is_alive()) break;
         player.Show_Playerstats_short();
@@ -261,75 +306,86 @@ void Final_battle(Player &player, Enemy &boss){
             hit_chance += 10;
             if(hit_chance > 100) hit_chance = 100;
         }
-
-        if(boss.HP <= 0) break;
+        if(player.is_sprcha_active && player.is_alive() && boss.HP > 0){
+            int random = rand() % 4 + 3;
+            int dmg1 = 0;
+            dmg1 = ((player.Damage * player.damage_multiplier * 0.75) * random)  - boss.Defense;
+            std::cout << "Do " << boss.name << "a jsi trefil " << random << " šípů takže dáváš " << dmg1 << "Poškození\n";
+            boss.HP -= dmg1;
+            player.is_sprcha_active = false;
+        }
+        if(boss.HP <= 0){
+            boss.check_is_death();
+            break;
+        }
+        boss.show_all_enemy_stats_testing();
     }
 }
 
-    void Before_player_turn(Player &player){
-        player.damage_multiplier = 1.0;
-        if(player.jedinec_buff_duration > 0){
-            std::cout << "\n============EFEKT DOMINANTNÍ JEDINEC============\n\n";
-            player.damage_multiplier *= 1.2;
-            player.jedinec_buff_duration--;
-            if(player.jedinec_buff_duration == 0){
-                std::cout << "[STAV]  BUFF už vyprchal\n";
-            }
-            else if(player.jedinec_buff_duration == 1){
-                std::cout << "[AKTIVNÍ BUFF] - DOMINANTNÍ JEDINEC\n";
-                std::cout << "[EFEKT]  Zvýšené poškození o 20%\n";
-                std::cout << "[STAV]  BUFF bude trvat ještě 1 kolo\n";
-            }
-            else{
-                std::cout << "[AKTIVNÍ BUFF] - DOMINANTNÍ JEDINEC\n";
-                std::cout << "[EFEKT]  Zvýšené poškození o 20%\n";
-                std::cout << "[STAV]  BUFF bude trvat ještě " << player.jedinec_buff_duration << " kola\n";
-            }
-            std::cout << "\n==================================================\n\n";
+void Before_player_turn(Player &player){
+    player.damage_multiplier = 1.0;
+    if(player.jedinec_buff_duration > 0){
+        std::cout << "\n============EFEKT DOMINANTNÍ JEDINEC============\n\n";
+        player.damage_multiplier *= 1.2;
+        player.jedinec_buff_duration--;
+        if(player.jedinec_buff_duration == 0){
+            std::cout << "[STAV]  BUFF už vyprchal\n";
         }
-        if(player.jedinec_cooldown > 0 && player.Class_ID == 1){
-            std::cout << "===========COOLDOWN DOMINANTNÍ JEDINEC===========\n\n";
-            player.jedinec_cooldown--;
-            if(player.jedinec_cooldown == 0){
-                std::cout << "[STAV]  Schopnost Dominantní jedinec je nyní dostupná.\n";
-            }
-            else if(player.jedinec_cooldown == 1){
-                std::cout << "[STAV]  Schopnost Dominantní jedin můžeš použít za 1 kolo\n";
-            }
-            else if (player.jedinec_cooldown < 5){
-                std::cout << "[STAV]  Schopnost Dominantní jedinec můžeš použít za " << player.jedinec_cooldown << " kola\n";
-
-            }
-            else{
-                std::cout << "[STAV]  Schopnost Dominantní jedinec můžeš použít za " << player.jedinec_cooldown << " kol\n";
-            }
-            std::cout << "\n=================================================\n\n";
+        else if(player.jedinec_buff_duration == 1){
+            std::cout << "[AKTIVNÍ BUFF] - DOMINANTNÍ JEDINEC\n";
+            std::cout << "[EFEKT]  Zvýšené poškození o 20%\n";
+            std::cout << "[STAV]  BUFF bude trvat ještě 1 kolo\n";
         }
-        if(player.buldozer_debuff_duration > 0){
-            std::cout << "===============DEBUFF OD BULDOZERA===============\n\n";
-            player.buldozer_debuff_duration--;
-            player.damage_multiplier *= 0.85; 
-            std::cout << "[DEBUFF]  máš o 15% nižší poškození\n";
-            std::cout << "\n==================================================\n\n";
+        else{
+            std::cout << "[AKTIVNÍ BUFF] - DOMINANTNÍ JEDINEC\n";
+            std::cout << "[EFEKT]  Zvýšené poškození o 20%\n";
+            std::cout << "[STAV]  BUFF bude trvat ještě " << player.jedinec_buff_duration << " kola\n";
         }
-        if(player.Burn_duration > 0){
-            std::cout << "======================FIRE=======================\n\n";
-            player.HP -= 5;
-            player.Burn_duration--;
-            std::cout << "[POŠKOZENÍ]  Poškození z ohně způsobilo 5 poškození\n";
-            std::cout << "[HP]  aktuálně máš " << player.HP << "/" << player.Max_HP << " HP\n";
-            if(player.Burn_duration == 0){
-                std::cout << "[STAV]  Oheň debuff už končí, takže příší kolo už nebudeš hořet\n";
-            }
-            else if(player.Burn_duration == 1){
-                std::cout << "[STAV]  Oheň bude působit poslední kolo\n";
-            }
-            else{
-                std::cout << "[STAV]  Oheň bude působit ještě " << player.Burn_duration << " kola :(\n";
-            }
-            std::cout << "\n==================================================\n\n";
-        }
+        std::cout << "\n==================================================\n\n";
     }
+    if(player.jedinec_cooldown > 0 && player.Class_ID == 1){
+        std::cout << "===========COOLDOWN DOMINANTNÍ JEDINEC===========\n\n";
+        player.jedinec_cooldown--;
+        if(player.jedinec_cooldown == 0){
+            std::cout << "[STAV]  Schopnost Dominantní jedinec je nyní dostupná.\n";
+        }
+        else if(player.jedinec_cooldown == 1){
+            std::cout << "[STAV]  Schopnost Dominantní jedin můžeš použít za 1 kolo\n";
+        }
+        else if (player.jedinec_cooldown < 5){
+            std::cout << "[STAV]  Schopnost Dominantní jedinec můžeš použít za " << player.jedinec_cooldown << " kola\n";
+
+        }
+        else{
+            std::cout << "[STAV]  Schopnost Dominantní jedinec můžeš použít za " << player.jedinec_cooldown << " kol\n";
+        }
+        std::cout << "\n=================================================\n\n";
+    }
+    if(player.buldozer_debuff_duration > 0){
+        std::cout << "===============DEBUFF OD BULDOZERA===============\n\n";
+        player.buldozer_debuff_duration--;
+        player.damage_multiplier *= 0.85; 
+        std::cout << "[DEBUFF]  máš o 15% nižší poškození\n";
+        std::cout << "\n==================================================\n\n";
+    }
+    if(player.Burn_duration > 0){
+        std::cout << "======================FIRE=======================\n\n";
+        player.HP -= 5;
+        player.Burn_duration--;
+        std::cout << "[POŠKOZENÍ]  Poškození z ohně ti způsobilo 5 poškození\n";
+        std::cout << "[HP]  aktuálně máš " << player.HP << "/" << player.Max_HP << " HP\n";
+        if(player.Burn_duration == 0){
+            std::cout << "[STAV]  Oheň debuff už končí, takže příší kolo už nebudeš hořet\n";
+        }
+        else if(player.Burn_duration == 1){
+            std::cout << "[STAV]  Oheň bude působit poslední kolo\n";
+        }
+        else{
+            std::cout << "[STAV]  Oheň bude působit ještě " << player.Burn_duration << " kola :(\n";
+        }
+        std::cout << "\n==================================================\n\n";
+    }
+}
 
 bool Before_enemy_turn(Player &player, Enemy &enemy){
     enemy.Damage_multiplier = 1.0;
@@ -350,17 +406,17 @@ bool Before_enemy_turn(Player &player, Enemy &enemy){
 
     if(enemy.Damage_multiplier_duration > 0){
         std::cout << "=====================DEBUFF======================\n\n";
-        std::cout << "[DEBUFF]  Enemy dává pouze 50% svého poškození\n";
+        std::cout << "[DEBUFF]  " << enemy.name << " dává pouze 50% svého poškození\n";
         enemy.Damage_multiplier *= 0.5;
         enemy.Damage_multiplier_duration--;
         if(enemy.Damage_multiplier_duration == 0){
-            std::cout << "[STAV]  Enemy příští kolo už nebude debuffnutý.\n";
+            std::cout << "[STAV]  " << enemy.name << " příští kolo už nebude debuffnutý.\n";
         }
         else if(enemy.Damage_multiplier_duration == 1){
-            std::cout << "[STAV]  Enemy bude debuffnutý ještě 1 kolo\n";
+            std::cout << "[STAV]  " << enemy.name << " bude debuffnutý ještě 1 kolo.\n";
         }
         else{
-            std::cout << "[STAV]  Enemy bude debuffnutý ještě " << enemy.Damage_multiplier_duration << " kola\n";
+            std::cout << "[STAV]  " << enemy.name << " bude debuffnutý ještě " << enemy.Damage_multiplier_duration << " kola\n";
         }
         std::cout << "\n==================================================\n\n";
     }
@@ -371,7 +427,7 @@ void After_enemy_turn(Player &player, Enemy &enemy){
     if(enemy.poison_duration > 0){
         enemy.HP -= 5;
         enemy.poison_duration--;
-        std::cout << "=====================POISON======================\n\n";
+        std::cout << "\n=====================POISON======================\n\n";
         std::cout << "[INFO]  Poškození z jedu způsobilo 5 poškození nepříteli\n";
         if(enemy.poison_duration == 0){
             std::cout << "[STAV]  Jed přestal působit\n";
