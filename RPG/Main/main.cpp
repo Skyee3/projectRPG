@@ -109,9 +109,7 @@ int main(){
             
         }
         enemy.counter++;
-        if(enemy.counter % 2 == 0){
-            Village_choice(player);
-        }
+        Village_choice(player);
     }
     return 0;
 }

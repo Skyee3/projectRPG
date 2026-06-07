@@ -16,15 +16,15 @@ void Class_choose(Player &player){
         Input_checker("Vaše volba: ", choice, 1, 3);
         switch(choice){
             case 1:
-                player.set_class_stats("Warrior", 1, 130, 40, 20, 0, 10); // class, ID, HP, mana, damage, dodge., defense
+                player.set_class_stats("Warrior", 1, 160, 40, 25, 0, 5); // class, ID, HP, mana, damage, dodge., defense
                 player.set_mana_cost(0, 15, 30);
                 break;
             case 2:
-                player.set_class_stats("Ranger", 2, 100, 40, 25, 1, 5);
+                player.set_class_stats("Ranger", 2, 120, 40, 35, 1, 2);
                 player.set_mana_cost(0, 20, 30);
                 break;
             case 3:
-                player.set_class_stats("Gandalf", 3, 90, 60, 15, 1, 10);
+                player.set_class_stats("Gandalf", 3, 140, 60, 28, 1, 3);
                 player.set_mana_cost(10, 20, 40);
                 break;
             default:
@@ -336,6 +336,13 @@ void count_level(Player &player, int min, int max){
     }
 }
 void Choose_stat_upgrade(Player &player){
+    if(player.upgrade_mana_counter >= 4 && player.upgrade_hp_counter >= 4 && player.upgrade_dmg_counter >= 4) {
+        std::cout << "[INFO - UPGRADE] Všechny staty jsou na maximu! Za nový level získáváš plné vyléčení a 50 zlata!\n";
+        player.HP = player.Max_HP;
+        player.Mana = player.Max_Mana;
+        player.Gold += 50;
+        return;
+    }
     int choice;
     bool valid_choice = false;
     do{
@@ -343,9 +350,7 @@ void Choose_stat_upgrade(Player &player){
         std::cout << "[1]  upgrade max many o 5 (Aktuálně: " << player.upgrade_mana_counter << "/4)\n";
         std::cout << "[2]  upgrade max HP o 10 (Aktuálně: " << player.upgrade_hp_counter << "/4)\n";
         std::cout << "[3]  Zvýšit poškození o 5 (Aktuálně: " << player.upgrade_dmg_counter << "/4)\n";
-        std::cout << "[4]  Zvýšit defense o 2 (Aktuálně: " << player.upgrade_dfns_counter << "/4)\n";
-        
-        Input_checker("Váš výběr: ", choice, 1, 4);
+        Input_checker("Váš výběr: ", choice, 1, 3);
 
         if(choice == 1){
             if(player.upgrade_mana_counter < 4){
@@ -380,17 +385,6 @@ void Choose_stat_upgrade(Player &player){
             }
             else{
                 std::cout << "[INFO - UPGRADE]  Damage upgrade je už na maximu!\n\n";
-            }
-        }
-        else if(choice == 4){
-            if(player.upgrade_dfns_counter < 4){
-                player.Defense += 2;
-                player.upgrade_dfns_counter++;
-                std::cout << "[INFO - UPGRADE]  Nyní máš " << player.Defense << " defense\n";
-                valid_choice = true;
-            }
-            else{
-                std::cout << "[INFO - UPGRADE]  Defense upgrade je už na maximu!\n\n";
             }
         }
     }while(!valid_choice);

@@ -36,9 +36,10 @@ struct Player{
     int upgrade_hp_counter = 0;
     int upgrade_mana_counter = 0;
     int upgrade_dmg_counter = 0;
-    int upgrade_dfns_counter = 0;
 
-
+    int hp_upgrades_bought = 0;
+    int mana_upgrades_bought = 0;
+    int atk_upgrades_bought = 0;
 
     void set_class_stats(std::string Class_c, int ID_c, int Max_HP_c, int Max_Mana_c, int Damage_c, int Dodge_c, int Defense_c){
         Class = Class_c;
@@ -74,7 +75,6 @@ struct Player{
         return true;
     }
     void reset_stats(){
-        HP = Max_HP;
         Mana = Max_Mana;
         damage_multiplier = 1;
         damage_multiplier_duration = 0;

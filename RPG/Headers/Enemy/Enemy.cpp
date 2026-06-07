@@ -61,21 +61,21 @@ void Choose_enemy(Enemy &enemy){
     if(enemy.counter % 5 == 0 && enemy.counter != 0){
         int random2 = rand() % 2;
         if(random2 == 0){
-            enemy.set_enemy("BOB", 5, 150, 20, 10, true);
+            enemy.set_enemy("BOB", 5, 150, 22, 4, true); 
         }
         else{
-            enemy.set_enemy("Chief", 6, 150, 20, 10, true);
+            enemy.set_enemy("Chief", 6, 170, 24, 5, true); 
         }
         return;
     }
     int random = rand() % 10;
     if(random < 1 && !enemy.was_quizler){
-        enemy.set_enemy("Quizler", 4, 100, 10, 1, 0);
+        enemy.set_enemy("Quizler", 4, 80, 15, 1, 0); 
         enemy.was_quizler = true;
     }
-    else if(random < 4) enemy.set_enemy("Buldozer", 1, 50, 10, 5, 0);
-    else if(random < 8) enemy.set_enemy("Kostík", 2, 80, 15, 8, 0);
-    else enemy.set_enemy("Bohničan", 3, 100, 20, 10, 0);
+    else if(random < 4) enemy.set_enemy("Buldozer", 1, 50, 14, 1, 0); 
+    else if(random < 8) enemy.set_enemy("Kostík", 2, 70, 16, 2, 0);   
+    else enemy.set_enemy("Bohničan", 3, 90, 18, 3, 0);
 }
 
 void Enemy_turn(Player &player, Enemy &enemy, std::vector<question> &questions){
@@ -272,8 +272,8 @@ void quizler_turn(Player &player, Enemy &enemy, std::vector<question> &questions
     Input_checker("Odpověď (1-4): ", answer, 1, 4);
     std::cout << '\n';
     if(answer == current_question.correct_option){
-        std::cout << "[POŠKOZENÍ]  Správně! Způsobil jsi " << player.Damage << " poškození\n";
-        enemy.HP -= player.Damage;
+        std::cout << "[POŠKOZENÍ]  Správně! Způsobil jsi " << 15 << " poškození\n";
+        enemy.HP -= 15;
     }
     else{
         std::cout << "[ODPOVĚĎ]  Špatně! správná odpověď byla " << current_question.correct_option << '\n';
