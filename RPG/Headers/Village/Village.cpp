@@ -5,7 +5,7 @@
 
 void Village_choice(Player &player){
     int choice;
-    static int Village_price[5] = {10, 25, 20, 50, 50}; 
+    static int Village_price[5] = {10, 25, 25, 40, 40}; 
     const int MAX_HP_UPGRADES = 9;
     const int MAX_MANA_UPGRADES = 5;
     const int MAX_ATK_UPGRADES = 8;
@@ -37,6 +37,7 @@ void Village_choice(Player &player){
         std::cout << "|-------------------------------------------------------------|" << std::endl;
         std::cout << "|  [0] Pokračovat v cestě (Odejít)                            |" << std::endl;
         std::cout << "\\-------------------------------------------------------------/" << std::endl;
+        std::cout << "[GOLD]  Aktuálně máš " << player.Gold << " zlata\n";
         std::cout << "Vaše volba: ";
         std::cin >> choice;
 
@@ -95,6 +96,7 @@ void Village_choice(Player &player){
                 Village_price[4] += 25;
                 break;
         }
+        player.Show_playerstats();
     }while(true);
 }
 

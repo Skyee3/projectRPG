@@ -38,10 +38,11 @@ void Battle(Player &player, Enemy &enemy, std::vector<question> &questions){
         }
         Player_turn(player, enemy);
         if(player.is_sprcha_active && player.is_alive()){
-            int random = rand() % 4 + 3;
-            int dmg1 = 0;
-            dmg1 = ((player.Damage * player.damage_multiplier * 0.75) * random)  - enemy.Defense;
-            std::cout << "Do " << enemy.name << "a jsi trefil " << random << " šípů takže dáváš " << dmg1 << "Poškození\n";
+            int random = rand() % 3 + 2;
+            int single_arrow = (player.Damage * player.damage_multiplier * 0.5) - enemy.Defense;
+            if(single_arrow < 1) single_arrow = 3;
+            int dmg1 = single_arrow * random;
+            std::cout << "Do " << enemy.name << "a jsi trefil " << random << " šípů takže dáváš " << dmg1 << " poškození\n";
             enemy.HP -= dmg1;
             player.is_sprcha_active = false;
         }
@@ -102,22 +103,27 @@ void Battle_two_enemies(Player &player, Enemy &enemy1, Enemy &enemy2, std::vecto
         }
         if(player.is_sprcha_active){
             if(enemy1.HP > 0){
-                int random = rand() % 4 + 3;
-                int dmg1 = 0;
-                dmg1 = ((player.Damage * player.damage_multiplier * 0.75) * random)  - enemy1.Defense;
-                std::cout << "Do " << enemy1.name << "a jsi trefil " << random << " šípů takže dáváš " << dmg1 << "Poškození\n";
+                int random = rand() % 3 + 2;
+                int single_arrow = (player.Damage * player.damage_multiplier * 0.5) - enemy1.Defense;
+                if(single_arrow < 1) single_arrow = 5;
+                int dmg1 = single_arrow * random;
+                std::cout << "Do " << enemy1.name << "a jsi trefil " << random << " šípů takže dáváš " << dmg1 << " poškození\n";
                 enemy1.HP -= dmg1;
                 enemy1.check_is_death();
             }
             if(enemy2.HP > 0){
-                int random2 = rand() % 4 + 3;
-                int dmg2 = 0;
-                dmg2 = ((player.Damage * player.damage_multiplier * 0.75) * random2)  - enemy2.Defense;
-                std::cout << "Do " << enemy2.name << "a jsi trefil " << random2 << " šípů takže dáváš " << dmg2 << "Poškození\n";
-                enemy2.HP -= dmg2;
+                int random = rand() % 3 + 2;
+                int single_arrow = (player.Damage * player.damage_multiplier * 0.5) - enemy2.Defense;
+                if(single_arrow < 1) single_arrow = 5;
+                int dmg1 = single_arrow * random;
+                std::cout << "Do " << enemy2.name << "a jsi trefil " << random << " šípů takže dáváš " << dmg1 << " poškození\n";
+                enemy2.HP -= dmg1;
                 enemy2.check_is_death();
             }
             player.is_sprcha_active = false;
+        }
+        if(enemy1.HP <= 0 && enemy2.HP <= 0) {
+            break; 
         }
         std::cout << "\n========================================\n\n";
         if(enemy1.HP > 0){
@@ -204,30 +210,36 @@ void Battle_three_enemies(Player &player, Enemy &enemy1, Enemy &enemy2, Enemy &e
         }
         if(player.is_sprcha_active){
             if(enemy1.HP > 0){
-                int random = rand() % 4 + 3;
-                int dmg1 = 0;
-                dmg1 = ((player.Damage * player.damage_multiplier * 0.75) * random)  - enemy1.Defense;
-                std::cout << "Do " << enemy1.name << "a jsi trefil " << random << " šípů takže dáváš " << dmg1 << "Poškození\n";
+                int random = rand() % 3 + 2;
+                int single_arrow = (player.Damage * player.damage_multiplier * 0.5) - enemy1.Defense;
+                if(single_arrow < 1) single_arrow = 5;
+                int dmg1 = single_arrow * random;
+                std::cout << "Do " << enemy1.name << "a jsi trefil " << random << " šípů takže dáváš " << dmg1 << " poškození\n";
                 enemy1.HP -= dmg1;
                 enemy1.check_is_death();
             }
             if(enemy2.HP > 0){
-                int random2 = rand() % 4 + 3;
-                int dmg2 = 0;
-                dmg2 = ((player.Damage * player.damage_multiplier * 0.75) * random2)  - enemy2.Defense;
-                std::cout << "Do " << enemy2.name << "a jsi trefil " << random2 << " šípů takže dáváš " << dmg2 << "Poškození\n";
-                enemy2.HP -= dmg2;
+                int random = rand() % 3 + 2;
+                int single_arrow = (player.Damage * player.damage_multiplier * 0.5) - enemy2.Defense;
+                if(single_arrow < 1) single_arrow = 5;
+                int dmg1 = single_arrow * random;
+                std::cout << "Do " << enemy2.name << "a jsi trefil " << random << " šípů takže dáváš " << dmg1 << " poškození\n";
+                enemy2.HP -= dmg1;
                 enemy2.check_is_death();
             }
             if(enemy3.HP > 0){
-                int random3 = rand() % 4 + 3;
-                int dmg3 = 0;
-                dmg3 = ((player.Damage * player.damage_multiplier * 0.75) * random3)  - enemy3.Defense;
-                std::cout << "Do " << enemy3.name << "a jsi trefil " << random3 << " šípů takže dáváš " << dmg3 << "Poškození\n";
-                enemy3.HP -= dmg3;
+                int random = rand() % 3 + 2;
+                int single_arrow = (player.Damage * player.damage_multiplier * 0.5) - enemy3.Defense;
+                if(single_arrow < 1) single_arrow = 5;
+                int dmg1 = single_arrow * random;
+                std::cout << "Do " << enemy3.name << "a jsi trefil " << random << " šípů takže dáváš " << dmg1 << " poškození\n";
+                enemy3.HP -= dmg1;
                 enemy3.check_is_death();
             }
             player.is_sprcha_active = false;
+        }
+        if(enemy1.HP <= 0 && enemy2.HP <= 0 && enemy3.HP <= 0){
+            break; 
         }
         std::cout << "\n========================================\n\n";
         if(enemy1.HP > 0){
@@ -271,13 +283,23 @@ void Final_battle(Player &player, Enemy &boss){
     int random_hit = 0;
     int critical_chance = 20;
     int heal_chance = 1;
+    bool boss_under_5 = false;
     while(true){
         if(Before_enemy_turn(player, boss)){
             if(boss.HP < boss.Max_HP / 20){
-                std::cout << "\n[INFO]  boss má od teď vyší šanci na heal, takže bacha\n\n";
                 heal_chance = 50;
+                if(!boss_under_5){
+                    std::cout << "\n[INFO]  boss má od teď vyší šanci na heal, takže bacha\n\n";
+                    boss_under_5 = true;
+                }
             }
-            else heal_chance = 1;
+            else{
+                heal_chance = 1;
+                if(boss_under_5){
+                    std::cout << "\n[INFO]  boss má nyní zase malou čanci na heal\n";
+                    boss_under_5 = false;
+                }
+            }
     
             Boss_turn(player, boss, critical_chance, heal_chance);
             After_enemy_turn(player, boss);
@@ -307,11 +329,12 @@ void Final_battle(Player &player, Enemy &boss){
             if(hit_chance > 100) hit_chance = 100;
         }
         if(player.is_sprcha_active && player.is_alive() && boss.HP > 0){
-            int random = rand() % 4 + 3;
-            int dmg1 = 0;
-            dmg1 = ((player.Damage * player.damage_multiplier * 0.75) * random)  - boss.Defense;
-            std::cout << "Do " << boss.name << "a jsi trefil " << random << " šípů takže dáváš " << dmg1 << "Poškození\n";
-            boss.HP -= dmg1;
+                int random = rand() % 3 + 2;
+                int single_arrow = (player.Damage * player.damage_multiplier * 0.5) - boss.Defense;
+                if(single_arrow < 1) single_arrow = 5;
+                int dmg1 = single_arrow * random;
+                std::cout << "Do " << boss.name << "a jsi trefil " << random << " šípů takže dáváš " << dmg1 << "Poškození\n";
+                boss.HP -= dmg1;
             player.is_sprcha_active = false;
         }
         if(boss.HP <= 0){
@@ -438,6 +461,7 @@ void After_enemy_turn(Player &player, Enemy &enemy){
         else{
             std::cout << "[STAV]  Jed bude působit ještě " << enemy.poison_duration << " kola\n";
         }
+        std::cout << "[HP]  " << enemy.name << " aktuálně má " << enemy.HP << "/" << enemy.Max_HP << " HP\n";
         std::cout << "\n==================================================\n\n";
 
     }

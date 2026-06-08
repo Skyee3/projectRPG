@@ -6,17 +6,14 @@ void Show_start_menu(){
     std::cout << "                RPG                      " << std::endl;
     std::cout << "========================================" << std::endl;
     std::cout << "  [1] Nová hra\n";
-    std::cout << "  [2] O hře\n";
-    std::cout << "  [3] Ukoncit\n";
+    std::cout << "  [2] Ukoncit\n";
     std::cout << "----------------------------------------" << std::endl;
     int choice;
-    Input_checker("Vaše volba: ", choice, 1, 3);
+    Input_checker("Vaše volba: ", choice, 1, 2);
     switch (choice){
         case 1:
             break;
         case 2:
-            break;
-        case 3:
             std::cout << "Achjoo\n";
             exit(0);
             break;

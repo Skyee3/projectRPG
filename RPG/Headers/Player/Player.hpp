@@ -28,6 +28,8 @@ struct Player{
     bool skip_turn = false;
     bool is_upgraded = false;
     bool is_sprcha_active = false;
+    int XP_needed = 10;
+    bool endless_mod = false;
 
     int cvv = 0;
     std::string number_of_cart = "";
@@ -95,8 +97,8 @@ struct Player{
         std::cout << "  Jméno:      " << name << "\n";
         std::cout << "  Class:      " << Class << "\n";
         std::cout << "\n";
-        std::cout << "  Level:     " << Level << "\n";
-        std::cout << "  XP:        " << XP << "\n";
+        std::cout << "  Level:      " << Level << "\n";
+        std::cout << "  XP:         " << XP << "/" << XP_needed << "\n";
         std::cout << "\n";
         std::cout << "  HP:         " << HP << " / " << Max_HP << "\n";
         std::cout << "  MANA:       " << Mana << " / " << Max_Mana << "\n";
@@ -106,7 +108,7 @@ struct Player{
         std::cout << "========================================\n";
     }
     void Show_Playerstats_short(){
-        std::cout << "============ STATUS POSTAVY ============\n\n";
+        std::cout << "\n============ STATUS POSTAVY ============\n\n";
 
         std::cout << "  HP:         " << HP << " / " << Max_HP << "\n";
         std::cout << "  MANA:       " << Mana << " / " << Max_Mana << "\n";
@@ -115,7 +117,7 @@ struct Player{
         std::cout << "\n========================================\n\n";
     }
     void name_choice(){
-        std::cout << "Vítej bro... zvol si své jméno, které tě bude doprovázet do konce života (už ho v životě neuslišíš)\n";
+        std::cout << "Vítej bro... zvol si své jméno, které tě bude doprovázet do konce života (už ho v životě neuslyšíš)\n";
         std::cout << "Jméno: ";
         if(std::cin.peek() == '\n'){
             std::cin.ignore(); 
@@ -141,3 +143,4 @@ void count_level(Player &player, int min, int max);
 void Choose_stat_upgrade(Player &player);
 void calculate_mana(Player &player, int m);
 void win();
+void regen(Player &player);
