@@ -19,12 +19,12 @@ void Class_choose(Player &player){
                 player.set_class_stats("Warrior", 1, 160, 40, 25, 0, 5); // class, ID, HP, mana, damage, dodge., defense
                 player.set_mana_cost(0, 15, 30);
                 break;
-            case 2:
-                player.set_class_stats("Ranger", 2, 120, 40, 35, 1, 2);
+            case 2: 
+                player.set_class_stats("Ranger", 2, 145, 40, 35, 1, 3);
                 player.set_mana_cost(0, 20, 30);
                 break;
             case 3:
-                player.set_class_stats("Gandalf", 3, 140, 60, 28, 1, 3);
+                player.set_class_stats("Gandalf", 3, 170, 60, 40, 1, 5);
                 player.set_mana_cost(10, 20, 40);
                 break;
             default:
@@ -63,7 +63,7 @@ void Class_preview(Player &player){
 void Show_class_abilities(Player &player){
     switch(player.Class_ID){
         case 1:
-            std::cout << "Prostě boring warrior ale stane se z tebe dominantní jedinec\n";
+            std::cout << "Prostě boring warrior ale stane se z tebe dominantní jedinec [EASY]\n";
             std::cout << "SCHOPNOSTI: \n";
             std::cout << " 1. Útok mečem\n";
             std::cout << "   V základu " << player.Damage << " poškození\n\n";
@@ -77,7 +77,7 @@ void Show_class_abilities(Player &player){
             std::cout << "   Lze použít jednou za 5 kol\n\n";
             break;
         case 2:
-            std::cout << "Vysoký dodge a nízké HP\n";
+            std::cout << "Ranger LOL [EASY]\n";
             std::cout << "SCHOPNOSTI: \n";
             std::cout << " 1. Útok lukem\n";
             std::cout << "   V základu " << player.Damage << " poškození\n";
@@ -88,10 +88,10 @@ void Show_class_abilities(Player &player){
             std::cout << " 3. Šípová sprcha (Mana: " << player.mana_cost[2] << ")\n";
             std::cout << "   Vystřelíš salvu šípů na všechny nepřítele\n";
             std::cout << "   Zasáhne více nepřátel najednou\n";
-            std::cout << "   Každý zásah dává 75% poškození\n\n";
+            std::cout << "   Každý zásah dává 50% poškození\n\n";
             break;
         case 3:
-            std::cout << "Absolutní Gambler (nízké HP ale gamba)\n";
+            std::cout << "Absolutní Gambler (prostě gamba) [MEDIUM]\n";
             std::cout << "SCHOPNOSTI: \n";
             std::cout << " 1. Flákanec (Mana: " << player.mana_cost[0] << ")\n";
             std::cout << "   Objeví se magicka pazoura pana Lubomíra Volného, a ten dá nepříteli flákanec, který způsobí " << player.Damage << " poškození\n\n";
@@ -145,6 +145,7 @@ void User_choice_ability(Player &player, int &choice_ability){
         default:
             break;
     }
+    std::cout << "[MANA]  tvá atuální mana je: " << player.Mana << "/" << player.Max_Mana << "\n\n";
     Input_ability(player, choice_ability);
     player.Mana -= player.mana_cost[choice_ability - 1];
 }
@@ -211,7 +212,7 @@ void Ranger_atack(Player &player, Enemy &enemy, int choice_ability){
         case 3:{
             std::cout << "[ÚTOK]  Zvolili jste šípovou sprchu\n";
             std::cout << "[INFO - ÚTOK]  Vystřelili jste salvu šípů na všechny nepřítele\n";
-            std::cout << "[INFO - ÚTOK]  Každý zásah dává 75% poškození\n";
+            std::cout << "[INFO - ÚTOK]  Každý zásah dává 50% poškození\n";
             player.is_sprcha_active = true;
             break;
         }
@@ -247,6 +248,18 @@ void Gandalf_atack(Player &player, Enemy &enemy, int choice_ability){
         default:
             break;
     }
+    int random = rand() % 10;
+    if(random < 3){
+        int random2 = rand() % 20 + 5;
+        std::cout << "\n========================================\n";
+        std::cout << "                  HEAL        \n";
+        std::cout << "========================================\n\n";
+        std::cout << "[HEAL]  jakožto rozený gambler si dostal část svých životů\n";
+        player.HP += random2;
+        if(player.HP > player.Max_HP) player.HP = player.Max_HP;
+        std::cout << "[INFO]  Aktuálně máš: " << player.HP << "/" << player.Max_HP << " HP\n";
+        std::cout << "\n========================================\n\n";
+    }
     calculate_mana(player, 15);
     final_damage = 0;
 }
@@ -268,11 +281,12 @@ void Input_ability(Player &player, int &choice_ability){
 }
 int gamba_Gandalf(Player &player, Enemy &enemy, int final_damage){
     int random = rand() % 2;
-    int random2;
+    int mod = 0;
     switch(random){
         case 0:
-            random2 = rand() % 3 + 1;
-            final_damage = random2;
+            mod = rand() % 15 + 1;
+            final_damage = player.Damage - mod;
+            if(final_damage <= 0) final_damage = 5;
             std::cout << "[INFO - GAMBA]  No níc gamba nevyšla a dal si mu jenom " << final_damage << " poškození (tomu říkam skill issue ale určitě to zkus zas :D)\n";
             player.Gamba_counter--;
             if(player.Gamba_counter < -3){
@@ -280,8 +294,8 @@ int gamba_Gandalf(Player &player, Enemy &enemy, int final_damage){
             }
             break;
         case 1:
-            random2 = rand() % 3 + 5;
-            final_damage = random2;
+            mod = rand() % 14 + 20;
+            final_damage = player.Damage + mod;
             std::cout << "[INFO - GAMBA]  Ty si rozený gambler normálně. Vyhrál si gambu a dal si mu za " << final_damage << " poškození\n";
             player.Gamba_counter++;
             if(player.Gamba_counter > 4){
@@ -321,17 +335,21 @@ bool check_dodge_player(Player &player){
 
 void count_level(Player &player, int min, int max){
     std::cout << "\n========================================\n";
-    std::cout << "            XP REWARDING SYSTEM.        \n";
-    std::cout << "========================================\n";
+    std::cout << "          XP REWARDING SYSTEM        \n";
+    std::cout << "========================================\n\n";
     int random = rand () % (max - min + 1) + min;
     player.XP += random;
     std::cout << "[XP]  Získal jsi " << random << " XP\n[XP]  Celkem máš " << player.XP << " XP\n";
-    while(player.XP >= 15){
-        std::cout << "[LEVELUP]\n";
+    while(player.XP >= player.XP_needed){
+        std::cout << "\n[LEVELUP]\n\n";
+        int cost = player.XP_needed;
+        
+        player.XP -= cost;
         player.Level++;
+        player.XP_needed += 5;
         std::cout << "[INFO - LEVEL]  Tvůj nový level je: " << player.Level << '\n';
-        std::cout << "[INFO - LEVEL]  level tě stál 15 XP\n";
-        player.XP -=15;
+        std::cout << "[INFO - LEVEL]  level tě stál " << cost << " XP\n";
+        std::cout << "[INFO - LEVEL]  Na další level potřebuješ " << player.XP_needed << " XP\n\n";
         Choose_stat_upgrade(player);
     }
 }
@@ -346,10 +364,10 @@ void Choose_stat_upgrade(Player &player){
     int choice;
     bool valid_choice = false;
     do{
-        std::cout << "[UPGRADE]  Vyber si z následujících možností co bys chtěl upgradnout:\n";
+        std::cout << "[UPGRADE]  Vyber si z následujících možností co bys chtěl upgradnout:\n\n";
         std::cout << "[1]  upgrade max many o 5 (Aktuálně: " << player.upgrade_mana_counter << "/4)\n";
         std::cout << "[2]  upgrade max HP o 10 (Aktuálně: " << player.upgrade_hp_counter << "/4)\n";
-        std::cout << "[3]  Zvýšit poškození o 5 (Aktuálně: " << player.upgrade_dmg_counter << "/4)\n";
+        std::cout << "[3]  Zvýšit poškození o 5 (Aktuálně: " << player.upgrade_dmg_counter << "/4)\n\n";
         Input_checker("Váš výběr: ", choice, 1, 3);
 
         if(choice == 1){
@@ -367,7 +385,7 @@ void Choose_stat_upgrade(Player &player){
         else if(choice == 2){
             if(player.upgrade_hp_counter < 4){
                 player.Max_HP += 10;
-                player.HP = player.Max_HP;
+                player.HP += 10;
                 player.upgrade_hp_counter++;
                 std::cout << "[INFO - UPGRADE]  Výborně, maximální HP navýšeno na: " << player.Max_HP << '\n';
                 valid_choice = true;
@@ -412,4 +430,18 @@ void win(){
     std::cout << "             VÝHRA!!!!!             \n";
     std::cout << "========================================\n\n";
     std::cout << "Porazil si enemáka gratuluju\n";
+}
+
+void regen(Player &player){
+    std::cout << "\n========================================\n";
+    std::cout << "              Regenerace            \n";
+    std::cout << "========================================\n\n";
+    int regen = (player.Max_HP / 5) * 1.1;
+
+    if (player.HP + regen > player.Max_HP) {
+        regen = player.Max_HP - player.HP;
+    }
+    player.HP += regen;
+    std::cout << "[HEAL]  Za konec tohoto kola dostáváš " << regen << " HP\n";
+    std::cout << "[HP]  Aktuálně máš " << player.HP << "/" << player.Max_HP << "\n";
 }

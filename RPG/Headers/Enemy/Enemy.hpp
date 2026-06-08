@@ -17,7 +17,7 @@ struct Enemy{
     int poison_duration = 0;
     int player_debuff_by_buldozer = 0;
     int question_count = 1;
-    bool was_quizler = false;
+    bool was_quizler;
     bool is_upgraded = false;
     bool is_miniboss = false;
     bool karma_active = false;
